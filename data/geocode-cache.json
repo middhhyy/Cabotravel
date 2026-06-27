@@ -1,0 +1,617 @@
+{
+  "Visit Central Landmark|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-06-25T11:43:01.034Z"
+  },
+  "Walk through Local Market|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-06-25T11:43:02.109Z"
+  },
+  "Dinner at a local restaurant|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-06-25T11:43:03.153Z"
+  },
+  "Sunset at Sunset Point|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-06-25T11:43:04.210Z"
+  },
+  "Nightlife at a local bar|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-06-25T11:43:05.283Z"
+  },
+  "Live music and dance|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-06-25T11:40:44.271Z"
+  },
+  "Arrive in Vadakara|Vadakara, ": {
+    "address": "Opposite, New Bus Stand- Park Rd, Narayana Nagar, Vatakara, Kerala 673101, India",
+    "latitude": 11.5939724,
+    "longitude": 75.59458359999999,
+    "placeId": "ChIJGxX6rWuEpjsRzn-eh49Gtkw",
+    "verified": true,
+    "source": "google",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=MRA%20Bakery%20%26%20Restaurant%20(Vadakara)&query_place_id=ChIJGxX6rWuEpjsRzn-eh49Gtkw",
+      "apple": "https://maps.apple.com/?q=11.5939724,75.59458359999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5939724&mlon=75.59458359999999#map=17/11.5939724/75.59458359999999",
+      "waze": "https://waze.com/ul?ll=11.5939724,75.59458359999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:46:14.341Z"
+  },
+  "Relax at Vadakara Beach|Vadakara, ": {
+    "address": "HH9Q+W9V, Sand Banks Rd, Kerala 673103, India",
+    "latitude": 11.5698682,
+    "longitude": 75.58841819999999,
+    "placeId": "ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+    "verified": true,
+    "source": "google",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sand%20Banks%20Beach%20Vadakara&query_place_id=ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+      "apple": "https://maps.apple.com/?q=11.5698682,75.58841819999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5698682&mlon=75.58841819999999#map=17/11.5698682/75.58841819999999",
+      "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:46:16.463Z"
+  },
+  "Explore Vadakara Municipal Market|Vadakara, ": {
+    "address": "Edodi, Vatakara, Kerala 673101, India",
+    "latitude": 11.5972315,
+    "longitude": 75.5915369,
+    "placeId": "ChIJe5XkBWyEpjsRTMzcIJOmiyc",
+    "verified": true,
+    "source": "google",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Municipal%20Park&query_place_id=ChIJe5XkBWyEpjsRTMzcIJOmiyc",
+      "apple": "https://maps.apple.com/?q=11.5972315,75.5915369",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5972315&mlon=75.5915369#map=17/11.5972315/75.5915369",
+      "waze": "https://waze.com/ul?ll=11.5972315,75.5915369&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:46:17.889Z"
+  },
+  "Enjoy the evening ambiance at Vadakara Town Square|Vadakara, ": {
+    "address": "JH2R+33V, Covent School Rd, Nut Street, Vatakara, Kerala 673101, India",
+    "latitude": 11.6002344,
+    "longitude": 75.5901844,
+    "placeId": "ChIJfxIeX26EpjsRHHL21H6DjNI",
+    "verified": true,
+    "source": "google",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Vatakara%20Municipal%20Town%20Hall&query_place_id=ChIJfxIeX26EpjsRHHL21H6DjNI",
+      "apple": "https://maps.apple.com/?q=11.6002344,75.5901844",
+      "osm": "https://www.openstreetmap.org/?mlat=11.6002344&mlon=75.5901844#map=17/11.6002344/75.5901844",
+      "waze": "https://waze.com/ul?ll=11.6002344,75.5901844&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:46:19.593Z"
+  },
+  "Visit Sandbanks Beach, Vadakara|Vadakara, ": {
+    "address": "HH9Q+W9V, Sand Banks Rd, Kerala 673103, India",
+    "latitude": 11.5698682,
+    "longitude": 75.58841819999999,
+    "placeId": "ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+    "verified": true,
+    "source": "google",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sand%20Banks%20Beach%20Vadakara&query_place_id=ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+      "apple": "https://maps.apple.com/?q=11.5698682,75.58841819999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5698682&mlon=75.58841819999999#map=17/11.5698682/75.58841819999999",
+      "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:46:20.942Z"
+  },
+  "Spend time relaxing at Payyoli Beach|Vadakara, ": {
+    "address": "GJC4+G7W, Kerala 673522, India",
+    "latitude": 11.5213736,
+    "longitude": 75.60571139999999,
+    "placeId": "ChIJi9o_FL-PpjsRnvsmOqHDUdQ",
+    "verified": true,
+    "source": "google",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Payyoli%20Beach%20Road&query_place_id=ChIJi9o_FL-PpjsRnvsmOqHDUdQ",
+      "apple": "https://maps.apple.com/?q=11.5213736,75.60571139999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5213736&mlon=75.60571139999999#map=17/11.5213736/75.60571139999999",
+      "waze": "https://waze.com/ul?ll=11.5213736,75.60571139999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:46:22.291Z"
+  },
+  "Witness sunset from Payyoli Beach|Vadakara, ": {
+    "address": "HH9Q+W9V, Sand Banks Rd, Kerala 673103, India",
+    "latitude": 11.5698682,
+    "longitude": 75.58841819999999,
+    "placeId": "ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+    "verified": true,
+    "source": "google",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sand%20Banks%20Beach%20Vadakara&query_place_id=ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+      "apple": "https://maps.apple.com/?q=11.5698682,75.58841819999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5698682&mlon=75.58841819999999#map=17/11.5698682/75.58841819999999",
+      "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:46:23.543Z"
+  },
+  "Vadakara Railway Station|Vadakara, ": {
+    "address": "HHQR+6M9, Puthiyappu, Vatakara, Kerala 673101, India",
+    "latitude": 11.593718,
+    "longitude": 75.58735399999999,
+    "placeId": "ChIJwR6E7RuFpjsRF6gbLBlnMew",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3mLHxBygjPm82tw87WCfVrv0CXbgP5Ipa15ZP1l4xI-Udg2EfvdduB8h6V37KPbIve8BGbWLcSvpFAlNbeNsvSEZYClo9p1vDUefB8x5sNgzU8-5L2fb0LSltz2ZlBKQA_xQFdQt-Emdw1WOFhtOwOFcoX3FGoGe7Mtu3mBNxapwO5gwVloshwwScwC6JkruzKNjQZJ5vtWR-_ECPgYX4zKtt_SB9py6TMOy5xzTuC4IC-YgGY3uV_hoNDRHTRHVOEhIkBFJrOR1lT5QbGorkUjU2SZF6l-AEDqE21Z0kj5R5NOxUWfy4AiBHyi-6XCrDuwsvRNhpiprRwBXYZr70yUtudedBV0TaaYEYURQSFN7thrw_DzayzuKtybzueBp5KlE8jV9ZI2-HuTudFznJut0syNBtyOfHg7y7UuIxhKD-Kf&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Vadakara%20Railway%20Station%20%5BBDJ%5D&query_place_id=ChIJwR6E7RuFpjsRF6gbLBlnMew",
+      "apple": "https://maps.apple.com/?q=11.593718,75.58735399999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.593718&mlon=75.58735399999999#map=17/11.593718/75.58735399999999",
+      "waze": "https://waze.com/ul?ll=11.593718,75.58735399999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:53:08.712Z"
+  },
+  "Vadakara Lighthouse|Vadakara, ": {
+    "address": "HH9Q+W9V, Sand Banks Rd, Kerala 673103, India",
+    "latitude": 11.5698682,
+    "longitude": 75.58841819999999,
+    "placeId": "ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3nOeC1q9cB5LZpI893hQ4hPl78hn0Yo8dCVGQVk0XoYPSpADO7zlYugG5AwB7YHO5D3ByMmll25b8w032TLM6nN7JoHdSYB2kkbOuGYSTBhmPRBWWJZqLD4hBrmVA5Ta_k5VMHg-9r1vwCHzBZIito8TXibrwFgZP3J8Ka5KN12SKCYgAXtIDOyjh62Tk4Xkl7__Ziv1ph6sXu0RYjrINBytthC55FeZYKtWFx9Zob9srR1aBy7RqLiLVY04XmUG5_KfQR5ZJWVOUQlF6uFivsCFIvy5gOyjGz49gMBiuyj0FIHTUmR_I0MbX6y-O291KR0D8iInZ-ShmuCKMIjKerqBdKidTz9aECRBGoQj6gxDui12slYINF4oG5NB6pOZBYl5Trz7DijZ2Cfm5OUAOIGMSuJLzPQPVjhMVLO-I05oXg&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sand%20Banks%20Beach%20Vadakara&query_place_id=ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+      "apple": "https://maps.apple.com/?q=11.5698682,75.58841819999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5698682&mlon=75.58841819999999#map=17/11.5698682/75.58841819999999",
+      "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:53:10.063Z"
+  },
+  "Vadakara Municipal Market|Vadakara, ": {
+    "address": "JH2R+33V, Covent School Rd, Nut Street, Vatakara, Kerala 673101, India",
+    "latitude": 11.6002344,
+    "longitude": 75.5901844,
+    "placeId": "ChIJfxIeX26EpjsRHHL21H6DjNI",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3mAahRM6wtv564w0qsaWjG8V-3WOMvdem0SaPeYtXEqwsIAM6FA3CHQ-zIBNaWd3EfDOy9Qz9YMiT3Bs2z52fz19ge4pibuXwrE1-PP3KV8ieVCdULkDGC27vSddqbOegn4-n-VMPvZMrcnbDX_GSL7yDCzCnNXVfeyQZz8-S8eLef_Sz27I4_6SmKI29WRcADZ8r4jj0d4VbR6_80PmH87eSqaqpWhV5eUORsKj3KncLs-J1A0fUjGorGthsFyY757BrAf_wOeLs1ZldfmjHeFdYa972isshmsMAa--lfndSaWSyiVue8EgD0kpI9PlVVYKAI0k4cxi2K4jdLEADmxLpY1gDqetNnAYdonHjZZDup1Rr4ZjHnm3xfWQi4DdToHHIvIYDjquHRueEvnoMtByAbHDShCXyFHeVBw8YE&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Vatakara%20Municipal%20Town%20Hall&query_place_id=ChIJfxIeX26EpjsRHHL21H6DjNI",
+      "apple": "https://maps.apple.com/?q=11.6002344,75.5901844",
+      "osm": "https://www.openstreetmap.org/?mlat=11.6002344&mlon=75.5901844#map=17/11.6002344/75.5901844",
+      "waze": "https://waze.com/ul?ll=11.6002344,75.5901844&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:53:11.619Z"
+  },
+  "The Sea Rock Hotel Restaurant|Vadakara, ": {
+    "address": "4th Floor, Dream Mart Hyper Market, opp. Shriram Summitt, Gollahalli, Electronic City Phase I, Apartment, Hebbagodi, Karnataka 560100, India",
+    "latitude": 12.8360262,
+    "longitude": 77.6651873,
+    "placeId": "ChIJ5cmoAQttrjsRcaoODc6dq1U",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3lV0qxYUBDxhEIEIu47yqCTyr0EecwnzpcsiEZCFizZDRNOF5akK6pXBmxeB7873nsXrOi7Bikr0HJpcJD-6QMaUTBpxYFpnxoo2n9HLuMAu9M4N909CvkK7_IRXxl64zpmVY4Lcw2MRUzORZy22rb5IhX8JirYnn1PNkF6K4y33FgHZGNoqXWSv4Al8AMp79Zct0g59o1FWj89jT4m48fr_8sHjKJEXanjPtyN-3I5Lfgr_bU0xbxEDAvO5NsVao_XR-Nup896QM8LZLntWD8me3c8UqoLOuvAlmJ9lOSBpl7LfcvDNpbNAWGfM8qlmBEBSBuEI7x3Oz6JTz3xjwM0YHlHWYEHmBHjWX1UKnKJHrZ3cTKvgxOropfL_ovzXIDrFaNV707M_PEQQMFFhbj0qxfDmHWPkCY3w64hkOLRvVn2y54EcQ9SKgsWwzB7&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sea%20Rock%20Family%20Restaurant%20%26%20Bar%2C%20Electronic%20City&query_place_id=ChIJ5cmoAQttrjsRcaoODc6dq1U",
+      "apple": "https://maps.apple.com/?q=12.8360262,77.6651873",
+      "osm": "https://www.openstreetmap.org/?mlat=12.8360262&mlon=77.6651873#map=17/12.8360262/77.6651873",
+      "waze": "https://waze.com/ul?ll=12.8360262,77.6651873&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:53:13.601Z"
+  },
+  "Lokanarkavu Temple|Vadakara, ": {
+    "address": "Kavil Rd, Villiappally, Vatakara, Memunda, Kerala 673104, India",
+    "latitude": 11.5980612,
+    "longitude": 75.61966149999999,
+    "placeId": "ChIJsTiWER6EpjsRXTp0x-iD5rI",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3kX7113cg5nurEcPAkRkppeHflwlZPvyt27b3wa_IwBMh2qb951bP9o9uYDGC_g5wvvSEaxMYyWE3A-ObWc9hCypCQ_i8pk00eXi_l6w3j3fgOIOzVP8LbqIC0U1dewSITICO_CZI24vVSrFBEX6wAld8TtFV9UiX_ZlMX85Q5i1WaL_bGQE1CTnzp-0cIBT_avHivZ3UXOX4buXuHEJnLcCHfvsX5Lhvg7uEpru1ixITusxX01U-QwUo11ZHeKMgOhzMWAx_v44gxFaGatJ6qbUFPmLKpvkj3gXpWbeqHYMbuF2KPE6yAKflqLognuVq6-Z5cfVuH__6E81G-q8RyfCfQU0aCJGowr7ybP5DtiEz3QmNHU6pEJ-drSw8BUFDMPngvVgL1j8vro_8xOch329zbMpJ7dFoWvHLWiWrc&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Lokanarkavu%20Temple&query_place_id=ChIJsTiWER6EpjsRXTp0x-iD5rI",
+      "apple": "https://maps.apple.com/?q=11.5980612,75.61966149999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5980612&mlon=75.61966149999999#map=17/11.5980612/75.61966149999999",
+      "waze": "https://waze.com/ul?ll=11.5980612,75.61966149999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:53:15.236Z"
+  },
+  "Kolavi Palam Beach|Vadakara, ": {
+    "address": "HH7R+69J, Purankara Sree Krishna Temple Rd, Iringal, Kerala 673521, India",
+    "latitude": 11.5630943,
+    "longitude": 75.5908939,
+    "placeId": "ChIJsc4--rOFpjsRuLfTC0FaFfs",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3mtjFuiBhR1a_ejoNHw8k5K9xiuP8-JUbvcZTvKNxMidtxCx0vHTfs3kuPPUimcUm2hKqQZ-u9-62EHd_M_wihMrJ7ksVFIe9MdkI2KViUSE1FgegI6gyQN1xO2_pfQvfE1u1i9x-X8coBmB0bCHjtxBoPcEx0F3ssb9VKrilfeK9pJngWGfUmK-i4GfYnf5DXSjIH42_ZUC5BMq1B7NBzNcjr6lTLNaCimB0UAqTz-XBIoQyqwvHRkW3evtZWtKKIXPzE7lsYaz1-wPQEAAP7eNHBa-OU3wY8B56sbLB-Bpbo84cnCgW2kjfVLar5XbHLgFZTejS6hYoMWwd_KyL0rNWSdLcaQVxuMbSkHpMpqyZK_2G0j9nax0ULn8IDF3OxkwzM450MvtniOurnn0ujAfAoOK941V1MyqYO01AuPyyQ&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Kolavi%20Beach&query_place_id=ChIJsc4--rOFpjsRuLfTC0FaFfs",
+      "apple": "https://maps.apple.com/?q=11.5630943,75.5908939",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5630943&mlon=75.5908939#map=17/11.5630943/75.5908939",
+      "waze": "https://waze.com/ul?ll=11.5630943,75.5908939&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:53:16.918Z"
+  },
+  "Vadakara Beach|Vadakara, ": {
+    "address": "HH9Q+W9V, Sand Banks Rd, Kerala 673103, India",
+    "latitude": 11.5698682,
+    "longitude": 75.58841819999999,
+    "placeId": "ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3lrsp_9KliMW9ORARMa_uAXy-94FreaK47zyym0HpwuOKJDPnKe93jBKWLHxdTZCxsdjKpDw0tcVvJu_7C9hfwn7QdAt2tTY9WPNgt4Ya-NOLov5jTwOdFE0kG-nDCXly6u7BsJQreHJHRvxNG3WpOTKVqG7ma3rhZSJTVEkKkkjwMLILtnAKDI3cgjCA50cmBT3ZH5sHvKoFTtLrx7CM0ynlIHsWg4gpd6wguB2K3atEqZxPXA_P80jeTZoz1Poc-HYSvqi_pwqqX4CmVbCHgnoUt_RzKbsyH-tA3sPzaumLuPthKeHu7W0a7YlOB-6O2DsNl5bO9VMCgSaq3VE-mK4szhZJjOLQODrNXzZ1rRUnYlm3sNOwPu-5KA0uVV6WDcH_4fLqePzQkw9j47crQRZVFUq8bqOgasJKBtaOa0b0I&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sand%20Banks%20Beach%20Vadakara&query_place_id=ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+      "apple": "https://maps.apple.com/?q=11.5698682,75.58841819999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5698682&mlon=75.58841819999999#map=17/11.5698682/75.58841819999999",
+      "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:53:18.347Z"
+  },
+  "Vadakara Town Center|Vadakara, ": {
+    "address": "Vatakara, Kerala, India",
+    "latitude": 11.601558,
+    "longitude": 75.5919758,
+    "placeId": "ChIJv0gXw2aEpjsRGXTKZ_wsyTw",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3lb8GoXeFcQw9lwkdVZ1VRe3bZ8sjiu7RLlX_vkNK_tV61IzwAd_COhOj3r2-JTeDIAyuwWAmLw62eAQY62w41FGeFGSUvicdIgA-X3v9C4V7R4O_kS8bKbXTxGQfAvrzR36Y6jrw3EcUtn5q2JiFRkbXuoVzJ-WjOtaVn4VQd2n5mMAPf3FIUXlJ08H9raahYW_8SqwvbHB16Umf6wc7lwaSX6O-8_nKVbaA9JpF-QeCfWtERSpY6ZP5_ikzXxb4zW9LwkqP3j3WOLa8zB4-RGzqil51Zcfqrp-fi2HQoMaMtMXGWWRgeqq_q-y-nQyNeh0fYOSAe9C-X5oM180n2VFt-p62qryBXebY-VV-lUqwl21yVWYyTpZqJ2F8NzDlsDOoUFAD882qX8ZohJOgf5OlSD0cYhHPJbPolRQlUB8J8&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Vatakara&query_place_id=ChIJv0gXw2aEpjsRGXTKZ_wsyTw",
+      "apple": "https://maps.apple.com/?q=11.601558,75.5919758",
+      "osm": "https://www.openstreetmap.org/?mlat=11.601558&mlon=75.5919758#map=17/11.601558/75.5919758",
+      "waze": "https://waze.com/ul?ll=11.601558,75.5919758&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T11:53:19.666Z"
+  },
+  "Mananchira Square|Kozhikode, ": {
+    "address": "Mananchira, Kozhikode, Kerala, India",
+    "latitude": 11.2537375,
+    "longitude": 75.7763927,
+    "placeId": "ChIJRb1ghDtZpjsR8LYEOVk5YZ0",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3nlDE5QzTg4Mogf7yR4MqdR-27QNKRnh0jvVL01wXP4sdiNiTreLbXz1yMJAZQ_bD32K4ZWG50MHbBicp_7ZADFb0B3o4WRUnveRZbed8KvCGZCofg-plvWUNV7gE1G5IO9gWGAfXsRHC4POFz9mAjavgTL6_8qRyVj_xmNChDS7O7qvXaZDqkTvCO0TVKGG2GlEyyuKSnM1uC9gdrhgW4Xr5xbciwJLsha6_w4uwGQmNwAk58ndZC_PnzcPUmLMRNfGmyBBie5ihSv1sYg-N4RfpZGjcyA79W82ZadMhnlLqtPzjbyZbEFhSz8buWBJ72gLRHy-5kOJAfkH6PUNRE00fI1kvigeNwjRG57yzIxrT3WWCMGrPWvzReAt7Dzj8piMuJP2GM6yqG0m9H5wLkpOhcEWj1sQyNfNnV6H504QQ&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Mananchira&query_place_id=ChIJRb1ghDtZpjsR8LYEOVk5YZ0",
+      "apple": "https://maps.apple.com/?q=11.2537375,75.7763927",
+      "osm": "https://www.openstreetmap.org/?mlat=11.2537375&mlon=75.7763927#map=17/11.2537375/75.7763927",
+      "waze": "https://waze.com/ul?ll=11.2537375,75.7763927&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:03:36.861Z"
+  },
+  "S.M. Street (Sweet Meat Street)|Kozhikode, ": {
+    "address": "7Q2J+8J3, SM St, Palayam, Kozhikode, Kerala 673001, India",
+    "latitude": 11.2507622,
+    "longitude": 75.7815607,
+    "placeId": "ChIJBYUP42dZpjsRim4mUD2y0Ts",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3kX5AiViJUFmkvOTQIfzAL8I4bPRADxqnMkKZE0NXu7WfreI6Ak-1cl17iC1tJsaH-ohh7u1sB6qeU4_oCDB_p-w8WNHT1q15hJQdtMSGe9UH2oJh_N5EZOGvEPMLFowFRBvS6cJXitXn9F6D6p6Xq1HKV6U_wJpzuvkUAG07k1XMkd3o_H8U6DzJXVUltOBCn5xZYrA8IH9ORFM5tG0srbgTUhjOR-Y8NeNgciNkwSHNj4NqXLHEbYLypgs2gIOvbH13NiQ2Q1X0SU4HkzD1rZZroCAUUrnEnvA6jVgDH-ufqQg4xtXA-tFhIJuk9Ceph3inrnUBGcK5TDbkdegk5MyqeJrHIvxiwJ082GAslvxjXZR4nM8xpb-EkELm2IvmbdcMwboB_c3Vg2DQ1qEl5SI_wnzn_HBFD0himVi35Ja2hT&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=History%20Wall%20-%20SM%20Street&query_place_id=ChIJBYUP42dZpjsRim4mUD2y0Ts",
+      "apple": "https://maps.apple.com/?q=11.2507622,75.7815607",
+      "osm": "https://www.openstreetmap.org/?mlat=11.2507622&mlon=75.7815607#map=17/11.2507622/75.7815607",
+      "waze": "https://waze.com/ul?ll=11.2507622,75.7815607&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:03:38.776Z"
+  },
+  "Mishkal Mosque|Kozhikode, ": {
+    "address": "Mishkal Mosque, Bavootty haji Rd, Kuttichira, Kozhikode, Kerala 673001, India",
+    "latitude": 11.245653,
+    "longitude": 75.77616569999999,
+    "placeId": "ChIJgcD-PhZZpjsRyp5IEHFGL3g",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3nhsaJon9aoMe-5yRG2F37HMt8lZfawFK6_myKRTVX7xZUKCEIefnTEaDJDfmTgiFdgmNZCGD6k1lGXqbcy6hwek0fEA3u_R7Ddbf5k7ZPHQ-hx3dNmvAq93wHN5AyymiR9NvQuY0dhcvNgdcOSJeyz_wxgjf-T9IwYbKrz--zarobNM7EkIgz5m7fcr8BJ3TciVEXmwr-2eojxjuANKMOTYE9z_HCEjFnE1HShLOJ5I_E1nml-7lsBpj3B903KoFMlgr7vvYYproSKGAUMIq7yU7cCRRFXKjJJ-0jkzVaYAEB4S2Pows3es7IqIChdyRY0TO82nZqDlKmAxvZIx4heHhQpbtmzGO-Xs_5t3Jt8f9j8D7ZLDHXn7BIZjzQO-i1-Y34U0qhyVaslC9ufz2KVQtVOCSxQSzXfdanm_NlpnWEp&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Mishkal%20Mosque&query_place_id=ChIJgcD-PhZZpjsRyp5IEHFGL3g",
+      "apple": "https://maps.apple.com/?q=11.245653,75.77616569999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.245653&mlon=75.77616569999999#map=17/11.245653/75.77616569999999",
+      "waze": "https://waze.com/ul?ll=11.245653,75.77616569999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:03:40.520Z"
+  },
+  "Kozhikode Beach|Kozhikode, ": {
+    "address": "Kozhikode Beach, Kozhikode, Kerala, India",
+    "latitude": 11.2626228,
+    "longitude": 75.7673095,
+    "placeId": "ChIJEYXrES9ZpjsRDpGNQPPcA_E",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3lt3F3rDIKn-amlaaRx7SHD9xmz5KdLIV4sbjjI2gdohGYozIfK1kEWjZKxXVX9ZoI2wJihRlJjm00s6HAGVYJ9k_PXyGO-GgxP9uVxpfkRf3X7pRa-ufW5cSI3wsLOeu7kvG31TtYgKrhZYDl8LSSDX6skn22JFygpTN1ZfvQZqCcK1O_XroQL7UkbnkwSmEMfWXri1PF59RnxboDcXhFcsM54xfx5_4wQHq35lcsXdyPQ9BlzA4PxPrPNgbixauX-KFrsZZ8wjEilKGTDHb1VTnLENXXAubx4OUPvjFsM7_QJK34Hlftay3cib6HKmzJMb8Lt8e6wB2iM3ugp1EqPCfh76v4mHHf1RBxsxSswk-hHROsiTwkrOoJBCjXDmUe6pqkarmKQm_Tbnb3qgFLjik5DqTEAqCV5i1bjh4e73w&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Kozhikode%20Beach&query_place_id=ChIJEYXrES9ZpjsRDpGNQPPcA_E",
+      "apple": "https://maps.apple.com/?q=11.2626228,75.7673095",
+      "osm": "https://www.openstreetmap.org/?mlat=11.2626228&mlon=75.7673095#map=17/11.2626228/75.7673095",
+      "waze": "https://waze.com/ul?ll=11.2626228,75.7673095&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:03:42.074Z"
+  },
+  "Pazhassiraja Museum and Art Gallery|Kozhikode, ": {
+    "address": "Kendriya Vidyalaya Rd, East Hill, Kozhikode, Kerala 673005, India",
+    "latitude": 11.2925947,
+    "longitude": 75.7781443,
+    "placeId": "ChIJw5njIepepjsRhR3vVpn3-_0",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3nrYKmP-dDcBUJpDX4rvI3NzG13mWpQdKvECY91_8PYrFq9UEWSje77M_Z7cOzjYU0z74FZIuoLb-mvtIrNzFsLW6Kb3sEokZJK8VnC9U78yfeWNC-CrFk4jMPt5-Ep9_SlVpad6AwuvTpkyFcWzIuqEHBnMr3hWnoqh3oRjcvcwSkfP-bMG1Yvk3vujFCkvrkTIsKI_sjFGtJtS_nwZfWUrL3DJz9kKYZgEYL-LzJ7qNMiJzlXG-ISb6LEMwaV1aBHY7Ir4t2fQaKvjmxg1XhJaQe0edq1nEhbZRkyV0NPK3Y72ZsOuC-5QsVwRajQSaZa62zxrfDXglwTatYOhR-MtpIjnfWv7KZxef0mr-81BM5Kd_mEkeV1_B3W4HXy8skC2HMjFGRihg2n5TBSNCyHF3_ENImjHU7qEwF2q2clsA&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Pazhassi%20Raja%20Archaeological%20Museum&query_place_id=ChIJw5njIepepjsRhR3vVpn3-_0",
+      "apple": "https://maps.apple.com/?q=11.2925947,75.7781443",
+      "osm": "https://www.openstreetmap.org/?mlat=11.2925947&mlon=75.7781443#map=17/11.2925947/75.7781443",
+      "waze": "https://waze.com/ul?ll=11.2925947,75.7781443&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:03:43.341Z"
+  },
+  "Beypore Port|Kozhikode, ": {
+    "address": "5R94+GMC, Beypore Rd, Near Police Station, Beypore, Kozhikode, Kerala 673015, India",
+    "latitude": 11.166732,
+    "longitude": 75.80792900000002,
+    "placeId": "ChIJy30jR7NQpjsRP4K2O4j_L0Q",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3l30DnYXxw99tg5IyJxFdXZlDedRz6UFqdDA0JWSCnJv5CWW-pdR9VYwCQ4yOA3XxgQYHLLiSWd3rYuuBfkW1Nd0Y5DINESAYi_MOaetpSHulOMfO2V0NyzlVlMEggf8kCMzQsiegYtIRZMApNbjj4Z51tAz4wMQVxWDq4oeWn_M0dTzkd2a87MuJS_zU1aMh3elmPBFk4wXfaGFAbITNGvv6bY3AjQli8kJzRLq_G1ZvzExXr9PbkIhu_hbjWJ24UdwreKXYZTp4Ove7Z6cLz9KTwvYPKJ_tqIJHSe_JIUa5AF1c2rUyf-jtLvmYfJd9ZY0BQtGhVylRkncJ2uHqqx3sJFzaTFWRLYazMbwMdoISAo7z02tHKxdgmtHm6zIxNO0UIfVWXgzHzUrSLqZ473IDHkRn0V0t3WsmLtBVFzVLgP&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Beypore%20Port&query_place_id=ChIJy30jR7NQpjsRP4K2O4j_L0Q",
+      "apple": "https://maps.apple.com/?q=11.166732,75.80792900000002",
+      "osm": "https://www.openstreetmap.org/?mlat=11.166732&mlon=75.80792900000002#map=17/11.166732/75.80792900000002",
+      "waze": "https://waze.com/ul?ll=11.166732,75.80792900000002&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:03:44.613Z"
+  },
+  "Beypore Beach|Kozhikode, ": {
+    "address": "Beypore, Kerala 673015, India",
+    "latitude": 11.1630543,
+    "longitude": 75.8027405,
+    "placeId": "ChIJndHBLWhXpjsR33qRLcGOLuM",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3ly4xoywyfEdgvrAW8Th5IjNSTDc6DdzeBm3oU_31vhqFYqi9JErov66whB-7zfPXgDEtZMEj_uJk3E6l9hZ5zoNQ24LedwkT5fAEwRxBQP97DFfBUNLstOyJZJ0uoQwIpIaOt2gRK9yvaNoDBL0n79PkUDirmmixs-55LpYydZDPD4nk98aDiCmhIU7c8s7MjalYMl9Q7-XgSpC114bl8zAqbwshFm0dUkYYOlXl-v4WromdN4cQZtDvLOK4gZC3AE5g64upO-SPQZOxRjQIAsjVQO2cCmIl1GvbIHsboBbnamqYnY55A0mhEcjOVTP4cWBCNkd8SsOrLIfECblKnSXSIxKbYJHPcnSygQ01109Ql44Z_IF4ZwAa7uH3ihwR8eTNA78JzAEA30FiHIeuPU7x4Mp3sJklZ5mpOCCWQ&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Beypore%20Beach&query_place_id=ChIJndHBLWhXpjsR33qRLcGOLuM",
+      "apple": "https://maps.apple.com/?q=11.1630543,75.8027405",
+      "osm": "https://www.openstreetmap.org/?mlat=11.1630543&mlon=75.8027405#map=17/11.1630543/75.8027405",
+      "waze": "https://waze.com/ul?ll=11.1630543,75.8027405&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:03:45.904Z"
+  },
+  "Kappad Beach|Kozhikode, ": {
+    "address": "Kappad, Kerala 673304, India",
+    "latitude": 11.3807071,
+    "longitude": 75.72606429999999,
+    "placeId": "ChIJzcI2zDxgpjsRFcev4el8mBA",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3kGzgvREWvBBbd3Dxcjq_PJTfFVSlQ_XYEAhF8s69ByeOdWdNtD8dcwUniX8XBd0qR6ZlHEP0ky-pKGu75i_XsMqtmMYQ-M3a693EH7gAzOXGouTgGX25fTShgvfTQIB6arJC8AXhvFRdVLYFCXMC-ehpxeobbN7IgehuMbZUq_pWLYKLrYPFDTM2FqZLuRWR-81EGrcCiMoq-qMdZ-EAZ6UBpf-sulInt7jWQDbrLSr2jza1NNUfHAuO-ckx9QzIaJMM2astlUd1gulzsr1R_eruq3_qGGqONRczaabx8Txwc6QulQVYylA4bofnVs19aDZE5syKWwW9IIBNtEsEoo4-0KWzhtaV4JnLyVU_8McKD7X2pyItY5hEzlCwDkwnuqKn7XGUdu-qpmQGS7vNqhCcpBzOo7I5yXSjYXbpcMSQ&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Kappad&query_place_id=ChIJzcI2zDxgpjsRFcev4el8mBA",
+      "apple": "https://maps.apple.com/?q=11.3807071,75.72606429999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.3807071&mlon=75.72606429999999#map=17/11.3807071/75.72606429999999",
+      "waze": "https://waze.com/ul?ll=11.3807071,75.72606429999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:03:47.559Z"
+  },
+  "Arrive at Vadakara Railway Station|Vadakara, ": {
+    "address": "HHQR+6M9, Puthiyappu, Vatakara, Kerala 673101, India",
+    "latitude": 11.593718,
+    "longitude": 75.58735399999999,
+    "placeId": "ChIJwR6E7RuFpjsRF6gbLBlnMew",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3l8uw9H5bNEI3gth528IF8hzAdt8QZhIv3jjIwn61tjadFDjILgVtisu2O21PK1xuyhEBs9ugow4_pNiyFzJ1fkL1f5CFabbwHT5E7fLRa6JYhNSnir-_ozN-eAsDFTrLLrTnv5YuMwYjDDvN62Dp_bG4fvhDQnj3PBKY7VBKHYEuqAwYrIRt63ni34h0ubPgWDtmzOb0aJcQ0CJmCZP_m9zfJPQrUyKLlCFBqLX-9ufiRebB8VyQ_BMbkLfKBNGuBxKAH7oCRYnYZF_etELLpM3BOBGgDM6bfnwliaNn4HDxQ0M8BO-0OU7HiSwvV_BZ-uK4F3CtZYdhM7sGOuh4k945FHhpXZhxkCy1w6KFOe3jx7S0IDgf5J6LUilwmqxQhQlu27uZ-faLjZWAmGoev9DXeopFjS3ho-1w6Lu6MiMmuT&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Vadakara%20Railway%20Station%20%5BBDJ%5D&query_place_id=ChIJwR6E7RuFpjsRF6gbLBlnMew",
+      "apple": "https://maps.apple.com/?q=11.593718,75.58735399999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.593718&mlon=75.58735399999999#map=17/11.593718/75.58735399999999",
+      "waze": "https://waze.com/ul?ll=11.593718,75.58735399999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:46:07.439Z"
+  },
+  "Explore Kunjali Marakkar Museum and Memorial|Vadakara, ": {
+    "address": "HH6W+PX5, Kottakkal, Iringal, Kerala 673521, India",
+    "latitude": 11.5617626,
+    "longitude": 75.5974754,
+    "placeId": "ChIJhTJO1cmFpjsR_v9h5dGfTsQ",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3kD8m8_YOLPG1FFJKE1iDrRMA2TygA5NPoDjNkq9jfK3_mtdWxp9DMnz75ElYX6TWDPkDLEvoS0wRjvv_iwwoDHF7ME5LC_8Us_ZX8sntsRndZxviN9HGtFmuFmjqBHG-UjNT9wRj1aQjlDPqLcSPGcvpSHtBvaY6RNFX1NnZiDL_Ot8eyCoN720-BQL-1fXAwXBKylhjmJKyUhAXkNp1kJdh0J2I-8-KUgypovzkASLRumH7MBtQhp-my8KHNGEgKelP00nBFMCTiLLo4zMaup0rzzazlGPWyLUeAcTusc8RJJnQ-r1yyCeZIo9KMeKRg9Eb0dVUK-svOvzI_SW-s-0GiqMAQGwQLTHmdohwawJKSaxdyzRsxZtq03so-EiA3uc00Zw76ajXckKg_8j6jbsBbxESeeItlounNss-vfkg&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Kunjali%20Marakkar%20Memorial%20Museum&query_place_id=ChIJhTJO1cmFpjsR_v9h5dGfTsQ",
+      "apple": "https://maps.apple.com/?q=11.5617626,75.5974754",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5617626&mlon=75.5974754#map=17/11.5617626/75.5974754",
+      "waze": "https://waze.com/ul?ll=11.5617626,75.5974754&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:46:08.999Z"
+  },
+  "Enjoy dinner at a local restaurant in Vadakara|Vadakara, ": {
+    "address": "The Leaf Restaurant, NH Bypass road, near tata motors service centre, Kainatty, Muttungal, Vatakara, Kerala 673106, India",
+    "latitude": 11.6288137,
+    "longitude": 75.5756081,
+    "placeId": "ChIJybSYbACDpjsRjdCOMHx_Ca4",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3lKucrHSyoyP2KMTjIUVgAGmu4BKliUq2QBexLyCiOsKcwlLIL2nBv984wUpS3yThiz8YzgFyg4sJQzLr0sR-_ayA1iyiwm079U4RPEXO27UiNztEmE1z4GHdaso9AXYbZ__FzJ2FkXDdT8Vojd-FJ04Tm6BwSd3HJe4qJlR7ZEQ2gY1hAWQaeO8dQ3fKV_IGeRgBln9JFMepZ35Zn78x6bIouxcT-r3_Jqvo1gdPxVl9q_oBpKd2k5y32vImiPoZY1HYdvdX6611lTjd6dCbuv3GUaPuVg3u4-z_MKkw5q97e_t280cHZBjedCUjB9vD8fW8uHiB8qutFzJ9AAJhsvoJgkcuq2AtwDXxWcCkfVJpOmtcMxgYexx1qFftr6o8x4RzfIKPYBGM5VYPp3yTy-zCFm0-HULwQqzFocOcV3p8grF1O6ToSfVc0I0Ko1&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=The%20Leaf%20Restaurant%20Vadakara&query_place_id=ChIJybSYbACDpjsRjdCOMHx_Ca4",
+      "apple": "https://maps.apple.com/?q=11.6288137,75.5756081",
+      "osm": "https://www.openstreetmap.org/?mlat=11.6288137&mlon=75.5756081#map=17/11.6288137/75.5756081",
+      "waze": "https://waze.com/ul?ll=11.6288137,75.5756081&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:46:10.620Z"
+  },
+  "Visit Lokanarkavu Temple|Vadakara, ": {
+    "address": "Kavil Rd, Villiappally, Vatakara, Memunda, Kerala 673104, India",
+    "latitude": 11.5980612,
+    "longitude": 75.61966149999999,
+    "placeId": "ChIJsTiWER6EpjsRXTp0x-iD5rI",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3llfxfJ3mQ2yKaJFBzzDtGgFnG2Y1Zg0wo3uFDKgKH1oAzAyVyULoNDm9a7vXe64ajLXnsoOSxeBjMkOsTxHo7D0nvYbXBgxcFpkN4eWj9CnO7_HxsC9Zl3stYCjs74MeCa0QB6bp5mJ9habhbGBxdD9L0jqD_-NwU4zjmnZGn4izx21hiV6Pj9UPrVnXqFqI0v_x9vFXeWCT2ynbetXFkSRBuTnPBq1dT40zP8k3KEyE2tydJ5nsZ2fOmXS3WlywjJOSQBmwiDfCSKiQPFyb6IiTFoFrvEz8i5oBmwBDzrhfrOmmMFZxFgJX2Ez9T_KpCT3JvsYKjijLMlamiRi0X5nTP1ELwZtjAc85QmxVRBxDySdX-jmVdE7PM5H_QyCTzbADJb12g7pfHa9P57a9vBRr9AHoZhBFOSI7ctLVg&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Lokanarkavu%20Temple&query_place_id=ChIJsTiWER6EpjsRXTp0x-iD5rI",
+      "apple": "https://maps.apple.com/?q=11.5980612,75.61966149999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5980612&mlon=75.61966149999999#map=17/11.5980612/75.61966149999999",
+      "waze": "https://waze.com/ul?ll=11.5980612,75.61966149999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:46:11.927Z"
+  },
+  "Explore Vadakara Town Market|Vadakara, ": {
+    "address": "Muthappan Temple Rd, HJRF+XG2, Teruvallur Road, Villiappally, Vatakara, Kerala 673104, India",
+    "latitude": 11.5923819,
+    "longitude": 75.62375589999999,
+    "placeId": "ChIJk0YBnZ-GpjsR3CuEyNVlwh8",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3kBfEpraMU0yv9_cvcDWp085D0TXYMgVF0dMgxvnWPzjRKx7YaTZbRLCLJsDEC0GOY1bp4MIxeLBeg-yOEubYtXQk8s3mIRx1r46cnzD_DSszZcK0lv7TQyNZdAAYsM6rUVdiueMgLe9_Ou7oIeuep-KnfZak4YfQmuudeNmsVqhNUxQlAotCgvK1px7n2matF0oroH6gneg-mtYHBIA8uCORGJn-K1dWw8UpQanWg-hkj273KcagLRg6ZtfTkmKfOef6dXGPJdO3QE6IrDojJYgTZCMvPkMaux1pke7Iebu9ixfQcpqteHXjsoFcMW99Qskk-x4MDIobAfBGYf68hoh09ZQEkcR7KwZ3dx2ROyWrE9cY1sbWlVAXhUzbeVi6-3Ctx0SKxeakhM8eyPOxOkIuVM43uwbiHG6ij2QOq0gA&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Payamkuttimala%20Eco%20Tourism%20Spot&query_place_id=ChIJk0YBnZ-GpjsR3CuEyNVlwh8",
+      "apple": "https://maps.apple.com/?q=11.5923819,75.62375589999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5923819&mlon=75.62375589999999#map=17/11.5923819/75.62375589999999",
+      "waze": "https://waze.com/ul?ll=11.5923819,75.62375589999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:46:13.505Z"
+  },
+  "Enjoy an afternoon at Payyoli Beach|Vadakara, ": {
+    "address": "Payyoli Beach, Kerala, India",
+    "latitude": 11.5115624,
+    "longitude": 75.60913149999999,
+    "placeId": "ChIJOXE1ZUWPpjsRNSj2Pe1GBTo",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3kfMfpDOi4gv0rflfb12XHcMXji5Qf7JNP13SnDbajSitgWViiJx6IHzKxriMGFcYq-6-lolMoh-NQX4CrDco_nn2dtb-QFPIN3JKCVBLzRuqDuEhMReRsR9wmOVURz5hxxDD7f9ae8XgjUjMAcA5eiHyH7sW1H3n1uVSw3PUCaJ4lQPWFSRFOpsLvTWLbN1G6nvfNELV0LGHY_2eNZn6pyKnlBj-Bdq7bemX9GwyxE3TtfLUobB2HTLNJLRQM6l5lRDPGcWjNKckTAgdgTtkdQi1yN8t-sFo6rX3OV5SHUj__R2l8h4OnyFQFP3DJOVFEopy0YUJN4jJmxOwo6XSN3quvb0DZkugiuNrQTQmcwQjauFdUc3g_uBd3hKi6lLRFvF6yCK6Dpzwm6Vs7G3_rE2qv5xko2dKokP69tBbumwhHa&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Payyoli%20Beach&query_place_id=ChIJOXE1ZUWPpjsRNSj2Pe1GBTo",
+      "apple": "https://maps.apple.com/?q=11.5115624,75.60913149999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5115624&mlon=75.60913149999999#map=17/11.5115624/75.60913149999999",
+      "waze": "https://waze.com/ul?ll=11.5115624,75.60913149999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:46:14.765Z"
+  },
+  "Savor authentic Malabar cuisine for dinner|Vadakara, ": {
+    "address": "HHPV+G5V, Vatakara - Nadapuram - Thottilpalam Rd, Karimbanappalam, Vatakara, Kerala 673101, India",
+    "latitude": 11.5863679,
+    "longitude": 75.5929146,
+    "placeId": "ChIJBQ9yKtuFpjsR1WW143Q-EJU",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3kqandcZJgBpEnJCtro6dOjPrRA6OqStO81wrVRRy7MeJMYKUrU6_eKbVt088W75vWI2nF-lrHSokDuySdotnY1iwLpktd6YQme4fsGhSepXUgOMqu2HeX_R7GkIPcN4m6ali2LggwkVB0uYfqZKAhT4Q4gXP-iyZd5n93tCsb4LYG5fbCMDWZ3hXSG_UM9tD_p_6XTO2BHivGg_JFJpP3vBYWN6e3hWE40C7bSOjQ3jFk9oJV25YfXcdId7dj3buEYFCvDGE5uEmo4NAgGGVBQ0vyWrSSl6snEt3QEYbZkc9isvUZ2HFm2ecJNZkkThlVAMktK2ESZ5XWpHEzxj1ge7hTDy66ta5rVbt-U32O6rT1t2jtYin3qnOuItaFfu6qI5ailfdGTN-8RQRH7zqCurAmJ-6GXxU6-gh1WN_txD5P_rVteVDNK0aZtNPNM&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=KTDC%20AAHAAR%20RESTAURANT&query_place_id=ChIJBQ9yKtuFpjsR1WW143Q-EJU",
+      "apple": "https://maps.apple.com/?q=11.5863679,75.5929146",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5863679&mlon=75.5929146#map=17/11.5863679/75.5929146",
+      "waze": "https://waze.com/ul?ll=11.5863679,75.5929146&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:46:16.648Z"
+  },
+  "Witness the unique beauty of Sandbanks Beach (known for sunset views)|Vadakara, ": {
+    "address": "HH9Q+W9V, Sand Banks Rd, Kerala 673103, India",
+    "latitude": 11.5698682,
+    "longitude": 75.58841819999999,
+    "placeId": "ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3leFDPZ5-b8ITalXzR29QKCO02iYLbrMTmiij1Pl5aMLdUcivS3Fvh2Ql_gRjM9Sr095AsDhcR21uHylv63GrFdpAHwaAnuAdcbXn9aPJSLtvjqX8eWWrgY1RYOb83368CQzemq_7IkjkfDvkG2RAW-Bk4bnhbimUcAGT6WrW4OETcopglINzb7kqyyruZRc717gbK9INBvV8DIvmrjKTgFDa6De0p1AIl6ijqnI7dDhup7sC1Z46Pd7aW9Rk5TcfgDLtdTQl0rp4pwAZYn8lf2-UD5ZFcakmNgPY0A8BdeNvx61iZVdyny5bQhQdIjyv0tssu5SpRRZIQM2EJ-KGH0Jh0EgCV0g0A7MgPE291KlZb1iqSy5upQyYpIoJ1vC1SvbwIxhNq89-L9WeFvqeoNafFN03X6YImbGXyRt6VrHkg&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sand%20Banks%20Beach%20Vadakara&query_place_id=ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+      "apple": "https://maps.apple.com/?q=11.5698682,75.58841819999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5698682&mlon=75.58841819999999#map=17/11.5698682/75.58841819999999",
+      "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:46:18.228Z"
+  },
+  "Visit Kolavipalam Turtle Beach (conservation site)|Vadakara, ": {
+    "address": "GHXW+W26, Ayanikkad Rd, Iringal, Kerala 673521, India",
+    "latitude": 11.5497787,
+    "longitude": 75.5950292,
+    "placeId": "ChIJXxPWj7CFpjsRfRCIvE_ZdhE",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3mp4W0rhlpgAle-ZMy-DdjdSZ1zzX6thSdGZUMODY6OL2-QI2FktrAYByd0PTyG6J1SAJ07K_DPOBBNFZSc1Dg1uRnpMTpg_UsBvWi8S_xCmHP0h50t5rk6Dob9HzSLXPy7FFKyuEtcFhdBteNu2K7LlF7sb73Gy4vzqqM0kXX0iKpBr6yDqRFw8yAFWm2hNkGin5_DH8BNzE_TJPzlwG5eC7Hp0PzM571Rb82rhlGKTNm0JYixqudjsO-fkiHHYKu5hogn7h62aJrArd3PgLw5fMgY8N44-CClG2ZWNtKmgEJK2InQzZk1OcLNhvLmRLp6zREjF5PyCbGmyl1p1eGk1wRi4iZh4XFr5Ot7UKd4LCwHSGpyNJXPYWYcyZ8EBpLfOrBaS-yAyicjib9JWXNhF7TNS-2FjNGkLqorqOWDwA&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Turtle%20Beach%20Kolavipalam&query_place_id=ChIJXxPWj7CFpjsRfRCIvE_ZdhE",
+      "apple": "https://maps.apple.com/?q=11.5497787,75.5950292",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5497787&mlon=75.5950292#map=17/11.5497787/75.5950292",
+      "waze": "https://waze.com/ul?ll=11.5497787,75.5950292&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:46:19.949Z"
+  },
+  "Depart from Vadakara Railway Station|Vadakara, ": {
+    "address": "HHQR+6M9, Puthiyappu, Vatakara, Kerala 673101, India",
+    "latitude": 11.593718,
+    "longitude": 75.58735399999999,
+    "placeId": "ChIJwR6E7RuFpjsRF6gbLBlnMew",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3k21EMB9WhiyCCaDQyABncJXg8lTkK0oa52mp_dWvYt2Lh2ZVsGl2_o5_XpflnAV5O6BKjfaRL-Reudy7Pe0Mf5sih_-2OEGIIh5CHlyx2LEnVte99kJ9B_zBUGMeX9ouv_59yq99JCBtjMfEjWBEZtxGVGdO68jntcd3kYkBF9iGoZweVmbUNVz0urgEeRNiNDO2oPdm9xHMxHxXmOR3P0x4DyxuBaraDf5gmAd_5uoSD67xX96FbylRxw5SRT9yLziaebEbmMUaO7X7Gu1GVStEDrc0xFCyU94fTSlW3hHaOzKRIezwsZJYpxO-vZ3wmQ0YwXVgnM_r2NEydYkhXWw67UrRZlbhat1-o4zvMnOWkxgAQsMtvdL0VVD7HhK3MQKdLYeYNgH3Uco0_qPKM7iJuaEBef4nxiG5rNxKjvWarr&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Vadakara%20Railway%20Station%20%5BBDJ%5D&query_place_id=ChIJwR6E7RuFpjsRF6gbLBlnMew",
+      "apple": "https://maps.apple.com/?q=11.593718,75.58735399999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.593718&mlon=75.58735399999999#map=17/11.593718/75.58735399999999",
+      "waze": "https://waze.com/ul?ll=11.593718,75.58735399999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-25T12:46:21.572Z"
+  },
+  "Vadakara Town Market|Vadakara, ": {
+    "address": "HHXP+JXQ, Market Rd, near OP Raman Road, Badagara, Vatakara, Kerala 673101, India",
+    "latitude": 11.5990865,
+    "longitude": 75.58749279999999,
+    "placeId": "ChIJUaEDE2-EpjsRuIuIAScp-sA",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3kMPO5nFBPz1UhvMA_qvazKl1nGAkbXcFhKYLsYonGU2jLngt9xdtTg8EiAAr0yUtM8_XwUtKdffO0iZlDFzSYDZN_OuPq3P1AdnJjbK9S5s6tDvKZOSQ6euRLTRFv6cIMw900dqCA0aIhO773X5VoVF4_qZZpZD_UUGUALTcM1o8YnwVXulG-nGwLkZTzRZRgu4sVL25jNpJy_viwG-7NLPUA6Yd2nyJTgn82mFuhd0XWKgo_gGVYEy-EvO8ZUjQZge_Fz931Gwv3eNQZRvmld2hWYus8bvK8nIc2Vuj089BukJAlUBTdcmUD2ts25imvz7bKZBn5z8hu4NQA6g7o_lgX2hwBamRB6ckdGFIY_2W2P0IG8QTGM1ip6_sBXhpn99FwxNRhA6WMLE8qymC90pBjkiJPVvHW9PargFrFDPQ&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Vadakara%20Fish%20%26%20Meat%20Market&query_place_id=ChIJUaEDE2-EpjsRuIuIAScp-sA",
+      "apple": "https://maps.apple.com/?q=11.5990865,75.58749279999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5990865&mlon=75.58749279999999#map=17/11.5990865/75.58749279999999",
+      "waze": "https://waze.com/ul?ll=11.5990865,75.58749279999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-27T08:57:28.502Z"
+  },
+  "Kunjali Marakkar Museum|Vadakara, ": {
+    "address": "HH6W+PX5, Kottakkal, Iringal, Kerala 673521, India",
+    "latitude": 11.5617626,
+    "longitude": 75.5974754,
+    "placeId": "ChIJhTJO1cmFpjsR_v9h5dGfTsQ",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3ldnpSTglGebcqNwbN91rHzq33alNU0m6m2o0fBire8aHdAm_4lHrAbT7YKEw2qm-imStwvNuBMzcU51P8T-7j524iiMorF13WOvPVwnjzZownJvk4IH-XTJjYLsxN7L7HdCGGg_doyHB9_7ixkJvWR-I7Bd5nm7lMxoVr008O2HMVqlNnsbAdPRf9Yhlqss1z1fE4grPytL1jsk-dwanScq84vaKAng1ByB_jOwdG3wY9DsHMnp17RMfWeYIpm9qk9djP0ErGbUCk1_wkRnrmmwSxCiL7CLV96eBBex0nz7J-IG1LiM_pNqgvNikOyqTnEy7I1GX6C6IJu7mfa4q22VNv0kJYTlAOargrkOge6PggNyakkGxuP71yasjvPUNrjen37Mmx6YHuyVvPmQOuKLqYm_3mdX8oKgHOxpDfhxA&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Kunjali%20Marakkar%20Memorial%20Museum&query_place_id=ChIJhTJO1cmFpjsR_v9h5dGfTsQ",
+      "apple": "https://maps.apple.com/?q=11.5617626,75.5974754",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5617626&mlon=75.5974754#map=17/11.5617626/75.5974754",
+      "waze": "https://waze.com/ul?ll=11.5617626,75.5974754&navigate=yes"
+    },
+    "lastVerified": "2026-06-27T08:57:30.053Z"
+  },
+  "Kolavipalam Beach|Vadakara, ": {
+    "address": "Kolavipalam Rd, Iringal, Kerala 673521, India",
+    "latitude": 11.5624445,
+    "longitude": 75.5920489,
+    "placeId": "ChIJZZnM_IuFpjsRU-Jv-V-iYvM",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3mxcJz-23imlJeE0nMfWFKi5YoauFKQmiBIaIOZKw-kPzbwhblGyLvSNw7cLlivIZlI3Gzd_HHwWMQ2eI_tLIOMJPrtxsWCIIVIXm4QZiAcwpfv0JhYcaeZm6jKitwmDnOvRF5xIz_L0SKxNLRUzoiyE-ZYIVwVfQbnff8FoToOiNFj3crQthnx1yP6oLIR5R2dGKWddPqP5zaPcKU5xzg8M-uX-HBtzn0re1c73XSThhx9mNFtbNrh77rrVWRScpCY6Xh1ii6WEmaH1KaYm5piIaSFMdSSz0eqrT01u77lpgyFjUtnZTEj325LQ1FVXfSAoU_J8kIU4y7sQPPfOOmnco_ZUpfkk6t1PH5f8FWK0U7eH25gHZdPeBsb8gQdqIBIP92o9ogf-Qyw6DNZgrxZOr-Oih3Hnd5RGvHw3uZM0LQ&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Secret%20Beach%20Kolavipalam&query_place_id=ChIJZZnM_IuFpjsRU-Jv-V-iYvM",
+      "apple": "https://maps.apple.com/?q=11.5624445,75.5920489",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5624445&mlon=75.5920489#map=17/11.5624445/75.5920489",
+      "waze": "https://waze.com/ul?ll=11.5624445,75.5920489&navigate=yes"
+    },
+    "lastVerified": "2026-06-27T08:57:31.274Z"
+  },
+  "Sandbanks Beach (Mouth of Kuttiady River)|Vadakara, ": {
+    "address": "HH9Q+W9V, Sand Banks Rd, Kerala 673103, India",
+    "latitude": 11.5698682,
+    "longitude": 75.58841819999999,
+    "placeId": "ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3ka2XKHBJ94BUU2KPN3G5JqAxGI_169-jPy_53R96W98W1oiRHg4UlID1eb48V-z8brJ55NxiLW3VL-qQDUn_LO7-kkF159boT6eO6KJNs8UwIf8zrIPjDh8Xly-CKqNQsAmfVaNqYdv5Xq4Xk3YACfZ2LXx58r-Rkbk2XbI6jSmlC996Crp748w5f6Em68O2VYozW0d8dsatmVpxb5WqDJUHp8vGi94UYGT58uyIEJIlcfixgyYX9P82xg7P7wwj1XfOcinwG987ubrqn0ZhKZC8HxrixVYbs-BFH-7qwA00-U6FFwp3WBfJ-JI01OI0tLdvE5YCGP_J-l7LkJIMnhDFGphJ9PB7RQbeg2KMU3Hev7k7KGPvaXAPAThiMIpddX1zfjrw35xRMdohS_67c3iA7XDVM48uoZd7m1rCAfveg&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sand%20Banks%20Beach%20Vadakara&query_place_id=ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+      "apple": "https://maps.apple.com/?q=11.5698682,75.58841819999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5698682&mlon=75.58841819999999#map=17/11.5698682/75.58841819999999",
+      "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
+    },
+    "lastVerified": "2026-06-27T08:57:32.559Z"
+  }
+}
