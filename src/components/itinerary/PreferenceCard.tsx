@@ -17,7 +17,7 @@ export function PreferenceChip({ title, icon: Icon, selected, onClick }: ChipPro
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className={`
-        relative flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300
+        relative flex items-center gap-2 rounded-full px-3 py-1.5 sm:px-5 sm:py-2.5 text-sm font-medium transition-all duration-300
         ${
           selected
             ? "bg-brand/20 text-brand shadow-[0_0_20px_rgba(var(--brand-rgb),0.3)] ring-1 ring-brand/50"
@@ -39,7 +39,7 @@ export function IconChip({ title, icon: Icon, selected, onClick }: ChipProps) {
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
       className={`
-        flex flex-col items-center justify-center gap-3 rounded-2xl p-4 transition-all duration-300
+        flex flex-col items-center justify-center gap-3 rounded-2xl p-2 sm:p-4 transition-all duration-300
         ${
           selected
             ? "bg-brand/10 text-brand ring-2 ring-brand/50 shadow-[0_0_20px_rgba(var(--brand-rgb),0.2)]"
@@ -61,7 +61,7 @@ type SegmentedProps = {
 
 export function SegmentedControl({ options, selected, onChange }: SegmentedProps) {
   return (
-    <div className="flex w-full items-center p-1 bg-[#161822] rounded-xl ring-1 ring-white/5">
+    <div className="flex flex-wrap w-full items-center p-1 bg-[#161822] rounded-xl ring-1 ring-white/5 gap-2">
       {options.map((opt) => {
         const isSelected = selected === opt;
         return (
@@ -70,7 +70,7 @@ export function SegmentedControl({ options, selected, onChange }: SegmentedProps
             type="button"
             onClick={() => onChange(opt)}
             className={`
-              relative flex-1 py-2 text-sm font-medium transition-colors z-10 rounded-lg
+              relative flex-1 py-2 text-xs md:text-sm font-medium transition-colors z-10 rounded-lg
               ${isSelected ? "text-white" : "text-white/50 hover:text-white/80"}
             `}
           >

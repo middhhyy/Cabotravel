@@ -51,9 +51,9 @@ export function WorkspaceLayout({ initialTrip }: { initialTrip: TripResponse }) 
   };
 
   return (
-    <div className="flex h-screen bg-background overflow-hidden">
+    <div className="flex flex-col xl:flex-row xl:h-screen bg-background xl:overflow-hidden overflow-y-auto">
       {/* Left Sidebar */}
-      <aside className="w-80 flex-shrink-0 border-r border-white/10 bg-black/40 backdrop-blur-xl flex flex-col h-full overflow-y-auto">
+      <aside className="hidden xl:block w-full xl:w-80 flex-shrink-0 border-b xl:border-b-0 xl:border-r border-white/10 bg-black/40 backdrop-blur-xl flex flex-col h-auto xl:h-full overflow-y-auto order-2 xl:order-none">
         <div className="p-6 space-y-8">
           <VersionHistoryPanel workspace={workspace} />
           <AIChatPanel trip={workspace.activeTrip} />
@@ -61,7 +61,7 @@ export function WorkspaceLayout({ initialTrip }: { initialTrip: TripResponse }) 
       </aside>
 
       {/* Main Workspace */}
-      <main className="flex-1 flex flex-col h-full relative overflow-y-auto">
+      <main className="flex-1 flex flex-col h-auto xl:h-full relative order-1 xl:order-none">
         <div className="sticky top-0 z-50 p-6 bg-background/80 backdrop-blur-xl border-b border-white/10">
           <AICommandBar onCommand={handleCommand} loading={loading} />
         </div>
@@ -74,7 +74,7 @@ export function WorkspaceLayout({ initialTrip }: { initialTrip: TripResponse }) 
       </main>
 
       {/* Right Sidebar */}
-      <aside className="w-80 flex-shrink-0 border-l border-white/10 bg-black/40 backdrop-blur-xl flex flex-col h-full overflow-y-auto">
+      <aside className="hidden xl:block w-full xl:w-80 flex-shrink-0 border-t xl:border-t-0 xl:border-l border-white/10 bg-black/40 backdrop-blur-xl flex flex-col h-auto xl:h-full overflow-y-auto order-3 xl:order-none">
         <div className="p-6 space-y-8">
           <TravelScore trip={workspace.activeTrip} />
           <AIInsights trip={workspace.activeTrip} />

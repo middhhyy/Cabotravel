@@ -466,7 +466,7 @@ function GeneratePage() {
                   </div>
                 </PreferenceSection>
 
-                <PreferenceSection title="Accommodation" className="grid grid-cols-4 gap-2">
+                <PreferenceSection title="Accommodation" className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {[
                     { id: "Hotel", icon: Hotel },
                     { id: "Resort", icon: Bed },

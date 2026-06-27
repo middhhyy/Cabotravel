@@ -45,7 +45,7 @@ export function RequestQuoteModal({ trip, onClose }: { trip: TripResponse; onClo
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="p-6 space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm text-white/60 mb-1">First Name</label>
                 <input
@@ -64,7 +64,7 @@ export function RequestQuoteModal({ trip, onClose }: { trip: TripResponse; onClo
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm text-white/60 mb-1">Email</label>
                 <input
@@ -83,7 +83,7 @@ export function RequestQuoteModal({ trip, onClose }: { trip: TripResponse; onClo
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm text-white/60 mb-1">Departure City</label>
                 <input

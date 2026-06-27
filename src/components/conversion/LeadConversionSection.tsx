@@ -9,7 +9,7 @@ export function LeadConversionSection({ trip }: { trip: TripResponse }) {
   const [activeModal, setActiveModal] = useState<"quote" | "consultation" | "share" | null>(null);
 
   return (
-    <div className="mt-24 mb-12">
+    <div className="mt-24 mb-12 px-4 sm:px-6 lg:px-0">
       <div className="text-center mb-10">
         <h2 className="text-3xl md:text-4xl font-display text-white mb-4">
           Love your itinerary? Let's make it happen.
@@ -23,7 +23,7 @@ export function LeadConversionSection({ trip }: { trip: TripResponse }) {
         {/* Quote Card */}
         <div
           onClick={() => setActiveModal("quote")}
-          className="group relative bg-black/40 border border-white/10 rounded-3xl p-8 hover:bg-white/5 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col items-center text-center backdrop-blur-xl"
+          className="group relative bg-black/40 border border-white/10 rounded-3xl p-4 sm:p-8 hover:bg-white/5 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col items-center text-center backdrop-blur-xl"
         >
           <div className="absolute inset-0 bg-gradient-to-b from-brand/0 via-brand/0 to-brand/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div className="w-16 h-16 rounded-full bg-brand/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -42,7 +42,7 @@ export function LeadConversionSection({ trip }: { trip: TripResponse }) {
         {/* Consultation Card */}
         <div
           onClick={() => setActiveModal("consultation")}
-          className="group relative bg-black/40 border border-white/10 rounded-3xl p-8 hover:bg-white/5 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col items-center text-center backdrop-blur-xl"
+          className="group relative bg-black/40 border border-white/10 rounded-3xl p-4 sm:p-8 hover:bg-white/5 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col items-center text-center backdrop-blur-xl"
         >
           <div className="absolute inset-0 bg-gradient-to-b from-blue-500/0 via-blue-500/0 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -60,7 +60,7 @@ export function LeadConversionSection({ trip }: { trip: TripResponse }) {
         {/* Share Card */}
         <div
           onClick={() => setActiveModal("share")}
-          className="group relative bg-black/40 border border-white/10 rounded-3xl p-8 hover:bg-white/5 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col items-center text-center backdrop-blur-xl"
+          className="group relative bg-black/40 border border-white/10 rounded-3xl p-4 sm:p-8 hover:bg-white/5 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col items-center text-center backdrop-blur-xl"
         >
           <div className="absolute inset-0 bg-gradient-to-b from-rose-500/0 via-rose-500/0 to-rose-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div className="w-16 h-16 rounded-full bg-rose-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
