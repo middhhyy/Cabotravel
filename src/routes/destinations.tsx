@@ -7,7 +7,6 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { destinations } from "@/lib/destinations";
-import keralaHero from "@/assets/hero-alleppey-backwaters.png";
 import { waLink, waMessages } from "@/lib/whatsapp";
 
 export const Route = createFileRoute("/destinations")({
@@ -68,11 +67,10 @@ function DestinationsPage() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`rounded-full px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] transition ${
-                filter === f
+              className={`rounded-full px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] transition ${filter === f
                   ? "bg-brand text-white"
                   : "border border-white/20 text-white/70 hover:text-white"
-              }`}
+                }`}
             >
               {f}
             </button>
@@ -91,7 +89,7 @@ function DestinationsPage() {
               <img
                 src={d.image}
                 alt={d.name}
-                loading="lazy"
+                loading="eager"
                 className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />

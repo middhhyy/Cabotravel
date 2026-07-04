@@ -725,5 +725,69 @@
       "waze": "https://waze.com/ul?ll=11.5863679,75.5929146&navigate=yes"
     },
     "lastVerified": "2026-07-01T05:41:16.879Z"
+  },
+  "Vadakara Clock Tower|Vadakara, ": {
+    "address": "HHVV+V93, Edodi, Vatakara, Kerala 673101, India",
+    "latitude": 11.5946376,
+    "longitude": 75.5934199,
+    "placeId": "ChIJxfQVS2qEpjsRoa8OmKT0XGA",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3lJTVWXAwIkjiA2W7vg6WcUdXdgIIf_gW1H2dFsNkDtd3wj3-1HwOXQNV0Ntyji9Pzxx6bRne5-5KGyHGBksD_rjVaFzAKBaS7DS0DDg6hAynxd9jvcIL9lFukfr2KcccLNtfEoAwhRCpPdTIYDxmCa6Lz3aRyIvgV700mFdbiBj_XqUutPl9dJ4b6z_NHT9f5NW9_b46gFhK-Hex81SQ6toGr0hAKgT7ISdjWIw3RJR-x4ty0C8C8-F0MQ8R9yUTQlkjh0T9KA0m_7WJ2zLvY32Px0tj45LViZXDePyv7BtIb47lKecb41F6lFMxGSxpol3zrj7O6ia9Icibr-9E2O_9YVE5x6fkYrQSrbo-NMp23xY4WrvaroFzdtEhh7yGoDO1CGk4mjcmB5G59Iys5gdqfpqx0h1O70Wb5sxPWFHBE&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=ROYAL%20WATCH%20WORKS&query_place_id=ChIJxfQVS2qEpjsRoa8OmKT0XGA",
+      "apple": "https://maps.apple.com/?q=11.5946376,75.5934199",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5946376&mlon=75.5934199#map=17/11.5946376/75.5934199",
+      "waze": "https://waze.com/ul?ll=11.5946376,75.5934199&navigate=yes"
+    },
+    "lastVerified": "2026-07-04T11:56:09.303Z"
+  },
+  "Vadakara Main Market|Vadakara, ": {
+    "address": "HHXP+JXQ, Market Rd, near OP Raman Road, Badagara, Vatakara, Kerala 673101, India",
+    "latitude": 11.5990865,
+    "longitude": 75.58749279999999,
+    "placeId": "ChIJUaEDE2-EpjsRuIuIAScp-sA",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3k7rzlELfviUAt9UcyxDkrAWWv4V9v1Wrqa7outhPPQ4oELkLtJRQs1tsOVJkTkuMM36laKzYOD9VmBisBuaf6CFgIM-ujK_tQUG7oyBIYo0-LujGpi9vFTNIjBxR98DMkLUggpoDU8UlLD-a0gI7uCPxqOiDZfp6AnEBCacNU4kH7lQcfbkQc0ktgMluhvHUyx0AzK_n2TSodDclZtVcocwb-hZJpHIbab4fUC5_-33ycEIZ98imu7GDJvoD6qYPxt3Gv8UUzdY6-DKkRBgw1Hy_w_PTw3cw8nRX_PCKo93oSwX3GhZYqOjbS8XsZ1k64ZzaHf348UPsbeB03ao4uHSCrZRONYOWPVSBGpusEON4YVW_OG-pSjv6JpHfM4WQe4QdBnNpiicAhHn5WSpJTWauc585Hxkc99TNJYfxPUAw&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Vadakara%20Fish%20%26%20Meat%20Market&query_place_id=ChIJUaEDE2-EpjsRuIuIAScp-sA",
+      "apple": "https://maps.apple.com/?q=11.5990865,75.58749279999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5990865&mlon=75.58749279999999#map=17/11.5990865/75.58749279999999",
+      "waze": "https://waze.com/ul?ll=11.5990865,75.58749279999999&navigate=yes"
+    },
+    "lastVerified": "2026-07-04T11:56:10.831Z"
+  },
+  "Sargalaya Kerala Arts & Crafts Village|Vadakara, ": {
+    "address": "HJ33+H9J, Sargalaya Rd, Kottakkal, Iringal, Kerala 673521, India",
+    "latitude": 11.5601151,
+    "longitude": 75.60586169999999,
+    "placeId": "ChIJtyzIcM-FpjsR63NrwlWgxXY",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3kohqHPQtwSc2C5LO_Fw9owdwx5M9aA6JWVkai66sCNN5vvQrBXpTJ3UsmqMq2HyX2kB5f9kAIAy34rQyFtt9VIibjWyAmqhxFbfqOD13RScj0odcPb5g4sETJ3J6ij4gy5QhmMZHO6MNDZJR_e8EYzkf0h3CwhxCcPrAjaoA9JQiLCX5qes_ws1EE6A3Te7BI6EqRoh24-5XC49PK8g8gZBFU0t-kh79Wo_k0rqWnI1L3DIuD3DJQcJjebjKjhDUlwntHEkLNsp4fTTvUIZiAdOZkTK2dahD9kntYThywe_mo5xh_yVoQpEieQXUsGT6h7nOOk6m1fB8lkkYU9D-HfNPHeg0U-HWkP43aRmZIWWi7_wL01SMszXUhzBvDX2dE4_WJYgzb6uC0uooNwzqG_AenZzDPs7YNIo5xsxpJg14TX&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sargaalaya%20Kerala%20Arts%20%26%20Crafts%20Village&query_place_id=ChIJtyzIcM-FpjsR63NrwlWgxXY",
+      "apple": "https://maps.apple.com/?q=11.5601151,75.60586169999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5601151&mlon=75.60586169999999#map=17/11.5601151/75.60586169999999",
+      "waze": "https://waze.com/ul?ll=11.5601151,75.60586169999999&navigate=yes"
+    },
+    "lastVerified": "2026-07-04T11:56:12.722Z"
+  },
+  "Sandbanks Beach, Vadakara|Vadakara, ": {
+    "address": "HH9Q+W9V, Sand Banks Rd, Kerala 673103, India",
+    "latitude": 11.5698682,
+    "longitude": 75.58841819999999,
+    "placeId": "ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3lND1nZfsjMG4h_ss84Wb82qU7hfMaIB-CJGoJIuELCXsQRsTpz2EusYIO-T32TIxoqxJXgIGXKmEZoZ9sx_MojzkKpdPnrOQA5imXg0jzNoMvVsO2khdkWj9sLmKtT4fE8PWHMiPhJLRJ8u0lQFddTsDk55WWPIPWimuLt7kV4QeLQMFJICn_-s_bRkF8SjD7yKB3cTJCkCiVx9VKeQ6n6gsv7TYf0L_76ymrJn-oZHeQhj-IChq8MAkkWlStNBdNM21itU7f3hsbU4t-DZgOddn2G1BBxO8WqODJA9NOg8O6z-o8k_2wh5vUmSCF4pAIcz6O9j4VsVJ8hN-g6Sot-81UyWK2KEmVMRAYd07KemYumastSDCxLggcSKsmQjdgJvxoyE4JEDere7m64cNeIIbJVokIaEiyC1PcLzdp5FIQ&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sand%20Banks%20Beach%20Vadakara&query_place_id=ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+      "apple": "https://maps.apple.com/?q=11.5698682,75.58841819999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5698682&mlon=75.58841819999999#map=17/11.5698682/75.58841819999999",
+      "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
+    },
+    "lastVerified": "2026-07-04T11:56:14.037Z"
   }
 }

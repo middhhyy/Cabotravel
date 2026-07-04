@@ -18,6 +18,7 @@ export function BrandLogo({
         src={logoFooter}
         alt="Cabo Tours"
         className={`${imgHeight} w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]`}
+        loading="eager"
       />
       <div className="leading-none">
         <div className={`font-display tracking-[0.18em] uppercase ${text}`}>Cabo Tours</div>

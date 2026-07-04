@@ -8,7 +8,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { packages } from "@/lib/packages";
 import { destinations } from "@/lib/destinations";
 import { waLink, waMessages } from "@/lib/whatsapp";
-import dubaiHero from "@/assets/hero-dubai-skyline.png";
+const dubaiHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-dubai-skyline.webp";
 import { trackEvent } from "@/lib/analytics";
 
 const CATEGORIES = [
@@ -83,6 +83,8 @@ function PackagesPage() {
         }
         subtitle="Honeymoons, family escapes, group adventures and quiet luxury — each itinerary tested, priced and stitched by our team."
         image={dubaiHero}
+        width={2000}
+        height={1125}
       >
         <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 w-full max-w-2xl">
           <div className="relative flex-1 w-full">
@@ -110,11 +112,10 @@ function PackagesPage() {
             <button
               key={c}
               onClick={() => setCat(c)}
-              className={`rounded-full px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] transition ${
-                cat === c
+              className={`rounded-full px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] transition ${cat === c
                   ? "bg-brand text-white"
                   : "border border-white/20 text-white/70 hover:text-white"
-              }`}
+                }`}
             >
               {c}
             </button>
@@ -138,7 +139,7 @@ function PackagesPage() {
                     <img
                       src={p.image || dest.image}
                       alt={p.title}
-                      loading="lazy"
+                      loading="eager"
                       className="h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
                     />
                     <div className="absolute top-3 left-3 rounded-full bg-black/55 backdrop-blur px-3 py-1 text-[10px] tracking-[0.22em] uppercase text-white">

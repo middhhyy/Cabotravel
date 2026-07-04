@@ -14,4 +14,6 @@ export const waMessages = {
     `Hello Cabo Tours & Travels, I would like more information about ${name} as a destination.`,
   custom: "Hello Cabo Tours & Travels, I would like help planning a customized trip.",
   visa: "Hello Cabo Tours & Travels, I would like assistance with visa processing.",
+  cab: (name: string) =>
+    `Hello Cabo Tours & Travels, I would like to book or enquire about renting a ${name} cab.`,
 };

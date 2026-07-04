@@ -5,12 +5,16 @@ export function PageHeader({
   title,
   subtitle,
   image,
+  width = 1920,
+  height = 1080,
   children,
 }: {
   eyebrow?: string;
   title: ReactNode;
   subtitle?: string;
   image?: string;
+  width?: number;
+  height?: number;
   children?: ReactNode;
 }) {
   return (
@@ -21,8 +25,9 @@ export function PageHeader({
             src={image}
             alt={`${eyebrow || "Cabo Tours"} page header banner`}
             loading="eager"
-            // @ts-ignore
-            fetchpriority="high"
+            fetchPriority="high"
+            width={width}
+            height={height}
             className="absolute inset-0 -z-10 h-full w-full object-cover opacity-40"
           />
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-background/70 to-background" />

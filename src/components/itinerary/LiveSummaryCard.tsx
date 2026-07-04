@@ -67,7 +67,11 @@ export function LiveSummaryCard({ state }: { state: Partial<TripRequest> }) {
           <Compass className="h-4 w-4 text-brand mt-0.5" />
           <div>
             <div className="text-[10px] text-white/40 uppercase tracking-wider mb-1">Vibe</div>
-            <div className="text-white text-sm font-medium">{state.travelStyle || "Relaxing"}</div>
+            <div className="text-white text-sm font-medium truncate max-w-[180px]" title={state.interests && state.interests.length > 0 ? state.interests.join(", ") : (state.travelStyle || "Relaxing")}>
+              {state.interests && state.interests.length > 0
+                ? state.interests.join(", ")
+                : (state.travelStyle || "Relaxing")}
+            </div>
           </div>
         </div>
       </div>

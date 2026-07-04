@@ -181,7 +181,7 @@ function ContactPage() {
               title="Cabo Tours map"
               src={BUSINESS_INFO.maps.embedUrl}
               className="h-full w-full"
-              loading="lazy"
+              loading="eager"
             />
           </div>
         </aside>

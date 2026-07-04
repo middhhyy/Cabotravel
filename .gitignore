@@ -35,3 +35,6 @@ dist-ssr
 .env
 .env.*
 .env.local
+
+# Local DBs
+testimonial_likes_db.json

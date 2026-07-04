@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { waLink, waMessages, FOUNDER } from "@/lib/whatsapp";
-import kashmirHero from "@/assets/hero-kashmir-dallake.png";
+const kashmirHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-kashmir-dallake.webp";
 import founder from "@/assets/founder.jpeg";
 
 export const Route = createFileRoute("/about")({

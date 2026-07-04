@@ -10,11 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VisaRouteImport } from './routes/visa'
+import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PackagesRouteImport } from './routes/packages'
+import { Route as KeralaRouteImport } from './routes/kerala'
 import { Route as GenerateRouteImport } from './routes/generate'
+import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as DestinationsRouteImport } from './routes/destinations'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CabsRouteImport } from './routes/cabs'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
@@ -27,6 +31,11 @@ const VisaRoute = VisaRouteImport.update({
   path: '/visa',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StoriesRoute = StoriesRouteImport.update({
+  id: '/stories',
+  path: '/stories',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -37,9 +46,19 @@ const PackagesRoute = PackagesRouteImport.update({
   path: '/packages',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KeralaRoute = KeralaRouteImport.update({
+  id: '/kerala',
+  path: '/kerala',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GenerateRoute = GenerateRouteImport.update({
   id: '/generate',
   path: '/generate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DestinationsRoute = DestinationsRouteImport.update({
@@ -50,6 +69,11 @@ const DestinationsRoute = DestinationsRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CabsRoute = CabsRouteImport.update({
+  id: '/cabs',
+  path: '/cabs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -86,11 +110,15 @@ const AgencyDashboardRoute = AgencyDashboardRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/cabs': typeof CabsRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRouteWithChildren
+  '/feedback': typeof FeedbackRoute
   '/generate': typeof GenerateRoute
+  '/kerala': typeof KeralaRoute
   '/packages': typeof PackagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/stories': typeof StoriesRoute
   '/visa': typeof VisaRoute
   '/agency/dashboard': typeof AgencyDashboardRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
@@ -100,11 +128,15 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/cabs': typeof CabsRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRouteWithChildren
+  '/feedback': typeof FeedbackRoute
   '/generate': typeof GenerateRoute
+  '/kerala': typeof KeralaRoute
   '/packages': typeof PackagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/stories': typeof StoriesRoute
   '/visa': typeof VisaRoute
   '/agency/dashboard': typeof AgencyDashboardRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
@@ -115,11 +147,15 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/cabs': typeof CabsRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRouteWithChildren
+  '/feedback': typeof FeedbackRoute
   '/generate': typeof GenerateRoute
+  '/kerala': typeof KeralaRoute
   '/packages': typeof PackagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/stories': typeof StoriesRoute
   '/visa': typeof VisaRoute
   '/agency/dashboard': typeof AgencyDashboardRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
@@ -131,11 +167,15 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/cabs'
     | '/contact'
     | '/destinations'
+    | '/feedback'
     | '/generate'
+    | '/kerala'
     | '/packages'
     | '/sitemap.xml'
+    | '/stories'
     | '/visa'
     | '/agency/dashboard'
     | '/destinations/$slug'
@@ -145,11 +185,15 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/cabs'
     | '/contact'
     | '/destinations'
+    | '/feedback'
     | '/generate'
+    | '/kerala'
     | '/packages'
     | '/sitemap.xml'
+    | '/stories'
     | '/visa'
     | '/agency/dashboard'
     | '/destinations/$slug'
@@ -159,11 +203,15 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/cabs'
     | '/contact'
     | '/destinations'
+    | '/feedback'
     | '/generate'
+    | '/kerala'
     | '/packages'
     | '/sitemap.xml'
+    | '/stories'
     | '/visa'
     | '/agency/dashboard'
     | '/destinations/$slug'
@@ -174,11 +222,15 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CabsRoute: typeof CabsRoute
   ContactRoute: typeof ContactRoute
   DestinationsRoute: typeof DestinationsRouteWithChildren
+  FeedbackRoute: typeof FeedbackRoute
   GenerateRoute: typeof GenerateRoute
+  KeralaRoute: typeof KeralaRoute
   PackagesRoute: typeof PackagesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StoriesRoute: typeof StoriesRoute
   VisaRoute: typeof VisaRoute
   AgencyDashboardRoute: typeof AgencyDashboardRoute
   TripIdRoute: typeof TripIdRoute
@@ -192,6 +244,13 @@ declare module '@tanstack/react-router' {
       path: '/visa'
       fullPath: '/visa'
       preLoaderRoute: typeof VisaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories': {
+      id: '/stories'
+      path: '/stories'
+      fullPath: '/stories'
+      preLoaderRoute: typeof StoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -208,11 +267,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PackagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kerala': {
+      id: '/kerala'
+      path: '/kerala'
+      fullPath: '/kerala'
+      preLoaderRoute: typeof KeralaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/generate': {
       id: '/generate'
       path: '/generate'
       fullPath: '/generate'
       preLoaderRoute: typeof GenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/destinations': {
@@ -227,6 +300,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cabs': {
+      id: '/cabs'
+      path: '/cabs'
+      fullPath: '/cabs'
+      preLoaderRoute: typeof CabsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -289,11 +369,15 @@ const DestinationsRouteWithChildren = DestinationsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CabsRoute: CabsRoute,
   ContactRoute: ContactRoute,
   DestinationsRoute: DestinationsRouteWithChildren,
+  FeedbackRoute: FeedbackRoute,
   GenerateRoute: GenerateRoute,
+  KeralaRoute: KeralaRoute,
   PackagesRoute: PackagesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StoriesRoute: StoriesRoute,
   VisaRoute: VisaRoute,
   AgencyDashboardRoute: AgencyDashboardRoute,
   TripIdRoute: TripIdRoute,

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Globe,
@@ -21,22 +21,22 @@ import {
   Star,
   Quote,
 } from "lucide-react";
-import kerala from "@/assets/dest-kerala.jpg";
-import kashmir from "@/assets/dest-kashmir.jpg";
-import dubai from "@/assets/dest-dubai.jpg";
-import bali from "@/assets/dest-bali.jpg";
-import maldives from "@/assets/dest-maldives.jpg";
-import thailand from "@/assets/dest-thailand.jpg";
+import kerala from "@/assets/dest-kerala.webp";
+import kashmir from "@/assets/dest-kashmir.webp";
+import dubai from "@/assets/dest-dubai.webp";
+import bali from "@/assets/dest-bali.webp";
+import maldives from "@/assets/dest-maldives.webp";
+import thailand from "@/assets/dest-thailand.webp";
 import logoFooter from "@/assets/cabo-logo-footer.webp";
 import { destinations } from "@/lib/destinations";
-import backwatersImg from "@/assets/hero-alleppey-backwaters.png";
-import munnarImg from "@/assets/hero-munnar-tea-gardens.png";
-import kovalamImg from "@/assets/hero-kovalam-beach.png";
-import fortKochiImg from "@/assets/hero-fort-kochi.png";
-import wayanadImg from "@/assets/hero-wayanad.png";
-import thekkadyImg from "@/assets/hero-thekkady.png";
-import vagamonImg from "@/assets/hero-vagamon.png";
-import varkalaImg from "@/assets/hero-varkala.png";
+const backwatersImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-alleppey-backwaters.webp";
+const munnarImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-munnar-tea-gardens.webp";
+const kovalamImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-kovalam-beach.webp";
+const fortKochiImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-fort-kochi.webp";
+const wayanadImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-wayanad.webp";
+const thekkadyImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-thekkady.webp";
+const vagamonImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-vagamon.webp";
+const varkalaImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-varkala.webp";
 import { packages } from "@/lib/packages";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
@@ -79,14 +79,6 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: "https://cabotours.in/" },
-      { rel: "preload", as: "image", href: backwatersImg },
-      { rel: "preload", as: "image", href: munnarImg },
-      { rel: "preload", as: "image", href: kovalamImg },
-      { rel: "preload", as: "image", href: fortKochiImg },
-      { rel: "preload", as: "image", href: wayanadImg },
-      { rel: "preload", as: "image", href: thekkadyImg },
-      { rel: "preload", as: "image", href: vagamonImg },
-      { rel: "preload", as: "image", href: varkalaImg },
     ],
   }),
   component: Home,
@@ -195,10 +187,32 @@ function Home() {
 }
 
 /* ====================== HERO (preserved) ====================== */
+const HERO_BG_TRANSITION = { duration: 1.6, ease: [0.22, 1, 0.36, 1] as const };
+const PROGRESS_TRANSITION = { duration: 6.5, ease: "linear" as const };
+const HEADER_TRANSITION = { duration: 1, ease: [0.22, 1, 0.36, 1] as const, delay: 0.2 };
+const TITLE_TRANSITION = { duration: 1, ease: [0.22, 1, 0.36, 1] as const };
+const CONTROLS_TRANSITION = { duration: 1, ease: [0.22, 1, 0.36, 1] as const, delay: 0.4 };
+
+const thumbnailVariants = {
+  initial: { x: 120, opacity: 0, scale: 0.9 },
+  animate: (i: number) => ({
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const, delay: i * 0.06 }
+  }),
+  exit: {
+    x: -160,
+    opacity: 0,
+    scale: 0.9,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }
+  }
+};
+
 function Hero({ welcomeDone }: { welcomeDone: boolean }) {
   const [index, setIndex] = useState(0);
   const slide = slides[index];
-  const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length);
+  const go = useCallback((dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length), []);
 
   useEffect(() => {
     const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), 6500);
@@ -216,18 +230,17 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
             initial={{ scale: 1.04, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={HERO_BG_TRANSITION}
             className="absolute inset-0 will-change-[opacity]"
           >
             <img
               src={slide.image}
               alt={slide.label}
               className="h-full w-full object-cover"
-              width={1920}
-              height={1280}
+              width={2000}
+              height={1125}
               loading="eager"
-              // @ts-ignore
-              fetchpriority="high"
+              fetchPriority="high"
               decoding="sync"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-black/5" />
@@ -242,7 +255,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
             key={index}
             initial={{ width: "0%" }}
             animate={{ width: "100%" }}
-            transition={{ duration: 6.5, ease: "linear" }}
+            transition={PROGRESS_TRANSITION}
             className="h-full bg-accent"
           />
         )}
@@ -251,7 +264,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
       <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={welcomeDone ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+        transition={HEADER_TRANSITION}
         className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-6 md:px-10 lg:px-14 pt-6"
       >
         <div className="flex-1 flex justify-start">
@@ -263,6 +276,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
               src={logoFooter}
               alt="Cabo Tours"
               className="h-16 w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
+              loading="eager"
             />
             <span className="font-display tracking-[0.18em] text-[13px]">CABO TOURS</span>
           </Link>
@@ -276,6 +290,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
             { to: "/packages", label: "HOLIDAYS" },
             { to: "/destinations", label: "DESTINATIONS" },
             { to: "/packages", label: "FLIGHTS" },
+            { to: "/cabs", label: "CAB SERVICES" },
             { to: "/visa", label: "VISA" },
             { to: "/contact", label: "CONTACT" },
           ].map((i, k) => (
@@ -313,12 +328,18 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                transition={TITLE_TRANSITION}
               >
                 <div className="flex items-center gap-3 mb-5">
                   <span className="h-px w-8 bg-white/70" />
                   <span className="text-[12px] tracking-[0.28em] uppercase text-white/85">
-                    {slide.label}
+                    {slide.label === "Kerala — India" ? (
+                      <Link to="/kerala" className="hover:text-brand transition duration-300">
+                        {slide.label}
+                      </Link>
+                    ) : (
+                      slide.label
+                    )}
                   </span>
                 </div>
                 <h1 className="font-display text-white leading-[0.95] text-[clamp(2.4rem,6.4vw,5.8rem)] uppercase whitespace-pre-line">
@@ -358,10 +379,11 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                     layout
                     key={s.image}
                     onClick={() => setIndex((index + 1 + i) % slides.length)}
-                    initial={{ x: 120, opacity: 0, scale: 0.9 }}
-                    animate={{ x: 0, opacity: 1, scale: 1 }}
-                    exit={{ x: -160, opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: i * 0.06 }}
+                    custom={i}
+                    variants={thumbnailVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
                     className="relative h-[220px] w-[135px] sm:h-[300px] sm:w-[185px] lg:h-[340px] lg:w-[210px] shrink-0 overflow-hidden rounded-[22px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.6)] ring-1 ring-white/15 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                     aria-label={`Switch to slide showing ${s.label}`}
                   >
@@ -369,13 +391,21 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                       src={s.image}
                       alt={s.label}
                       className="absolute inset-0 h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
-                      loading="lazy"
+                      loading="eager"
                       decoding="async"
+                      width={210}
+                      height={340}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-4 text-left">
                       <div className="text-[9px] tracking-[0.22em] uppercase text-white/75">
-                        {s.label}
+                        {s.label === "Kerala — India" ? (
+                          <Link to="/kerala" onClick={(e) => e.stopPropagation()} className="hover:text-brand transition duration-300">
+                            {s.label}
+                          </Link>
+                        ) : (
+                          s.label
+                        )}
                       </div>
                       <div className="mt-1 font-display text-white text-[15px] leading-[1.05] uppercase whitespace-pre-line">
                         {s.thumbnail || s.title}
@@ -391,7 +421,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={welcomeDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
+        transition={CONTROLS_TRANSITION}
         className="absolute bottom-8 left-0 right-0 z-20 px-6 md:px-10 lg:px-14"
       >
         <div className="flex items-center gap-4 md:gap-6">
@@ -415,7 +445,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
               key={`bar-${index}`}
               initial={{ width: "0%" }}
               animate={{ width: "100%" }}
-              transition={{ duration: 6.5, ease: "linear" }}
+              transition={PROGRESS_TRANSITION}
               className="absolute top-0 left-0 h-px bg-accent"
             />
           </div>
@@ -435,7 +465,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
 }
 
 /* ====================== SECTIONS ====================== */
-function SectionHead({ eyebrow, title, copy }: { eyebrow: string; title: string; copy?: string }) {
+const SectionHead = React.memo(function SectionHead({ eyebrow, title, copy }: { eyebrow: string; title: string; copy?: string }) {
   return (
     <div className="mb-12 max-w-3xl">
       <div className="flex items-center gap-3 text-[11px] tracking-[0.3em] uppercase text-brand">
@@ -448,9 +478,9 @@ function SectionHead({ eyebrow, title, copy }: { eyebrow: string; title: string;
       {copy && <p className="mt-5 text-white/65 leading-relaxed max-w-xl">{copy}</p>}
     </div>
   );
-}
+});
 
-function ServicesStrip() {
+const ServicesStrip = React.memo(function ServicesStrip() {
   const items = [
     { i: Plane, t: "Flights" },
     { i: Hotel, t: "Hotels" },
@@ -479,9 +509,9 @@ function ServicesStrip() {
       </div>
     </section>
   );
-}
+});
 
-function FeaturedDestinations() {
+const FeaturedDestinations = React.memo(function FeaturedDestinations() {
   return (
     <section className="relative py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -503,27 +533,46 @@ function FeaturedDestinations() {
               <img
                 src={d.image}
                 alt={d.name}
-                loading="lazy"
+                loading="eager"
                 className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6">
+              {d.slug === "kerala" ? (
+                <Link to="/kerala" className="absolute inset-0 z-10 block">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                </Link>
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+              )}
+              <div className="absolute inset-x-0 bottom-0 z-20 p-6">
                 <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                  {d.region} · {d.country}
+                  {d.slug === "kerala" ? (
+                    <Link to="/kerala" className="hover:text-brand transition duration-300">
+                      {d.region} · {d.country}
+                    </Link>
+                  ) : (
+                    <>{d.region} · {d.country}</>
+                  )}
                 </div>
-                <div className="mt-1 font-display text-3xl uppercase leading-none text-white">
-                  {d.name}
-                </div>
+                <h3 className="mt-1 font-display text-2xl uppercase text-white">{d.name}</h3>
                 <p className="mt-3 text-sm text-white/70 line-clamp-2">{d.tagline}</p>
-                <div className="mt-5 flex items-center justify-end">
-                  <a
-                    href={waLink(waMessages.destination(d.name))}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                  >
-                    Explore <ArrowRight className="h-3 w-3" />
-                  </a>
+                <div className="mt-6 flex items-center justify-end">
+                  {d.slug === "kerala" ? (
+                    <Link
+                      to="/kerala"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                    >
+                      Explore <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  ) : (
+                    <a
+                      href={waLink(waMessages.destination(d.name))}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                    >
+                      Explore <ArrowRight className="h-3 w-3" />
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -532,9 +581,9 @@ function FeaturedDestinations() {
       </div>
     </section>
   );
-}
+});
 
-function PopularPackages() {
+const PopularPackages = React.memo(function PopularPackages() {
   return (
     <section className="relative py-24 lg:py-32 bg-[oklch(0.16_0.01_250)] border-y border-white/10">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -559,34 +608,36 @@ function PopularPackages() {
                   <img
                     src={p.image || dest.image}
                     alt={p.title}
-                    loading="lazy"
+                    loading="eager"
                     className="h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
                   />
                   <div className="absolute top-3 left-3 rounded-full bg-black/55 backdrop-blur px-3 py-1 text-[10px] tracking-[0.22em] uppercase text-white">
                     {p.category}
                   </div>
                 </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-white/50">
-                    {dest.country}
-                  </div>
-                  <h3 className="mt-1 font-display text-xl uppercase">{p.title}</h3>
-                  <div className="mt-3 flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-white/60">
-                    <span>
-                      {p.nights}N / {p.days}D
-                    </span>
-                    <span className="h-1 w-1 rounded-full bg-white/30" />
-                    <span>{p.inclusions.length}+ inclusions</span>
-                  </div>
-                  <div className="mt-5 flex items-center justify-end">
-                    <a
-                      href={waLink(waMessages.package(p.title))}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="rounded-full bg-brand px-4 py-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                    >
-                      Enquire
-                    </a>
+                <div className="flex flex-1 flex-col justify-between p-6">
+                  <div>
+                    <div className="text-[10px] tracking-[0.22em] uppercase text-white/50">
+                      {dest.name}
+                    </div>
+                    <h3 className="mt-1 font-display text-xl uppercase">{p.title}</h3>
+                    <div className="mt-3 flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-white/60">
+                      <span>
+                        {p.nights}N / {p.days}D
+                      </span>
+                      <span className="h-1 w-1 rounded-full bg-white/30" />
+                      <span>{p.inclusions.length}+ inclusions</span>
+                    </div>
+                    <div className="mt-5 flex items-center justify-end">
+                      <a
+                        href={waLink(waMessages.package(p.title))}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-full bg-brand px-4 py-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                      >
+                        Enquire
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -596,9 +647,9 @@ function PopularPackages() {
       </div>
     </section>
   );
-}
+});
 
-function WhyChoose() {
+const WhyChoose = React.memo(function WhyChoose() {
   const items = [
     {
       t: "Personally Crafted",
@@ -640,7 +691,7 @@ function WhyChoose() {
       </div>
     </section>
   );
-}
+});
 
 function ProgressiveImage({
   src,
@@ -663,7 +714,7 @@ function ProgressiveImage({
       <img
         src={src}
         alt={alt}
-        loading="lazy"
+        loading="eager"
         onLoad={() => setLoaded(true)}
         className={`${className} transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}
       />
@@ -671,7 +722,13 @@ function ProgressiveImage({
   );
 }
 
-function Experiences() {
+const getStoryTransition = (i: number) => ({
+  duration: 0.8,
+  delay: i * 0.1,
+  ease: [0.21, 1.02, 0.43, 1.01] as const,
+});
+
+const Experiences = React.memo(function Experiences() {
   const [stories, setStories] = useState<GuestStory[]>([]);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [likesCounts, setLikesCounts] = useState<Record<string, number>>({});
@@ -688,7 +745,43 @@ function Experiences() {
 
   useEffect(() => {
     const loadedStories = getStories();
-    setStories(loadedStories);
+
+    const fetchDbStories = async () => {
+      try {
+        const { supabase } = await import("@/lib/supabase");
+        const { data, error } = await supabase
+          .from("feedback")
+          .select("*")
+          .eq("status", "approved")
+          .order("created_at", { ascending: false });
+
+        if (!error && data) {
+          const dbStories: GuestStory[] = data.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            username: `@user_${item.name.toLowerCase().replace(/\s+/g, "")}`,
+            platform: "Verified Guest",
+            time: new Date(item.created_at).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric"
+            }),
+            caption: item.message,
+            img: item.image_url || "Kerala", // Fallback to preset if null
+            likes: "0",
+            comments: "0",
+            destination: item.rating ? `⭐ ${item.rating} Rating` : "Cabo Trip",
+            height: "h-[350px]"
+          }));
+          setStories([...dbStories, ...loadedStories]);
+        } else {
+          setStories(loadedStories);
+        }
+      } catch {
+        setStories(loadedStories);
+      }
+    };
+    fetchDbStories();
 
     const sessionId = getOrCreateSessionId();
     if (sessionId) {
@@ -703,7 +796,7 @@ function Experiences() {
           });
           setLikesCounts(updatedCounts);
         })
-        .catch((err) => console.error("Error loading likes state:", err));
+        .catch(() => {});
     } else {
       const localCounts: Record<string, number> = {};
       loadedStories.forEach((s) => {
@@ -713,84 +806,53 @@ function Experiences() {
     }
   }, []);
 
-  const handleLikeToggle = async (storyId: string) => {
+  const handleLike = async (storyId: string) => {
     const sessionId = getOrCreateSessionId();
     if (!sessionId) return;
 
-    const isCurrentlyLiked = likedIds.has(storyId);
-    const currentCount = likesCounts[storyId] || 0;
-
-    // 1. Optimistic update
+    const isLiked = likedIds.has(storyId);
     const newLikedIds = new Set(likedIds);
-    if (isCurrentlyLiked) {
+    if (isLiked) {
       newLikedIds.delete(storyId);
     } else {
       newLikedIds.add(storyId);
     }
     setLikedIds(newLikedIds);
 
-    const newCount = isCurrentlyLiked ? currentCount - 1 : currentCount + 1;
     setLikesCounts((prev) => ({
       ...prev,
-      [storyId]: newCount,
+      [storyId]: (prev[storyId] || 0) + (isLiked ? -1 : 1),
     }));
 
-    // 2. Call server
     try {
-      const response = await toggleLikeServerFn({
-        data: {
-          testimonialId: storyId,
-          sessionId,
-        },
-      });
-
-      // Update state with actual count returned from server
-      setLikesCounts((prev) => ({
-        ...prev,
-        [storyId]: response.newCount,
-      }));
-      const verifiedLikedIds = new Set(likedIds);
-      if (response.liked) {
-        verifiedLikedIds.add(storyId);
-      } else {
-        verifiedLikedIds.delete(storyId);
-      }
-      setLikedIds(verifiedLikedIds);
-    } catch (err) {
-      console.error("Error toggling like:", err);
-      // Rollback
-      setLikedIds(new Set(likedIds));
-      setLikesCounts((prev) => ({
-        ...prev,
-        [storyId]: currentCount,
-      }));
+      await toggleLikeServerFn({ data: { testimonialId: storyId, sessionId } });
+    } catch (e) {
+      console.error("Failed to sync like state:", e);
     }
   };
 
   const getPlatformIcon = (platform: string) => {
-    switch (platform) {
-      case "Instagram":
+    switch (platform.toLowerCase()) {
+      case "instagram":
         return (
-          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-tr from-yellow-500 to-purple-600 text-white p-1">
-            <svg className="w-full h-full fill-current" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-            </svg>
-          </span>
+          <svg className="w-3.5 h-3.5 text-pink-500 fill-current" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+          </svg>
         );
-      case "TripAdvisor":
+      case "facebook":
         return (
-          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#00AF87] text-white p-1">
-            <svg className="w-full h-full fill-current" viewBox="0 0 24 24">
-              <path d="M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0zm0 18c-3.309 0-6-2.691-6-6s2.691-6 6-6 6 2.691 6 6-2.691 6-6 6zm-3.5-8.5c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5z" />
-            </svg>
-          </span>
+          <svg className="w-3.5 h-3.5 text-blue-600 fill-current" viewBox="0 0 24 24">
+            <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" strokeWidth={0} />
+          </svg>
+        );
+      case "google":
+        return (
+          <svg className="w-3.5 h-3.5 text-red-500 fill-current" viewBox="0 0 24 24">
+            <path d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114-3.51 0-6.358-2.848-6.358-6.358s2.848-6.358 6.358-6.358c1.621 0 3.094.614 4.218 1.614l3.14-3.14C19.23 2.11 15.93 1 12.24 1 5.48 1 0 6.48 0 13.24s5.48 12.24 12.24 12.24c6.88 0 12.24-5.48 12.24-12.24 0-.8-.1-1.6-.24-2.285H12.24z" />
+          </svg>
         );
       default:
-        return (
-          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#4285F4] text-white p-1 font-bold text-[9px]">
-            G
-          </span>
-        );
+        return <Globe className="w-3.5 h-3.5 text-white/50" />;
     }
   };
 
@@ -798,7 +860,9 @@ function Experiences() {
     return name
       .split(" ")
       .map((n) => n[0])
-      .join("");
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   return (
@@ -846,26 +910,36 @@ function Experiences() {
             </div>
 
             {/* CTA */}
-            <a
-              href="#testimonials"
-              className="mt-8 group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-white/70 hover:text-brand transition"
-            >
-              View All Stories{" "}
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </a>
+            <div className="mt-8 flex flex-col gap-4">
+              <Link
+                to="/stories"
+                onClick={() => trackEvent("view_all_diaries", "navigation")}
+                className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-white hover:text-brand transition"
+              >
+                Read Travel Diaries{" "}
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </Link>
+              <Link
+                to="/feedback"
+                className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-brand hover:text-white transition"
+              >
+                Share Your Feedback{" "}
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </Link>
+            </div>
           </div>
 
           {/* Right Column: Masonry of social-style travel posts */}
           <div className="lg:col-span-8">
             {/* Desktop Masonry Grid */}
             <div className="hidden md:grid md:grid-cols-2 gap-6">
-              {stories.map((story, i) => (
+              {stories.slice(0, 4).map((story, i) => (
                 <motion.div
                   key={story.id || story.username}
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.21, 1.02, 0.43, 1.01] }}
+                  transition={getStoryTransition(i)}
                   className={`group relative flex flex-col justify-between overflow-hidden rounded-[20px] bg-white/[0.03] border border-white/10 hover:border-brand/30 p-5 shadow-2xl backdrop-blur-lg hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(180,140,80,0.15)] transition-all duration-500 ${story.height || "h-[350px]"}`}
                   style={{
                     animation: `float ${6 + i}s ease-in-out infinite alternate`,
@@ -898,20 +972,20 @@ function Experiences() {
                       <ProgressiveImage
                         src={getStoryImage(story.img)}
                         alt={story.destination}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105"
+                        className="absolute inset-0 w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
                     </div>
                   </div>
 
-                  {/* Interaction row */}
+                  {/* Bottom Bar: Action buttons */}
                   <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
-                    <div className="flex items-center gap-4 text-[10px] text-white/60">
+                    <div className="flex items-center gap-4 text-[11px] text-white/50">
                       <button
-                        onClick={() => handleLikeToggle(story.id)}
-                        className={`flex items-center gap-1.5 transition duration-300 ${
+                        onClick={() => handleLike(story.id)}
+                        className={`group flex items-center gap-1.5 transition-colors duration-300 ${
                           likedIds.has(story.id)
-                            ? "text-brand hover:text-brand"
+                            ? "text-brand"
                             : "hover:text-brand text-white/60"
                         }`}
                       >
@@ -947,7 +1021,7 @@ function Experiences() {
 
             {/* Mobile Horizontal Carousel */}
             <div className="md:hidden flex gap-4 overflow-x-auto pb-6 scrollbar-none snap-x snap-mandatory -mx-6 px-6">
-              {stories.map((story, i) => (
+              {stories.slice(0, 4).map((story, i) => (
                 <div
                   key={`mobile-${story.id || story.username}`}
                   className="snap-center shrink-0 w-[85vw] max-w-[320px] relative flex flex-col justify-between overflow-hidden rounded-[20px] bg-white/[0.03] border border-white/10 p-5 shadow-2xl backdrop-blur-lg h-[400px]"
@@ -984,14 +1058,14 @@ function Experiences() {
                     </div>
                   </div>
 
-                  {/* Interaction row */}
+                  {/* Bottom Bar */}
                   <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
-                    <div className="flex items-center gap-4 text-[10px] text-white/60">
+                    <div className="flex items-center gap-4 text-[11px] text-white/50">
                       <button
-                        onClick={() => handleLikeToggle(story.id)}
-                        className={`flex items-center gap-1.5 transition duration-300 ${
+                        onClick={() => handleLike(story.id)}
+                        className={`group flex items-center gap-1.5 transition-colors duration-300 ${
                           likedIds.has(story.id)
-                            ? "text-brand hover:text-brand"
+                            ? "text-brand"
                             : "hover:text-brand text-white/60"
                         }`}
                       >
@@ -1040,9 +1114,9 @@ function Experiences() {
       `}</style>
     </section>
   );
-}
+});
 
-function Testimonials() {
+const Testimonials = React.memo(function Testimonials() {
   const reviews = [
     {
       n: "Aishwarya & Rohit",
@@ -1085,9 +1159,9 @@ function Testimonials() {
       </div>
     </section>
   );
-}
+});
 
-function Stats() {
+const Stats = React.memo(function Stats() {
   const stats = [
     { n: "20+", t: "Destinations" },
     { n: "12k", t: "Happy Travellers" },
@@ -1108,15 +1182,15 @@ function Stats() {
       </div>
     </section>
   );
-}
+});
 
-function BookingCta() {
+const BookingCta = React.memo(function BookingCta() {
   return (
     <section className="relative overflow-hidden py-28 lg:py-36">
       <img
         src={maldives}
         alt="Maldives overwater villas beach view background"
-        loading="lazy"
+        loading="eager"
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/30" />
@@ -1150,7 +1224,7 @@ function BookingCta() {
       </div>
     </section>
   );
-}
+});
 
 const FAQ_ITEMS = [
   {
@@ -1179,7 +1253,10 @@ const FAQ_ITEMS = [
   },
 ];
 
-function FAQSection() {
+const FAQ_CHEVRON_TRANSITION = { duration: 0.3, ease: "easeOut" as const };
+const FAQ_CONTENT_TRANSITION = { duration: 0.35, ease: [0.04, 0.62, 0.23, 0.98] as const };
+
+const FAQSection = React.memo(function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggle = (i: number) => {
@@ -1221,7 +1298,7 @@ function FAQSection() {
                   </span>
                   <motion.span
                     animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    transition={FAQ_CHEVRON_TRANSITION}
                     className="shrink-0 text-brand"
                   >
                     <ChevronDown className="h-5 w-5" />
@@ -1236,7 +1313,7 @@ function FAQSection() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: [0.04, 0.62, 0.23, 0.98] }}
+                      transition={FAQ_CONTENT_TRANSITION}
                     >
                       <div className="px-6 pb-6 text-sm sm:text-[14px] leading-relaxed text-white/70 border-t border-white/5 pt-4">
                         {item.a}
@@ -1251,4 +1328,4 @@ function FAQSection() {
       </div>
     </section>
   );
-}
+});

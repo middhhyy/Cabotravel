@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import logoAsset from "@/assets/cabo-logo.png";
+import logoAsset from "@/assets/cabo-logo.webp";
 
 export function WelcomeScreen({ show, onComplete }: { show: boolean; onComplete: () => void }) {
   const [revealed, setRevealed] = useState(false);
@@ -55,6 +55,8 @@ export function WelcomeScreen({ show, onComplete }: { show: boolean; onComplete:
                     alt="Cabo Tours & Travels"
                     className="welcome-logo"
                     draggable={false}
+                    loading="eager"
+                    fetchPriority="high"
                   />
                   <div className="welcome-sweep" aria-hidden="true" />
                 </div>

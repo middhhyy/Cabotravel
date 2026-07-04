@@ -76,6 +76,14 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
+                  to="/cabs"
+                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                >
+                  Cab Services
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/visa"
                   className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                 >
@@ -156,6 +164,16 @@ export function SiteFooter() {
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-[11px] tracking-[0.18em] uppercase text-white/40">
           <div>© {new Date().getFullYear()} Cabo Tours & Travels</div>
+          <div style={{ fontFamily: "'Lobster', cursive", fontSize: "15px" }} className="normal-case tracking-normal">
+            <a
+              href="https://verdestudios.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/40 hover:text-white transition-colors"
+            >
+              Powered by Verde Studios
+            </a>
+          </div>
           <div>Crafted journeys. Honest pricing. Real humans.</div>
         </div>
       </div>

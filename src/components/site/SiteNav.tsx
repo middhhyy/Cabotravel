@@ -9,6 +9,7 @@ const items = [
   { to: "/", label: "Home" },
   { to: "/destinations", label: "Destinations" },
   { to: "/packages", label: "Packages" },
+  { to: "/cabs", label: "Cab Services" },
   { to: "/visa", label: "Visa" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },

@@ -1,16 +1,16 @@
-import kerala from "@/assets/dest-kerala.jpg";
-import kashmir from "@/assets/dest-kashmir.jpg";
-import dubai from "@/assets/dest-dubai.jpg";
-import bali from "@/assets/dest-bali.jpg";
-import maldives from "@/assets/dest-maldives.jpg";
-import thailand from "@/assets/dest-thailand.jpg";
+import kerala from "@/assets/dest-kerala.webp";
+import kashmir from "@/assets/dest-kashmir.webp";
+import dubai from "@/assets/dest-dubai.webp";
+import bali from "@/assets/dest-bali.webp";
+import maldives from "@/assets/dest-maldives.webp";
+import thailand from "@/assets/dest-thailand.webp";
 
-import keralaHero from "@/assets/hero-alleppey-backwaters.png";
-import kashmirHero from "@/assets/hero-kashmir-dallake.png";
-import dubaiHero from "@/assets/hero-dubai-skyline.png";
-import baliHero from "@/assets/dest-bali.jpg";
-import maldivesHero from "@/assets/dest-maldives.jpg";
-import thailandHero from "@/assets/dest-thailand.jpg";
+const keralaHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-alleppey-backwaters.webp";
+const kashmirHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-kashmir-dallake.webp";
+const dubaiHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-dubai-skyline.webp";
+import baliHero from "@/assets/dest-bali.webp";
+import maldivesHero from "@/assets/dest-maldives.webp";
+import thailandHero from "@/assets/dest-thailand.webp";
 
 export type Destination = {
   slug: string;

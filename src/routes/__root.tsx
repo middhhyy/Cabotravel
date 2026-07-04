@@ -109,18 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { rel: "stylesheet", href: appCss },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-        {
-          rel: "preload",
-          as: "image",
-          href: "/src/assets/cabo-logo.webp",
-          type: "image/webp",
-        },
-        {
-          rel: "preload",
-          as: "image",
-          href: "/src/assets/dest-kerala.webp",
-          type: "image/webp",
-        },
+
         {
           rel: "apple-touch-icon",
           href: "/apple-touch-icon.png",
@@ -144,6 +133,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         {
           rel: "stylesheet",
           href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600;700&display=swap",
+        },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Lobster&display=swap",
         },
       ],
     };

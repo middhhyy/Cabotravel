@@ -75,6 +75,10 @@ function DestinationDetail() {
           src={d.heroImage || d.image}
           alt={d.name}
           className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+          width={1920}
+          height={1280}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-black/40" />
         <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-6 lg:px-10 pb-16">
@@ -198,7 +202,7 @@ function DestinationDetail() {
               <img
                 src={m.image}
                 alt={m.name}
-                loading="lazy"
+                loading="eager"
                 className="h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent" />

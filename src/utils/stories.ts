@@ -1,9 +1,9 @@
-import bali from "@/assets/dest-bali.jpg";
-import kerala from "@/assets/dest-kerala.jpg";
-import maldives from "@/assets/dest-maldives.jpg";
-import kashmir from "@/assets/dest-kashmir.jpg";
-import dubai from "@/assets/dest-dubai.jpg";
-import thailand from "@/assets/dest-thailand.jpg";
+import bali from "@/assets/dest-bali.webp";
+import kerala from "@/assets/dest-kerala.webp";
+import maldives from "@/assets/dest-maldives.webp";
+import kashmir from "@/assets/dest-kashmir.webp";
+import dubai from "@/assets/dest-dubai.webp";
+import thailand from "@/assets/dest-thailand.webp";
 
 export interface GuestStory {
   id: string;
