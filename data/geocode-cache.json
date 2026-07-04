@@ -613,5 +613,117 @@
       "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
     },
     "lastVerified": "2026-06-27T08:57:32.559Z"
+  },
+  "Explore Sargaalaya Kerala Arts & Crafts Village|Vadakara, ": {
+    "address": "HJ33+H9J, Sargalaya Rd, Kottakkal, Iringal, Kerala 673521, India",
+    "latitude": 11.5601151,
+    "longitude": 75.60586169999999,
+    "placeId": "ChIJtyzIcM-FpjsR63NrwlWgxXY",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3lKyMgYVfwzr2RwNYYTdZtpBZqvnmN3uRVJnrlB1-v-_eSjZVRzlceD8cLO0T9UN9syzedXpVma_eBZH1pENgRP0rGMO0vU6MO9ShllvVQZ0Lw7UenWMT5tkLuZqe_odiPeqdGMYcpu_sRJ-aJDaMtMVB7LgyaH2jTh1itkhWPag4RQ26fbqJopHRxSjN1z0BmajzENjpYn72hB5BxzdytXFdHjrwiS68Z57FJTacWtnVm45RO8mMxqvqIGoaMLZ0YZCNSCwqYyDpEIclW35OC1176s1nkCCB_g9ivI14UimhDsK4A6x0uebUyobljdEmFUe7_G2O2B8hx7cQz6oA-Zlv25wnghPP8iHtS08fEpwET4r9tAHiLUtSGFRslw191nU5Q2bTRXkDEh7SKY3Gza9I3M2Te2JYt-qA9S2hoGbt7q&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sargaalaya%20Kerala%20Arts%20%26%20Crafts%20Village&query_place_id=ChIJtyzIcM-FpjsR63NrwlWgxXY",
+      "apple": "https://maps.apple.com/?q=11.5601151,75.60586169999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5601151&mlon=75.60586169999999#map=17/11.5601151/75.60586169999999",
+      "waze": "https://waze.com/ul?ll=11.5601151,75.60586169999999&navigate=yes"
+    },
+    "lastVerified": "2026-07-01T05:41:08.195Z"
+  },
+  "Enjoy sunset at Sandbanks Beach|Vadakara, ": {
+    "address": "HH9Q+W9V, Sand Banks Rd, Kerala 673103, India",
+    "latitude": 11.5698682,
+    "longitude": 75.58841819999999,
+    "placeId": "ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3nggrtPlN-OtsKfZBCg45R1E43UI4p9-L7UW4Qgv8T0u0XHwKIeu4G4TrTVgSmJl7Qh1-XCiYRfMZMhMpMSay9BokFw3yVQhAvXDOEutyzJ5x6eM46coFOrzK0hfz32JVPbwoL6Y_XzQ8cNAoEfxgWfK02wiY1j98MP1bbjMfcV0zm5jH8ib7Y8OElFGIQEGH1GPtv5Gs7xmq4xg_p092VZdYTyBpgpNtZRJSHmWOpr1SBjlZVS6whfWCTTSHskNiqtlOoKZMaeW8zY5pRrNoZiJTTFA7j0d0BgBpOrBSemEcBnFsX_fLucgEhOxipC0USnqpDor9fGoUgCI67uk4eGcMpElBC9uyB65_ECuKRycK8PB5vBC5rwHy1A2OVyfgxBAta0JZs3AaYjpU2gCCyCRGoujov5vpelS18ple3Y9zY&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sand%20Banks%20Beach%20Vadakara&query_place_id=ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+      "apple": "https://maps.apple.com/?q=11.5698682,75.58841819999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5698682&mlon=75.58841819999999#map=17/11.5698682/75.58841819999999",
+      "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
+    },
+    "lastVerified": "2026-07-01T05:41:09.650Z"
+  },
+  "Dinner at a local seafood restaurant near the beach|Vadakara, ": {
+    "address": "HHPV+G5V, Vatakara - Nadapuram - Thottilpalam Rd, Karimbanappalam, Vatakara, Kerala 673101, India",
+    "latitude": 11.5863679,
+    "longitude": 75.5929146,
+    "placeId": "ChIJBQ9yKtuFpjsR1WW143Q-EJU",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3nj1DRo6mOEru3l0mVsQ9XkPLn186krSeIW0YOt7gUQ3Ch7Cs3lEce4i-AJJOatANDxGeDo0mOn-x7z5oeDqHtX9kugmCZgO6xaMqC8vI7aFfUOoPK8s9QOwz7RRvtrXMfiGqCXSikfzFviZqN8LfAL7Xn6e9RRLFfbcN_dsll_uU89QHDX1lqcObpqPJV9ldlLP7RDn1WJUL_avB1lP_Yg8plKbnBXmoX6vv6gLPxdT-4OGka6XY1aP74Z9pQ_CxhNqwG_y61M3YeqwMo-DqUJ8x5iBt7z5jQkwNI4qEXNK-xLNPRzNipooBaQj3l5i4xFPXsOZagsg1whsb52-PzD56VX5ZIWruc5rUvdK13pNFYaCAc-JlE8H9zsWl3_6fecio8Ead8JL9VfU8Mha0GCVMP9HXh8hjVt3_nvtKuyOPICbePf0g_wle2_Thix&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=KTDC%20AAHAAR%20RESTAURANT&query_place_id=ChIJBQ9yKtuFpjsR1WW143Q-EJU",
+      "apple": "https://maps.apple.com/?q=11.5863679,75.5929146",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5863679&mlon=75.5929146#map=17/11.5863679/75.5929146",
+      "waze": "https://waze.com/ul?ll=11.5863679,75.5929146&navigate=yes"
+    },
+    "lastVerified": "2026-07-01T05:41:12.074Z"
+  },
+  "Experience the vibrant Vadakara Fish Market|Vadakara, ": {
+    "address": "HHXP+JXQ, Market Rd, near OP Raman Road, Badagara, Vatakara, Kerala 673101, India",
+    "latitude": 11.5990865,
+    "longitude": 75.58749279999999,
+    "placeId": "ChIJUaEDE2-EpjsRuIuIAScp-sA",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3lufQZH2SPTHuqYh574_6NfMhjNyKxNoFctBQJ2Bs1p5ffwrZzN97n3Kd__4jD4V8D3aB08n7g4wqOVg3R7nhTEivNtZOgbDTwE4lBj_4F6qSJNSL5dksq3UKdMIaJLo22jDDLvzyrwiBLYZxwMgn1qxkfQHNuSzm_Q48_l__rUeJ7xxuPv0dQbKLl5wGSMdB7l_6KP0BN5KkyeVWJrv7ncUnV7chhDFK7qlKJyNSNhiEB0NYuRBB6e9x4ZnV0bCKVhl5Q6HQol6YyKDheE0HgMJ_nNI7TJvM30I9bT7ysge-OOl2-EInmibvbs9SsVXjNyZHMa4OZC-2vaNy-CZLeBdFeroxDIIhLfzH3jc0bRDms8iQvS_etHQJsJI67PMXShtiX71ODBYxhA4REGT4-yRD0zBBf6CpDsFUJ6TdaHfQ&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Vadakara%20Fish%20%26%20Meat%20Market&query_place_id=ChIJUaEDE2-EpjsRuIuIAScp-sA",
+      "apple": "https://maps.apple.com/?q=11.5990865,75.58749279999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5990865&mlon=75.58749279999999#map=17/11.5990865/75.58749279999999",
+      "waze": "https://waze.com/ul?ll=11.5990865,75.58749279999999&navigate=yes"
+    },
+    "lastVerified": "2026-07-01T05:41:12.771Z"
+  },
+  "Relax and stroll along Muthukad Beach|Vadakara, ": {
+    "address": "HH9Q+W9V, Sand Banks Rd, Kerala 673103, India",
+    "latitude": 11.5698682,
+    "longitude": 75.58841819999999,
+    "placeId": "ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3kJCin55ugvMVTHSFPp51PLD2p4_mEWSgE9JTMajEVC2LAGmgVOzM2jE2rZ6GkR1eJvJisgCPLXI67uIBk35gfxv1mHCrU8XPnUyRjx-bOO_smE9Kubs1Tfuoc2qHy1AlkxZVY_fGf4xJNr213h8VNwVqD2ZNbySNNgm45lPotZ1LaauU40488gA262rzYIK_kOJu---tHYCHs4XGwSSYzArKC8ohWtfTy7TW4qx74_Di_YcLFcA04GyahIjIPwkMxlHJBuG9iyDutCpNHYTM4sM1KKM0RR_SZnhEUhzlvcUkHhiPD1JvoKB7vCrCkuvpmbGXfiRFE-iLA5Flx4MwDgtGWav5MaPCTncIRoPcxzi1nAttINomWheV7Im6r4GeBkDfgTxpLmSZ1BMPMqPpuAXilio-2MuHOCUdiJrGA4UvQ&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Sand%20Banks%20Beach%20Vadakara&query_place_id=ChIJ7Wz8C4GFpjsRnzKZlnWJoRU",
+      "apple": "https://maps.apple.com/?q=11.5698682,75.58841819999999",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5698682&mlon=75.58841819999999#map=17/11.5698682/75.58841819999999",
+      "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
+    },
+    "lastVerified": "2026-07-01T05:41:14.026Z"
+  },
+  "Explore local shops in Vadakara Town for souvenirs|Vadakara, ": {
+    "address": "Old Bus Stand, Queens Road, Edodi, Vatakara, Kerala 673101, India",
+    "latitude": 11.598176,
+    "longitude": 75.5880468,
+    "placeId": "ChIJv0gXw2aEpjsRlr6P1F5Lpcc",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3l-eJRlhV9kH5UH1P0mlphskofx0nWcTRErrqDkxuvvKTeTgylXBVnKTD2lsz5Hp9ZWIjQXOKtUiHiZ1O-sPCr9ZRHxA6uTekjJg3D-sADW_AxYQXU5V2vNPtH_w596Pxe5-lBlLPPL5xNmgHzhaIc0ct5wDVjq2d6T-QnRsiEeo0WxHLOa5d8LrN_P2mbYzWyKRVwB_XpLgbmK75L4aCD8w_uoPSLaAsnCxr8FiJQZvAK35UoolUq_lweF-ffQDz3LRzwMH7HDyZR03sJCFc--BFgRCfiuu5XnUx5IJXxoILu5iXpDexD1J9iziNuWWr_7jRHsOF--BeL3_4-oAis1PoEYbsKu9QWHj2Qner5ngGoURytmcHmxNjUsLuk_LiY5q2ylIgeF6R8GgLM-nISKTqOU7w1HWa8cbocIUBhUJ3sRQO3ZlMVRtjuz8Rfu&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=Gift%20N%20Gifts&query_place_id=ChIJv0gXw2aEpjsRlr6P1F5Lpcc",
+      "apple": "https://maps.apple.com/?q=11.598176,75.5880468",
+      "osm": "https://www.openstreetmap.org/?mlat=11.598176&mlon=75.5880468#map=17/11.598176/75.5880468",
+      "waze": "https://waze.com/ul?ll=11.598176,75.5880468&navigate=yes"
+    },
+    "lastVerified": "2026-07-01T05:41:15.507Z"
+  },
+  "Enjoy a traditional Kerala dinner|Vadakara, ": {
+    "address": "HHPV+G5V, Vatakara - Nadapuram - Thottilpalam Rd, Karimbanappalam, Vatakara, Kerala 673101, India",
+    "latitude": 11.5863679,
+    "longitude": 75.5929146,
+    "placeId": "ChIJBQ9yKtuFpjsR1WW143Q-EJU",
+    "verified": true,
+    "source": "google",
+    "imageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=AaVGc3nDeQ8Uk37KhoQguFs4w7-n9LqIo07fCprAN1TBzv3I2L1zM4BATpuuIXEaGYFVbLZbpj1lVgKqk_EXkXXnlJW1BSI0NyfpMlcZE0urUY1rAJ--ihe6d680j-BpSihkNZbY381ivGkT4uq0GJCyKNFm4vciQhtx2OX5LOThzclXDFPDan_nw9msev0fPUXHRmx_cRBHDtnAUaw3esQfeU7Nr4Y1d0LD6pWkZzN-itAlghTWT7vNm6DnLWcrQlIe2ztNh5LmZ6k0rMIcKKQdv63gyLdX9xqQw2ln6WdpEB3dzHQE6vSatibqp-7ipd-R_47mmnQDWQ1wNY7nLrdYCdwbEFq3msy60LpSDNVZyxEhM3O8x7KAZPJzPEBXhy5k8ljKr4ESAMk-3nYZw1i2OdO_cO8aOkp9ejyR5bBmM-RXpwMRXtcJZvcNMEmRrhrY&key=AIzaSyBvOka84uahyB1_JDWbGzHq1xdWOCI4lm8",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=KTDC%20AAHAAR%20RESTAURANT&query_place_id=ChIJBQ9yKtuFpjsR1WW143Q-EJU",
+      "apple": "https://maps.apple.com/?q=11.5863679,75.5929146",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5863679&mlon=75.5929146#map=17/11.5863679/75.5929146",
+      "waze": "https://waze.com/ul?ll=11.5863679,75.5929146&navigate=yes"
+    },
+    "lastVerified": "2026-07-01T05:41:16.879Z"
   }
 }
