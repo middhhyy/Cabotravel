@@ -5,7 +5,7 @@ import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { waLink, waMessages, FOUNDER } from "@/lib/whatsapp";
 import kashmirHero from "@/assets/hero-kashmir-dallake.png";
-import bali from "@/assets/dest-bali.jpg";
+import founder from "@/assets/founder.jpeg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -99,7 +99,7 @@ function AboutPage() {
       <section className="bg-[oklch(0.16_0.01_250)] border-y border-white/10 py-20">
         <div className="mx-auto max-w-6xl px-6 lg:px-10 grid gap-12 lg:grid-cols-2 items-center">
           <div className="relative h-[420px] overflow-hidden rounded-[26px] ring-1 ring-white/10">
-            <img src={bali} alt={FOUNDER} className="h-full w-full object-cover" />
+            <img src={founder} alt={FOUNDER} className="h-full w-full object-cover object-[center_28%]" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
             <div className="absolute bottom-6 left-6">
               <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">Founder</div>

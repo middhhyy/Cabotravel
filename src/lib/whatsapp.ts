@@ -1,6 +1,6 @@
 export const WHATSAPP_NUMBER = "917736406630";
 export const PHONE_DISPLAY = "+91 77364 06630";
-export const FOUNDER = "Amal Biju";
+export const FOUNDER = "Amal & Meera";
 
 export function waLink(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;

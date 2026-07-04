@@ -3,7 +3,7 @@ export const BUSINESS_INFO = {
   phone: "+91 77364 06630",
   phoneDisplay: "+91 77364 06630",
   email: "hello@cabotours.in",
-  founder: "Mohammed Hashique",
+  founder: "Amal & Meera",
   address: {
     streetAddress: "Calicut",
     addressLocality: "Calicut",
@@ -18,7 +18,7 @@ export const BUSINESS_INFO = {
   },
   socials: {
     instagram: "https://instagram.com/cabotours_/",
-    facebook: "https://facebook.com/cabotours",
+    facebook: "https://www.facebook.com/share/18ub9v1emB/?mibextid=wwXIfr ",
   },
   maps: {
     embedUrl:

@@ -5,7 +5,7 @@ import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
-import { waLink, waMessages, PHONE_DISPLAY, FOUNDER } from "@/lib/whatsapp";
+import { waLink, waMessages, PHONE_DISPLAY } from "@/lib/whatsapp";
 import maldives from "@/assets/dest-maldives.webp";
 import { trackEvent } from "@/lib/analytics";
 import { BUSINESS_INFO } from "@/lib/business";
