@@ -27,7 +27,7 @@ import dubai from "@/assets/dest-dubai.jpg";
 import bali from "@/assets/dest-bali.jpg";
 import maldives from "@/assets/dest-maldives.jpg";
 import thailand from "@/assets/dest-thailand.jpg";
-import logoFooter from "@/assets/cabo-logo-footer.png";
+import logoFooter from "@/assets/cabo-logo-footer.webp";
 import { destinations } from "@/lib/destinations";
 import backwatersImg from "@/assets/hero-alleppey-backwaters.png";
 import munnarImg from "@/assets/hero-munnar-tea-gardens.png";
@@ -45,6 +45,7 @@ import { WelcomeScreen } from "@/components/site/WelcomeScreen";
 import { useWelcome } from "@/components/site/WelcomeProvider";
 import { getStories, getStoryImage, GuestStory } from "@/utils/stories";
 import { trackEvent } from "@/lib/analytics";
+import { getLikesStateServerFn, toggleLikeServerFn } from "@/services/testimonials/functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -672,10 +673,99 @@ function ProgressiveImage({
 
 function Experiences() {
   const [stories, setStories] = useState<GuestStory[]>([]);
+  const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
+  const [likesCounts, setLikesCounts] = useState<Record<string, number>>({});
+
+  const getOrCreateSessionId = () => {
+    if (typeof window === "undefined") return "";
+    let sessionId = localStorage.getItem("cabo_session_id");
+    if (!sessionId) {
+      sessionId = "sess-" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      localStorage.setItem("cabo_session_id", sessionId);
+    }
+    return sessionId;
+  };
 
   useEffect(() => {
-    setStories(getStories());
+    const loadedStories = getStories();
+    setStories(loadedStories);
+
+    const sessionId = getOrCreateSessionId();
+    if (sessionId) {
+      getLikesStateServerFn({ data: sessionId })
+        .then(({ likedIds, dbCounts }) => {
+          setLikedIds(new Set(likedIds));
+          const updatedCounts: Record<string, number> = {};
+          loadedStories.forEach((s) => {
+            const base = parseInt(s.likes) || 0;
+            const extra = dbCounts[s.id] || 0;
+            updatedCounts[s.id] = base + extra;
+          });
+          setLikesCounts(updatedCounts);
+        })
+        .catch((err) => console.error("Error loading likes state:", err));
+    } else {
+      const localCounts: Record<string, number> = {};
+      loadedStories.forEach((s) => {
+        localCounts[s.id] = parseInt(s.likes) || 0;
+      });
+      setLikesCounts(localCounts);
+    }
   }, []);
+
+  const handleLikeToggle = async (storyId: string) => {
+    const sessionId = getOrCreateSessionId();
+    if (!sessionId) return;
+
+    const isCurrentlyLiked = likedIds.has(storyId);
+    const currentCount = likesCounts[storyId] || 0;
+
+    // 1. Optimistic update
+    const newLikedIds = new Set(likedIds);
+    if (isCurrentlyLiked) {
+      newLikedIds.delete(storyId);
+    } else {
+      newLikedIds.add(storyId);
+    }
+    setLikedIds(newLikedIds);
+
+    const newCount = isCurrentlyLiked ? currentCount - 1 : currentCount + 1;
+    setLikesCounts((prev) => ({
+      ...prev,
+      [storyId]: newCount,
+    }));
+
+    // 2. Call server
+    try {
+      const response = await toggleLikeServerFn({
+        data: {
+          testimonialId: storyId,
+          sessionId,
+        },
+      });
+
+      // Update state with actual count returned from server
+      setLikesCounts((prev) => ({
+        ...prev,
+        [storyId]: response.newCount,
+      }));
+      const verifiedLikedIds = new Set(likedIds);
+      if (response.liked) {
+        verifiedLikedIds.add(storyId);
+      } else {
+        verifiedLikedIds.delete(storyId);
+      }
+      setLikedIds(verifiedLikedIds);
+    } catch (err) {
+      console.error("Error toggling like:", err);
+      // Rollback
+      setLikedIds(new Set(likedIds));
+      setLikesCounts((prev) => ({
+        ...prev,
+        [storyId]: currentCount,
+      }));
+    }
+  };
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
@@ -817,9 +907,22 @@ function Experiences() {
                   {/* Interaction row */}
                   <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
                     <div className="flex items-center gap-4 text-[10px] text-white/60">
-                      <button className="flex items-center gap-1.5 hover:text-brand transition duration-300">
-                        <Heart className="w-3.5 h-3.5 fill-none group-hover:fill-brand/20 group-hover:text-brand transition-colors duration-300" />
-                        <span>{story.likes}</span>
+                      <button
+                        onClick={() => handleLikeToggle(story.id)}
+                        className={`flex items-center gap-1.5 transition duration-300 ${
+                          likedIds.has(story.id)
+                            ? "text-brand hover:text-brand"
+                            : "hover:text-brand text-white/60"
+                        }`}
+                      >
+                        <Heart
+                          className={`w-3.5 h-3.5 transition-colors duration-300 ${
+                            likedIds.has(story.id)
+                              ? "fill-brand text-brand"
+                              : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
+                          }`}
+                        />
+                        <span>{likesCounts[story.id] ?? story.likes}</span>
                       </button>
                       <span className="flex items-center gap-1.5">
                         <svg
@@ -884,10 +987,23 @@ function Experiences() {
                   {/* Interaction row */}
                   <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
                     <div className="flex items-center gap-4 text-[10px] text-white/60">
-                      <div className="flex items-center gap-1.5">
-                        <Heart className="w-3.5 h-3.5 fill-brand/20 text-brand" />
-                        <span>{story.likes}</span>
-                      </div>
+                      <button
+                        onClick={() => handleLikeToggle(story.id)}
+                        className={`flex items-center gap-1.5 transition duration-300 ${
+                          likedIds.has(story.id)
+                            ? "text-brand hover:text-brand"
+                            : "hover:text-brand text-white/60"
+                        }`}
+                      >
+                        <Heart
+                          className={`w-3.5 h-3.5 transition-colors duration-300 ${
+                            likedIds.has(story.id)
+                              ? "fill-brand text-brand"
+                              : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
+                          }`}
+                        />
+                        <span>{likesCounts[story.id] ?? story.likes}</span>
+                      </button>
                       <span className="flex items-center gap-1.5">
                         <svg
                           className="w-3.5 h-3.5 fill-none stroke-current"
