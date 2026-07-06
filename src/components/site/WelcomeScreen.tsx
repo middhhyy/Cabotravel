@@ -60,8 +60,8 @@ export function WelcomeScreen({ show, onComplete }: { show: boolean; onComplete:
                   <img
                     src={logoAsset}
                     alt="Cabo Tours & Travels"
-                    width={1536}
-                    height={1024}
+                    width={600}
+                    height={400}
                     className="welcome-logo"
                     draggable={false}
                     loading="eager"
@@ -97,7 +97,7 @@ const WELCOME_CSS = `
 .welcome-corelight{position:absolute;left:50%;top:50%;width:24vmin;height:24vmin;transform:translate(-50%,-50%) scale(.2);background:radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(180,220,255,.6) 40%, rgba(180,220,255,0) 70%);opacity:0;filter:blur(8px);animation:coreIn 1.6s cubic-bezier(.22,.61,.36,1) .6s forwards;pointer-events:none;}
 .welcome-camera{position:relative;transform:scale(1);animation:cameraPush 9s cubic-bezier(.22,.61,.36,1) 1s forwards;will-change:transform;}
 .welcome-float{animation:floaty 6s ease-in-out 2.4s infinite;will-change:transform;}
-.welcome-breath{position:absolute;inset:-18%;border-radius:50%;background:radial-gradient(circle, rgba(80,170,255,.28), rgba(80,170,255,0) 65%);filter:blur(30px);opacity:0;animation:breathIn 1.6s ease-out 1.6s forwards, breathPulse 5s ease-in-out 3.2s infinite;pointer-events:none;}
+.welcome-breath{position:absolute;inset:-18%;border-radius:50%;background:radial-gradient(circle, rgba(80,170,255,.28), rgba(80,170,255,0) 65%);filter:blur(30px);opacity:0;animation:welcomeBreath 6s ease-in-out 1.6s infinite;pointer-events:none;}
 .welcome-logo-wrap{position:relative;display:inline-block;opacity:0;transform:scale(.88);animation:logoReveal 1.8s cubic-bezier(.22,.61,.36,1) 1.4s forwards;will-change:transform,opacity;}
 .welcome-logo{display:block;width:min(62vmin,560px);height:auto;user-select:none;-webkit-user-drag:none;}
 .welcome-sweep{position:absolute;inset:0;border-radius:50%;overflow:hidden;pointer-events:none;mix-blend-mode:screen;}
@@ -106,8 +106,7 @@ const WELCOME_CSS = `
 @keyframes coreIn{0%{opacity:0;transform:translate(-50%,-50%) scale(.2);}60%{opacity:1;}100%{opacity:.0;transform:translate(-50%,-50%) scale(1.3);}}
 @keyframes logoReveal{to{opacity:1;transform:scale(1);}}
 @keyframes floaty{0%,100%{transform:translateY(-3px);}50%{transform:translateY(3px);}}
-@keyframes breathIn{to{opacity:.7;}}
-@keyframes breathPulse{0%,100%{opacity:.45;transform:scale(1);}50%{opacity:.75;transform:scale(1.04);}}
+@keyframes welcomeBreath{0%{opacity:0;transform:scale(.96);}25%{opacity:.7;transform:scale(1.02);}50%{opacity:.45;transform:scale(1);}75%{opacity:.75;transform:scale(1.04);}100%{opacity:.45;transform:scale(1);}}
 @keyframes cameraPush{to{transform:scale(1.03);}}
 @keyframes sweep{0%{transform:translateX(-20%) rotate(8deg);}100%{transform:translateX(420%) rotate(8deg);}}
 @media (prefers-reduced-motion: reduce){

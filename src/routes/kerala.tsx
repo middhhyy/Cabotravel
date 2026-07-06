@@ -19,6 +19,7 @@ import kannurImg from "@/assets/dest-kannur.webp";
 import kasaragodImg from "@/assets/dest-kasaragod.webp";
 import { trackEvent } from "@/lib/analytics";
 import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
+import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 
 export const Route = createFileRoute("/kerala")({
   head: () => ({
@@ -188,15 +189,13 @@ function KeralaPage() {
 
       {/* Hero section */}
       <section className="relative isolate overflow-hidden min-h-screen flex items-center justify-center pt-28">
-        <img
-          src={getOptimizedImageUrl(munnarImg, { width: 1280, quality: 75 })}
-          srcSet={getSupabaseSrcSet(munnarImg) || undefined}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 2000px"
+        <ResponsiveImage
+          src={munnarImg}
           alt="Munnar Tea Gardens"
-          loading="eager"
-          fetchPriority="high"
-          width={1536}
+          width={1920}
           height={1024}
+          quality={92}
+          isHero
           className="absolute inset-0 -z-10 h-full w-full object-cover opacity-45"
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background/40 via-background/70 to-background" />
@@ -255,12 +254,12 @@ function KeralaPage() {
                   <Clock className="h-3 w-3" /> {d.travelTime}
                 </div>
 
-                <img
-                  src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
+                <ResponsiveImage
+                  src={d.image}
                   alt={d.name}
-                  loading="eager"
                   width={640}
                   height={440}
+                  quality={90}
                   className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
@@ -318,12 +317,12 @@ function KeralaPage() {
                     <Clock className="h-3 w-3" /> {d.travelTime}
                   </div>
 
-                  <img
-                    src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
+                  <ResponsiveImage
+                    src={d.image}
                     alt={d.name}
-                    loading="eager"
                     width={640}
                     height={440}
+                    quality={90}
                     className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
@@ -381,12 +380,12 @@ function KeralaPage() {
                   <Clock className="h-3 w-3" /> {d.travelTime}
                 </div>
 
-                <img
-                  src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
+                <ResponsiveImage
+                  src={d.image}
                   alt={d.name}
-                  loading="eager"
                   width={640}
                   height={440}
+                  quality={90}
                   className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
@@ -449,12 +448,12 @@ function KeralaPage() {
                     <Clock className="h-3 w-3" /> {d.travelTime}
                   </div>
 
-                  <img
-                    src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
+                  <ResponsiveImage
+                    src={d.image}
                     alt={d.name}
-                    loading="eager"
                     width={640}
                     height={440}
+                    quality={90}
                     className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />

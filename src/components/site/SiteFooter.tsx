@@ -56,7 +56,7 @@ export function SiteFooter() {
           </div>
 
           <div className="lg:col-span-2">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Explore</div>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 mb-4">Explore</div>
             <ul className="space-y-2.5 text-sm text-white/70">
               <li>
                 <Link
@@ -110,7 +110,7 @@ export function SiteFooter() {
           </div>
 
           <div className="lg:col-span-2">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">
+            <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 mb-4">
               Services
             </div>
             <ul className="space-y-2.5 text-sm text-white/70">
@@ -142,7 +142,7 @@ export function SiteFooter() {
           </div>
 
           <div className="lg:col-span-3">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Contact</div>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 mb-4">Contact</div>
             <ul className="space-y-3 text-sm text-white/75">
               <li className="flex items-start gap-3">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden="true" />

@@ -236,7 +236,7 @@ function DomesticPackagesPage() {
                 className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
               />
               {d.to ? (
-                <Link to={d.to} className="absolute inset-0 z-10 block">
+                <Link to={d.to} aria-label={`Explore ${d.name} holiday packages`} className="absolute inset-0 z-10 block">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 </Link>
               ) : (

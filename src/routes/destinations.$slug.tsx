@@ -8,6 +8,7 @@ import { packages } from "@/lib/packages";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { BUSINESS_INFO } from "@/lib/business";
 import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
+import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 
 export const Route = createFileRoute("/destinations/$slug")({
   loader: ({ params }) => {
@@ -118,16 +119,14 @@ function DestinationDetail() {
 
       {/* Hero */}
       <section className="relative h-[80vh] min-h-[560px] w-full overflow-hidden">
-        <img
-          src={getOptimizedImageUrl(d.heroImage || d.image, { width: 1280, quality: 75 })}
-          srcSet={getSupabaseSrcSet(d.heroImage || d.image) || undefined}
-          sizes="100vw"
+        <ResponsiveImage
+          src={d.heroImage || d.image}
           alt={d.name}
-          className="absolute inset-0 h-full w-full object-cover"
-          loading="eager"
-          fetchPriority="high"
           width={1920}
           height={1280}
+          quality={92}
+          isHero
+          className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-black/40" />
         <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-6 lg:px-10 pb-16">

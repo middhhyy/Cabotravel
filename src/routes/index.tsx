@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Globe,
@@ -46,6 +46,7 @@ import { getStories, getStoryImage, GuestStory } from "@/utils/stories";
 import { trackEvent } from "@/lib/analytics";
 import { getLikesStateServerFn, toggleLikeServerFn } from "@/services/testimonials/functions";
 import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
+import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -224,44 +225,37 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
   return (
     <section className="relative h-screen w-full overflow-hidden">
       <AnimatePresence mode="sync">
-        {welcomeDone && (
-          <motion.div
-            key={slide.image}
-            initial={{ scale: 1.04, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={HERO_BG_TRANSITION}
-            className="absolute inset-0 will-change-[opacity]"
-          >
-            <img
-              src={getOptimizedImageUrl(slide.image, { width: 1280, quality: 75 })}
-              srcSet={getSupabaseSrcSet(slide.image) || undefined}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 2000px"
-              alt={slide.label}
-              className="h-full w-full object-cover"
-              width={2000}
-              height={1125}
-              loading="eager"
-              fetchPriority="high"
-              decoding="sync"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-black/5" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20" />
-          </motion.div>
-        )}
+        <motion.div
+          key={slide.image}
+          initial={{ scale: 1.04, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={HERO_BG_TRANSITION}
+          className="absolute inset-0 will-change-[opacity]"
+        >
+          <ResponsiveImage
+            src={slide.image}
+            alt={slide.label}
+            width={1920}
+            height={1125}
+            quality={92}
+            isHero
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-black/5" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20" />
+        </motion.div>
       </AnimatePresence>
 
       <div className="absolute top-0 left-0 right-0 z-30 h-[3px] bg-white/10">
-        {welcomeDone && (
-          <motion.div
-            key={index}
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            style={{ transformOrigin: "left" }}
-            transition={PROGRESS_TRANSITION}
-            className="h-full w-full bg-accent"
-          />
-        )}
+        <motion.div
+          key={index}
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: welcomeDone ? 1 : 0 }}
+          style={{ transformOrigin: "left" }}
+          transition={PROGRESS_TRANSITION}
+          className="h-full w-full bg-accent"
+        />
       </div>
 
       <motion.header
@@ -277,9 +271,9 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
           >
             <img
               src={logoFooter}
-              alt="Cabo Tours"
-              width={518}
-              height={526}
+              alt=""
+              width={280}
+              height={284}
               className="h-16 w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
               loading="eager"
             />
@@ -342,97 +336,94 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
       <div className="relative z-10 grid h-full grid-cols-1 lg:grid-cols-12 items-end lg:items-center px-6 md:px-10 lg:px-14 pb-36 lg:pb-0 pt-28">
         <div className="lg:col-span-6 max-w-xl">
           <AnimatePresence mode="wait">
-            {welcomeDone && (
-              <motion.div
-                key={slide.title}
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={TITLE_TRANSITION}
-              >
-                <div className="flex items-center gap-3 mb-5">
-                  <span className="h-px w-8 bg-white/70" />
-                  <span className="text-[12px] tracking-[0.28em] uppercase text-white/85">
-                    {slide.label === "Kerala — India" ? (
-                      <Link to="/kerala" className="hover:text-brand transition duration-300">
-                        {slide.label}
-                      </Link>
-                    ) : (
-                      slide.label
-                    )}
-                  </span>
-                </div>
-                <h1 className="font-display text-white leading-[0.95] text-[clamp(2.4rem,6.4vw,5.8rem)] uppercase whitespace-pre-line">
-                  {slide.title}
-                </h1>
-                <p className="mt-6 max-w-md text-[13px] leading-relaxed text-white/75">
-                  {slide.copy}
-                </p>
-                <div className="mt-9 flex items-center gap-4">
-                  <button
-                    aria-label={`Save destination ${slide.label}`}
-                    className="grid h-11 w-11 place-items-center rounded-full bg-accent text-accent-foreground shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)] transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
-                  >
-                    <Bookmark className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
-                  </button>
-                  <a
-                    href={waLink(waMessages.destination(slide.label))}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackEvent("discover_location", "engagement", slide.label)}
-                    className="group relative rounded-full border border-white/55 px-7 py-3 text-[11px] tracking-[0.3em] uppercase text-white transition hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
-                  >
-                    Discover Location
-                  </a>
-                </div>
-              </motion.div>
-            )}
+            <motion.div
+              key={slide.title}
+              initial={{ y: 30, opacity: 0 }}
+              animate={welcomeDone ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={TITLE_TRANSITION}
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <span className="h-px w-8 bg-white/70" />
+                <span className="text-[12px] tracking-[0.28em] uppercase text-white/85">
+                  {slide.label === "Kerala — India" ? (
+                    <Link to="/kerala" className="hover:text-brand transition duration-300">
+                      {slide.label}
+                    </Link>
+                  ) : (
+                    slide.label
+                  )}
+                </span>
+              </div>
+              <h1 className="font-display text-white leading-[0.95] text-[clamp(2.4rem,6.4vw,5.8rem)] uppercase whitespace-pre-line">
+                {slide.title}
+              </h1>
+              <p className="mt-6 max-w-md text-[13px] leading-relaxed text-white/75">
+                {slide.copy}
+              </p>
+              <div className="mt-9 flex items-center gap-4">
+                <button
+                  aria-label={`Save destination ${slide.label}`}
+                  className="grid h-11 w-11 place-items-center rounded-full bg-accent text-accent-foreground shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)] transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                >
+                  <Bookmark className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+                </button>
+                <a
+                  href={waLink(waMessages.destination(slide.label))}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackEvent("discover_location", "engagement", slide.label)}
+                  className="group relative rounded-full border border-white/55 px-7 py-3 text-[11px] tracking-[0.3em] uppercase text-white transition hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                >
+                  Discover Location
+                </a>
+              </div>
+            </motion.div>
           </AnimatePresence>
         </div>
 
         <div className="lg:col-span-6 mt-12 lg:mt-0">
           <div className="flex gap-4 lg:gap-6 justify-end overflow-hidden">
             <AnimatePresence initial={false} mode="popLayout">
-              {welcomeDone &&
-                upcoming.map((s, i) => (
-                  <motion.button
-                    layout
-                    key={s.image}
-                    onClick={() => setIndex((index + 1 + i) % slides.length)}
-                    custom={i}
-                    variants={thumbnailVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    className="relative h-[220px] w-[135px] sm:h-[300px] sm:w-[185px] lg:h-[340px] lg:w-[210px] shrink-0 overflow-hidden rounded-[22px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.6)] ring-1 ring-white/15 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
-                    aria-label={`Switch to slide showing ${s.label}`}
-                  >
-                    <img
-                      src={getOptimizedImageUrl(s.image, { width: 320, quality: 75 })}
-                      alt={s.label}
-                      className="absolute inset-0 h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
-                      loading="eager"
-                      decoding="async"
-                      width={210}
-                      height={340}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-4 text-left">
-                      <div className="text-[9px] tracking-[0.22em] uppercase text-white/75">
-                        {s.label === "Kerala — India" ? (
-                          <Link to="/kerala" onClick={(e) => e.stopPropagation()} className="hover:text-brand transition duration-300">
-                            {s.label}
-                          </Link>
-                        ) : (
-                          s.label
-                        )}
-                      </div>
-                      <div className="mt-1 font-display text-white text-[15px] leading-[1.05] uppercase whitespace-pre-line">
-                        {s.thumbnail || s.title}
-                      </div>
+              {upcoming.map((s, i) => (
+                <motion.button
+                  layout
+                  key={s.image}
+                  onClick={() => setIndex((index + 1 + i) % slides.length)}
+                  custom={i}
+                  variants={thumbnailVariants}
+                  initial="initial"
+                  animate={welcomeDone ? "animate" : "initial"}
+                  exit="exit"
+                  className="relative h-[220px] w-[135px] sm:h-[300px] sm:w-[185px] lg:h-[340px] lg:w-[210px] shrink-0 overflow-hidden rounded-[22px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.6)] ring-1 ring-white/15 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                  aria-label={`Switch to slide showing ${s.label}`}
+                >
+                  <ResponsiveImage
+                    src={s.image}
+                    alt={s.label}
+                    width={210}
+                    height={340}
+                    quality={90}
+                    isHero
+                    className="absolute inset-0 h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-4 text-left">
+                    <div className="text-[9px] tracking-[0.22em] uppercase text-white/75">
+                      {s.label === "Kerala — India" ? (
+                        <Link to="/kerala" onClick={(e) => e.stopPropagation()} className="hover:text-brand transition duration-300">
+                          {s.label}
+                        </Link>
+                      ) : (
+                        s.label
+                      )}
                     </div>
-                  </motion.button>
-                ))}
+                    <div className="mt-1 font-display text-white text-[15px] leading-[1.05] uppercase whitespace-pre-line">
+                      {s.thumbnail || s.title}
+                    </div>
+                  </div>
+                </motion.button>
+              ))}
             </AnimatePresence>
           </div>
         </div>
@@ -551,28 +542,28 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
               transition={{ duration: 0.7, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
               className="group relative h-[420px] overflow-hidden rounded-[26px] ring-1 ring-white/10"
             >
-              <img
-                src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
+              <ResponsiveImage
+                src={d.image}
                 alt={d.name}
-                loading="eager"
                 width={640}
                 height={420}
+                quality={90}
                 className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
               />
               {d.slug === "kerala" ? (
-                <Link to="/kerala" className="absolute inset-0 z-10 block">
+                <Link to="/kerala" aria-label="Explore Kerala holiday packages" className="absolute inset-0 z-10 block">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 </Link>
               ) : d.slug === "kashmir" ? (
-                <Link to="/cabs" className="absolute inset-0 z-10 block">
+                <Link to="/cabs" aria-label="Explore Kashmir cab services" className="absolute inset-0 z-10 block">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 </Link>
               ) : d.slug === "domestic-packages" ? (
-                <Link to="/domestic-packages" className="absolute inset-0 z-10 block">
+                <Link to="/domestic-packages" aria-label="Explore Domestic India holiday packages" className="absolute inset-0 z-10 block">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 </Link>
               ) : d.slug === "international-packages" ? (
-                <Link to="/international-packages" className="absolute inset-0 z-10 block">
+                <Link to="/international-packages" aria-label="Explore International travel packages" className="absolute inset-0 z-10 block">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 </Link>
               ) : d.href ? (
@@ -580,6 +571,7 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
                   href={d.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`Visit ${d.name} tour information website`}
                   className="absolute inset-0 z-10 block"
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
@@ -590,16 +582,16 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
               <div className="absolute inset-x-0 bottom-0 z-20 p-6">
                 <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
                   {d.slug === "kerala" ? (
-                    <Link to="/kerala" className="hover:text-brand transition duration-300">
-                      {d.region} · {d.country}
+                    <Link to="/kerala" aria-label="Explore Kerala, India packages" className="hover:text-brand transition duration-300">
+                      Domestic · India
                     </Link>
                   ) : d.slug === "kashmir" ? (
                     <Link to="/cabs" className="hover:text-brand transition duration-300">
                       {d.region} · {d.country}
                     </Link>
                   ) : d.slug === "domestic-packages" ? (
-                    <Link to="/domestic-packages" className="hover:text-brand transition duration-300">
-                      {d.region} · {d.country}
+                    <Link to="/domestic-packages" aria-label="Browse all Domestic India packages" className="hover:text-brand transition duration-300">
+                      Domestic · India
                     </Link>
                   ) : d.slug === "international-packages" ? (
                     <Link to="/international-packages" className="hover:text-brand transition duration-300">
@@ -691,12 +683,12 @@ const PopularPackages = React.memo(function PopularPackages() {
                 className="group flex flex-col overflow-hidden rounded-[22px] bg-[oklch(0.2_0.01_250)] ring-1 ring-white/10 hover:ring-brand/50 transition"
               >
                 <div className="relative h-52 overflow-hidden">
-                  <img
-                    src={getOptimizedImageUrl(p.image || dest.image, { width: 640, quality: 75 })}
+                  <ResponsiveImage
+                    src={p.image || dest.image}
                     alt={p.title}
-                    loading="eager"
                     width={640}
                     height={208}
+                    quality={90}
                     className="h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
                   />
                   <div className="absolute top-3 left-3 rounded-full bg-black/55 backdrop-blur px-3 py-1 text-[10px] tracking-[0.22em] uppercase text-white">
@@ -799,12 +791,12 @@ function ProgressiveImage({
           style={{ backgroundSize: "200% 100%" }}
         />
       )}
-      <img
-        src={getOptimizedImageUrl(src, { width: 320, quality: 75 })}
+      <ResponsiveImage
+        src={src}
         alt={alt}
-        loading="eager"
         width={320}
         height={180}
+        quality={90}
         onLoad={() => setLoaded(true)}
         className={`${className} transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}
       />
@@ -822,6 +814,8 @@ const Experiences = React.memo(function Experiences() {
   const [stories, setStories] = useState<GuestStory[]>([]);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [likesCounts, setLikesCounts] = useState<Record<string, number>>({});
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [hasIntersected, setHasIntersected] = useState(false);
 
   const getOrCreateSessionId = () => {
     if (typeof window === "undefined") return "";
@@ -834,7 +828,27 @@ const Experiences = React.memo(function Experiences() {
   };
 
   useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof window === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasIntersected(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const loadedStories = getStories();
+    setStories(loadedStories);
+
+    if (!hasIntersected) return;
 
     const fetchDbStories = async () => {
       try {
@@ -864,12 +878,8 @@ const Experiences = React.memo(function Experiences() {
             height: "h-[350px]"
           }));
           setStories([...dbStories, ...loadedStories]);
-        } else {
-          setStories(loadedStories);
         }
-      } catch {
-        setStories(loadedStories);
-      }
+      } catch { }
     };
     fetchDbStories();
 
@@ -956,7 +966,7 @@ const Experiences = React.memo(function Experiences() {
   };
 
   return (
-    <section className="relative py-24 lg:py-32 bg-[oklch(0.16_0.01_250)] border-y border-white/10 overflow-hidden">
+    <section ref={sectionRef} className="relative py-24 lg:py-32 bg-[oklch(0.16_0.01_250)] border-y border-white/10 overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand/10 rounded-full blur-[160px] mix-blend-screen opacity-60" />
@@ -1074,14 +1084,14 @@ const Experiences = React.memo(function Experiences() {
                       <button
                         onClick={() => handleLike(story.id)}
                         className={`group flex items-center gap-1.5 transition-colors duration-300 ${likedIds.has(story.id)
-                            ? "text-brand"
-                            : "hover:text-brand text-white/60"
+                          ? "text-brand"
+                          : "hover:text-brand text-white/60"
                           }`}
                       >
                         <Heart
                           className={`w-3.5 h-3.5 transition-colors duration-300 ${likedIds.has(story.id)
-                              ? "fill-brand text-brand"
-                              : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
+                            ? "fill-brand text-brand"
+                            : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
                             }`}
                         />
                         <span>{likesCounts[story.id] ?? story.likes}</span>
@@ -1152,14 +1162,14 @@ const Experiences = React.memo(function Experiences() {
                       <button
                         onClick={() => handleLike(story.id)}
                         className={`group flex items-center gap-1.5 transition-colors duration-300 ${likedIds.has(story.id)
-                            ? "text-brand"
-                            : "hover:text-brand text-white/60"
+                          ? "text-brand"
+                          : "hover:text-brand text-white/60"
                           }`}
                       >
                         <Heart
                           className={`w-3.5 h-3.5 transition-colors duration-300 ${likedIds.has(story.id)
-                              ? "fill-brand text-brand"
-                              : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
+                            ? "fill-brand text-brand"
+                            : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
                             }`}
                         />
                         <span>{likesCounts[story.id] ?? story.likes}</span>
@@ -1238,7 +1248,7 @@ const Testimonials = React.memo(function Testimonials() {
                 ))}
               </div>
               <div className="mt-3 font-display uppercase text-sm">{r.n}</div>
-              <div className="text-[10px] tracking-[0.22em] uppercase text-white/40">{r.loc}</div>
+              <div className="text-[10px] tracking-[0.22em] uppercase text-white/70">{r.loc}</div>
             </div>
           ))}
         </div>

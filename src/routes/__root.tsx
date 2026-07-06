@@ -105,9 +105,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     return {
       meta: metaTags,
       links: [
-        { rel: "stylesheet", href: appCss },
-        { rel: "preconnect", href: "https://fonts.googleapis.com" },
-        { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+        { rel: "preload", href: appCss, as: "style" } as any,
+        { rel: "stylesheet", href: appCss, media: "print", id: "main-stylesheet" } as any,
 
         {
           rel: "apple-touch-icon",
@@ -128,14 +127,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         {
           rel: "manifest",
           href: "/site.webmanifest",
-        },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600;700&display=swap",
-        },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Lobster&display=swap",
         },
       ],
     };
@@ -274,9 +265,27 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <noscript>
+          <link rel="stylesheet" href={appCss} />
+        </noscript>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `:root { --background: oklch(0.18 0.01 250); --foreground: oklch(0.98 0 0); } html, body { background: oklch(0.18 0.01 250); color: oklch(0.98 0 0); font-family: system-ui, -apple-system, sans-serif; }`
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              document.addEventListener('DOMContentLoaded', () => {
+                const link = document.getElementById('main-stylesheet');
+                if (link) link.media = 'all';
+              });
+            `
+          }}
         />
       </head>
       <body>

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
+import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 
 export function PageHeader({
   eyebrow,
@@ -22,15 +23,13 @@ export function PageHeader({
     <section className="relative isolate overflow-hidden pt-32 pb-16 lg:pt-44 lg:pb-24">
       {image && (
         <>
-          <img
-            src={getOptimizedImageUrl(image, { width: 1280, quality: 75 })}
-            srcSet={getSupabaseSrcSet(image) || undefined}
-            sizes="100vw"
+          <ResponsiveImage
+            src={image}
             alt={eyebrow || "Cabo Tours"}
-            loading="eager"
-            fetchPriority="high"
             width={width}
             height={height}
+            quality={92}
+            isHero
             className="absolute inset-0 -z-10 h-full w-full object-cover opacity-40"
           />
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-background/70 to-background" />

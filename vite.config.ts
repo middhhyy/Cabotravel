@@ -13,4 +13,25 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    build: {
+      cssCodeSplit: true,
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes("node_modules")) {
+              if (id.includes("framer-motion")) {
+                return "framer-motion";
+              }
+              if (id.includes("lucide-react")) {
+                return "lucide";
+              }
+              return "vendor";
+            }
+          }
+        }
+      }
+    }
+  }
 });

@@ -16,9 +16,9 @@ export function BrandLogo({
     <div className={`flex items-center gap-3 ${fg}`}>
       <img
         src={logoFooter}
-        alt="Cabo Tours"
-        width={518}
-        height={526}
+        alt=""
+        width={280}
+        height={284}
         className={`${imgHeight} w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]`}
         loading="eager"
       />
