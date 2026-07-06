@@ -7,36 +7,38 @@ import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { waLink, waMessages } from "@/lib/whatsapp";
 const heroCabs = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-cabs.webp";
-import cabSedan from "@/assets/cab-sedan.png";
-import cabSuv from "@/assets/cab-suv.png";
-import cabCrysta from "@/assets/cab-crysta.png";
-import cabTempo from "@/assets/cab-tempo.png";
-import cabLuxury from "@/assets/cab-luxury.png";
+import cabSedan from "@/assets/cab-sedan.webp";
+import cabSuv from "@/assets/cab-suv.webp";
+import cabCrysta from "@/assets/cab-crysta.webp";
+import cabTempo from "@/assets/cab-tempo.webp";
+import cabLuxury from "@/assets/cab-luxury.webp";
 import { trackEvent } from "@/lib/analytics";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 export const Route = createFileRoute("/cabs")({
   head: () => ({
     meta: [
-      { title: "Cab Services & Rentals — Cabo Tours & Travels" },
+      { title: "Kerala Cab Services & Rentals | Cabo Tours & Travels" },
       {
         name: "description",
         content:
-          "Rent premium cabs across Kerala. Choose from Sedans, SUVs, Innova Crysta, Tempo Travellers, and luxury cars. transparent pricing and professional drivers.",
+          "Rent reliable cabs & tourist taxis in Calicut & Kerala. Book premium sedans, SUVs, or luxury tempo travellers at transparent, cheap rates with Cabo Tours.",
       },
-      { property: "og:title", content: "Cab Services & Rentals — Cabo Tours & Travels" },
+      { property: "og:title", content: "Kerala Cab Services & Rentals | Cabo Tours & Travels" },
       {
         property: "og:description",
         content:
-          "Premium car rentals and cab services in Kerala. Transparent quotes, verified drivers, and 24/7 ground support.",
+          "Rent reliable cabs & tourist taxis in Calicut & Kerala. Book premium sedans, SUVs, or luxury tempo travellers with Cabo Tours & Travels.",
       },
       { property: "og:url", content: "https://cabotours.in/cabs" },
       { property: "og:image", content: "https://cabotours.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Cab Services & Rentals — Cabo Tours & Travels" },
+      { name: "twitter:title", content: "Kerala Cab Services & Rentals | Cabo Tours & Travels" },
       {
         name: "twitter:description",
-        content: "Premium car rentals and cab services with transparent pricing.",
+        content:
+          "Rent reliable cabs & tourist taxis in Calicut & Kerala. Book premium vehicles with Cabo Tours.",
       },
       { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
     ],
@@ -97,7 +99,7 @@ const FEATURES = [
   {
     icon: Compass,
     title: "All-Kerala Coverage",
-    description: "Airport transfers, local sightseeing, or long-distance outstation trips across all destinations.",
+    description: "Airport transfers, local sightseeing, taxi rentals in Calicut, or outstation tours across all Kerala destinations.",
   },
   {
     icon: ShieldCheck,
@@ -124,7 +126,7 @@ function CabsPage() {
             Explore at your pace.
           </>
         }
-        subtitle="From Cochin airport transfers to high-range journeys in Munnar — rent top-tier cabs with polite, local drivers who know the roads like no one else."
+        subtitle="Premium taxi rentals in Calicut and across Kerala. From Cochin airport transfers to Munnar hills — rent top-tier cabs with polite, local drivers for your Kerala holiday tours."
         image={heroCabs}
         width={1024}
         height={1024}
@@ -172,9 +174,11 @@ function CabsPage() {
               className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
             >
               <img
-                src={cab.image}
+                src={getOptimizedImageUrl(cab.image, { width: 640, quality: 75 })}
                 alt={cab.name}
                 loading="eager"
+                width={640}
+                height={440}
                 className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent" />

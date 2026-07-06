@@ -14,34 +14,36 @@ const thekkadyImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/
 const kovalamImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-kovalam-beach.webp";
 const fortKochiImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-fort-kochi.webp";
 const varkalaImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-varkala.webp";
-import kozhikodeImg from "@/assets/dest-kozhikode.png";
-import kannurImg from "@/assets/dest-kannur.png";
-import kasaragodImg from "@/assets/dest-kasaragod.png";
+import kozhikodeImg from "@/assets/dest-kozhikode.webp";
+import kannurImg from "@/assets/dest-kannur.webp";
+import kasaragodImg from "@/assets/dest-kasaragod.webp";
 import { trackEvent } from "@/lib/analytics";
+import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
 
 export const Route = createFileRoute("/kerala")({
   head: () => ({
     meta: [
-      { title: "Kerala Weekend Getaways & Staycations — Cabo Tours & Travels" },
+      { title: "Kerala Weekend Getaways & Staycations | Cabo Tours" },
       {
         name: "description",
         content:
-          "Perfect weekend escapes, houseboats, and family trips across Kerala. Curated local itineraries, clear pricing, and verified drivers.",
+          "Book customized Kerala holiday tours, weekend getaways, staycations, and luxury resort stays in Munnar, Wayanad, Varkala, and Alleppey with Cabo Tours.",
       },
-      { property: "og:title", content: "Kerala Weekend Getaways & Staycations — Cabo Tours & Travels" },
+      { property: "og:title", content: "Kerala Weekend Getaways & Staycations | Cabo Tours" },
       {
         property: "og:description",
         content:
-          "Perfect weekend escapes, houseboats, and family trips across Kerala. Curated local itineraries.",
+          "Book customized Kerala holiday tours, weekend getaways, staycations, and luxury resort stays in Munnar, Wayanad, Varkala, and Alleppey.",
       },
       { property: "og:url", content: "https://cabotours.in/kerala" },
       { property: "og:image", content: "https://cabotours.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Kerala Weekend Getaways & Staycations — Cabo Tours & Travels" },
+      { name: "twitter:title", content: "Kerala Weekend Getaways & Staycations | Cabo Tours" },
       {
         name: "twitter:description",
-        content: "Curated local escapes, houseboats, and family tours across Kerala.",
+        content:
+          "Book customized Kerala holiday tours, weekend getaways, staycations, and luxury resort stays with Cabo Tours.",
       },
       { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
     ],
@@ -187,7 +189,9 @@ function KeralaPage() {
       {/* Hero section */}
       <section className="relative isolate overflow-hidden min-h-screen flex items-center justify-center pt-28">
         <img
-          src={munnarImg}
+          src={getOptimizedImageUrl(munnarImg, { width: 1280, quality: 75 })}
+          srcSet={getSupabaseSrcSet(munnarImg) || undefined}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 2000px"
           alt="Munnar Tea Gardens"
           loading="eager"
           fetchPriority="high"
@@ -207,10 +211,10 @@ function KeralaPage() {
           <h1 className="font-display uppercase leading-[0.9] text-[clamp(2.5rem,8vw,5.5rem)] text-white">
             KERALA.
             <br />
-            NO PASSPORT NEEDED.
+            GOD'S OWN COUNTRY.
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/80">
-            Misty tea estates, serene houseboat getaways, and cliffside sunsets — all just a short drive or train ride away. Plan your perfect escape right here in your home state.
+            Plan your perfect Kerala holiday tours. Misty tea estates, serene houseboat getaways, and cliffside sunsets are all accessible with our reliable taxi rentals in Calicut and beyond.
           </p>
           <div className="mt-10 flex items-center justify-center gap-4">
             <button
@@ -252,9 +256,11 @@ function KeralaPage() {
                 </div>
 
                 <img
-                  src={d.image}
+                  src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
                   alt={d.name}
                   loading="eager"
+                  width={640}
+                  height={440}
                   className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
@@ -313,9 +319,11 @@ function KeralaPage() {
                   </div>
 
                   <img
-                    src={d.image}
+                    src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
                     alt={d.name}
                     loading="eager"
+                    width={640}
+                    height={440}
                     className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
@@ -374,9 +382,11 @@ function KeralaPage() {
                 </div>
 
                 <img
-                  src={d.image}
+                  src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
                   alt={d.name}
                   loading="eager"
+                  width={640}
+                  height={440}
                   className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
@@ -410,61 +420,70 @@ function KeralaPage() {
 
         {/* Quick Escapes */}
         <section className="bg-[oklch(0.16_0.01_250)] border-y border-white/10 py-20 pb-24">
-          <div className="mb-10">
-            <div className="text-[11px] tracking-[0.3em] uppercase text-brand">04 · Short Trips</div>
-            <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
-              Quick
-              <br />
-              Escapes.
-            </h2>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {QUICK_ESCAPES.map((d, i) => (
-              <motion.div
-                key={d.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.05 }}
-                className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
-              >
-                {/* Travel Time Tag top left */}
-                <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
-                  <Clock className="h-3 w-3" /> {d.travelTime}
-                </div>
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mb-10">
+              <div className="text-[11px] tracking-[0.3em] uppercase text-brand">04 · Short Trips</div>
+              <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
+                Quick
+                <br />
+                Escapes.
+              </h2>
+            </div>
+            <div className={`grid gap-6 grid-cols-1 ${QUICK_ESCAPES.length === 1
+                ? ""
+                : QUICK_ESCAPES.length === 2
+                  ? "md:grid-cols-2"
+                  : "md:grid-cols-2 lg:grid-cols-3"
+              }`}>
+              {QUICK_ESCAPES.map((d, i) => (
+                <motion.div
+                  key={d.slug}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.05 }}
+                  className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
+                >
+                  {/* Travel Time Tag top left */}
+                  <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
+                    <Clock className="h-3 w-3" /> {d.travelTime}
+                  </div>
 
-                <img
-                  src={d.image}
-                  alt={d.name}
-                  loading="eager"
-                  className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+                  <img
+                    src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
+                    alt={d.name}
+                    loading="eager"
+                    width={640}
+                    height={440}
+                    className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
 
-                <div className="relative z-10 text-left">
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                    {d.category} · Domestic
+                  <div className="relative z-10 text-left">
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
+                      {d.category} · Domestic
+                    </div>
+                    <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
+                    <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
+                    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
+                      <span>Best: {d.bestTime}</span>
+                      <span>{d.duration}</span>
+                    </div>
+                    <div className="mt-5 flex items-center justify-end">
+                      <a
+                        href={waLink(waMessages.destination(d.name))}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={() => trackEvent("destination_click", "lead", d.name)}
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                      >
+                        Discover <ArrowRight className="h-3 w-3" />
+                      </a>
+                    </div>
                   </div>
-                  <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
-                  <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
-                  <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
-                    <span>Best: {d.bestTime}</span>
-                    <span>{d.duration}</span>
-                  </div>
-                  <div className="mt-5 flex items-center justify-end">
-                    <a
-                      href={waLink(waMessages.destination(d.name))}
-                      target="_blank"
-                      rel="noreferrer"
-                      onClick={() => trackEvent("destination_click", "lead", d.name)}
-                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                    >
-                      Discover <ArrowRight className="h-3 w-3" />
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
       </div>

@@ -1,5 +1,6 @@
 import type { TripResponse } from "@/types/itinerary";
 import { Download, Share2, Bookmark } from "lucide-react";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 export function TripView({ trip }: { trip: TripResponse }) {
   if (!trip) return null;
@@ -15,10 +16,16 @@ export function TripView({ trip }: { trip: TripResponse }) {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="p-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-white/80 transition-colors">
+            <button
+              aria-label="Share trip itinerary"
+              className="p-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-white/80 transition-colors"
+            >
               <Share2 className="h-5 w-5" />
             </button>
-            <button className="p-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-white/80 transition-colors">
+            <button
+              aria-label="Bookmark trip itinerary"
+              className="p-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-white/80 transition-colors"
+            >
               <Bookmark className="h-5 w-5" />
             </button>
             <button className="px-6 py-3 rounded-full bg-brand text-white font-medium hover:bg-brand/90 flex items-center gap-2 transition-colors">
@@ -79,8 +86,11 @@ export function TripView({ trip }: { trip: TripResponse }) {
                           <div className="flex items-center gap-3 min-w-0 w-full sm:w-auto">
                             {act.location.imageUrl && (
                               <img
-                                src={act.location.imageUrl}
+                                src={getOptimizedImageUrl(act.location.imageUrl, { width: 120, quality: 75 })}
                                 alt={act.location.name}
+                                loading="eager"
+                                width={48}
+                                height={48}
                                 className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
                               />
                             )}
@@ -112,11 +122,10 @@ export function TripView({ trip }: { trip: TripResponse }) {
                               );
                             }}
                             disabled={!act.location.verified}
-                            className={`px-4 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition-all w-full sm:w-auto shrink-0 ${
-                              act.location.verified
+                            className={`px-4 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition-all w-full sm:w-auto shrink-0 ${act.location.verified
                                 ? "bg-brand/10 text-brand hover:bg-brand/20 border border-brand/20"
                                 : "bg-white/5 text-white/30 cursor-not-allowed border border-white/5"
-                            }`}
+                              }`}
                           >
                             {act.location.verified ? (
                               <>🧭 Navigate</>

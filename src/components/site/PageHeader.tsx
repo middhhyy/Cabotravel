@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
 
 export function PageHeader({
   eyebrow,
@@ -22,8 +23,10 @@ export function PageHeader({
       {image && (
         <>
           <img
-            src={image}
-            alt={`${eyebrow || "Cabo Tours"} page header banner`}
+            src={getOptimizedImageUrl(image, { width: 1280, quality: 75 })}
+            srcSet={getSupabaseSrcSet(image) || undefined}
+            sizes="100vw"
+            alt={eyebrow || "Cabo Tours"}
             loading="eager"
             fetchPriority="high"
             width={width}

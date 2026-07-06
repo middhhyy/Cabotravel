@@ -14,8 +14,10 @@ import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as KeralaRouteImport } from './routes/kerala'
+import { Route as InternationalPackagesRouteImport } from './routes/international-packages'
 import { Route as GenerateRouteImport } from './routes/generate'
 import { Route as FeedbackRouteImport } from './routes/feedback'
+import { Route as DomesticPackagesRouteImport } from './routes/domestic-packages'
 import { Route as DestinationsRouteImport } from './routes/destinations'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CabsRouteImport } from './routes/cabs'
@@ -51,6 +53,11 @@ const KeralaRoute = KeralaRouteImport.update({
   path: '/kerala',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InternationalPackagesRoute = InternationalPackagesRouteImport.update({
+  id: '/international-packages',
+  path: '/international-packages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GenerateRoute = GenerateRouteImport.update({
   id: '/generate',
   path: '/generate',
@@ -59,6 +66,11 @@ const GenerateRoute = GenerateRouteImport.update({
 const FeedbackRoute = FeedbackRouteImport.update({
   id: '/feedback',
   path: '/feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DomesticPackagesRoute = DomesticPackagesRouteImport.update({
+  id: '/domestic-packages',
+  path: '/domestic-packages',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DestinationsRoute = DestinationsRouteImport.update({
@@ -113,8 +125,10 @@ export interface FileRoutesByFullPath {
   '/cabs': typeof CabsRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRouteWithChildren
+  '/domestic-packages': typeof DomesticPackagesRoute
   '/feedback': typeof FeedbackRoute
   '/generate': typeof GenerateRoute
+  '/international-packages': typeof InternationalPackagesRoute
   '/kerala': typeof KeralaRoute
   '/packages': typeof PackagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -131,8 +145,10 @@ export interface FileRoutesByTo {
   '/cabs': typeof CabsRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRouteWithChildren
+  '/domestic-packages': typeof DomesticPackagesRoute
   '/feedback': typeof FeedbackRoute
   '/generate': typeof GenerateRoute
+  '/international-packages': typeof InternationalPackagesRoute
   '/kerala': typeof KeralaRoute
   '/packages': typeof PackagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -150,8 +166,10 @@ export interface FileRoutesById {
   '/cabs': typeof CabsRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRouteWithChildren
+  '/domestic-packages': typeof DomesticPackagesRoute
   '/feedback': typeof FeedbackRoute
   '/generate': typeof GenerateRoute
+  '/international-packages': typeof InternationalPackagesRoute
   '/kerala': typeof KeralaRoute
   '/packages': typeof PackagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -170,8 +188,10 @@ export interface FileRouteTypes {
     | '/cabs'
     | '/contact'
     | '/destinations'
+    | '/domestic-packages'
     | '/feedback'
     | '/generate'
+    | '/international-packages'
     | '/kerala'
     | '/packages'
     | '/sitemap.xml'
@@ -188,8 +208,10 @@ export interface FileRouteTypes {
     | '/cabs'
     | '/contact'
     | '/destinations'
+    | '/domestic-packages'
     | '/feedback'
     | '/generate'
+    | '/international-packages'
     | '/kerala'
     | '/packages'
     | '/sitemap.xml'
@@ -206,8 +228,10 @@ export interface FileRouteTypes {
     | '/cabs'
     | '/contact'
     | '/destinations'
+    | '/domestic-packages'
     | '/feedback'
     | '/generate'
+    | '/international-packages'
     | '/kerala'
     | '/packages'
     | '/sitemap.xml'
@@ -225,8 +249,10 @@ export interface RootRouteChildren {
   CabsRoute: typeof CabsRoute
   ContactRoute: typeof ContactRoute
   DestinationsRoute: typeof DestinationsRouteWithChildren
+  DomesticPackagesRoute: typeof DomesticPackagesRoute
   FeedbackRoute: typeof FeedbackRoute
   GenerateRoute: typeof GenerateRoute
+  InternationalPackagesRoute: typeof InternationalPackagesRoute
   KeralaRoute: typeof KeralaRoute
   PackagesRoute: typeof PackagesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -274,6 +300,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KeralaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/international-packages': {
+      id: '/international-packages'
+      path: '/international-packages'
+      fullPath: '/international-packages'
+      preLoaderRoute: typeof InternationalPackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/generate': {
       id: '/generate'
       path: '/generate'
@@ -286,6 +319,13 @@ declare module '@tanstack/react-router' {
       path: '/feedback'
       fullPath: '/feedback'
       preLoaderRoute: typeof FeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/domestic-packages': {
+      id: '/domestic-packages'
+      path: '/domestic-packages'
+      fullPath: '/domestic-packages'
+      preLoaderRoute: typeof DomesticPackagesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/destinations': {
@@ -372,8 +412,10 @@ const rootRouteChildren: RootRouteChildren = {
   CabsRoute: CabsRoute,
   ContactRoute: ContactRoute,
   DestinationsRoute: DestinationsRouteWithChildren,
+  DomesticPackagesRoute: DomesticPackagesRoute,
   FeedbackRoute: FeedbackRoute,
   GenerateRoute: GenerateRoute,
+  InternationalPackagesRoute: InternationalPackagesRoute,
   KeralaRoute: KeralaRoute,
   PackagesRoute: PackagesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

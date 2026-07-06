@@ -10,26 +10,27 @@ import dubai from "@/assets/dest-dubai.webp";
 export const Route = createFileRoute("/visa")({
   head: () => ({
     meta: [
-      { title: "Visa Assistance — Cabo Tours & Travels" },
+      { title: "Visa Assistance & Processing Services | Cabo Tours" },
       {
         name: "description",
         content:
-          "End-to-end visa assistance for UAE, Thailand, Bali, Schengen and more. Documentation, application and tracking — handled by Cabo Tours & Travels.",
+          "Get end-to-end visa assistance and document processing services for UAE, Thailand, Bali, Schengen, and more with the experts at Cabo Tours & Travels.",
       },
-      { property: "og:title", content: "Visa Assistance — Cabo Tours & Travels" },
+      { property: "og:title", content: "Visa Assistance & Processing Services | Cabo Tours" },
       {
         property: "og:description",
         content:
-          "End-to-end visa assistance for UAE, Thailand, Bali, Schengen and more. Documentation, application and tracking handled by Cabo Tours & Travels.",
+          "Get end-to-end visa assistance and document processing services for UAE, Thailand, Bali, Schengen, and more with the experts at Cabo Tours & Travels.",
       },
       { property: "og:url", content: "https://cabotours.in/visa" },
       { property: "og:image", content: "https://cabotours.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Visa Assistance — Cabo Tours & Travels" },
+      { name: "twitter:title", content: "Visa Assistance & Processing Services | Cabo Tours" },
       {
         name: "twitter:description",
-        content: "End-to-end visa assistance for UAE, Thailand, Bali, Schengen and more.",
+        content:
+          "Get end-to-end visa assistance and document processing services for UAE, Thailand, Bali, Schengen, and more with the experts at Cabo Tours & Travels.",
       },
       { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
     ],

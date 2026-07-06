@@ -26,7 +26,6 @@ import kashmir from "@/assets/dest-kashmir.webp";
 import dubai from "@/assets/dest-dubai.webp";
 import bali from "@/assets/dest-bali.webp";
 import maldives from "@/assets/dest-maldives.webp";
-import thailand from "@/assets/dest-thailand.webp";
 import logoFooter from "@/assets/cabo-logo-footer.webp";
 import { destinations } from "@/lib/destinations";
 const backwatersImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-alleppey-backwaters.webp";
@@ -46,6 +45,7 @@ import { useWelcome } from "@/components/site/WelcomeProvider";
 import { getStories, getStoryImage, GuestStory } from "@/utils/stories";
 import { trackEvent } from "@/lib/analytics";
 import { getLikesStateServerFn, toggleLikeServerFn } from "@/services/testimonials/functions";
+import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -234,7 +234,9 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
             className="absolute inset-0 will-change-[opacity]"
           >
             <img
-              src={slide.image}
+              src={getOptimizedImageUrl(slide.image, { width: 1280, quality: 75 })}
+              srcSet={getSupabaseSrcSet(slide.image) || undefined}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 2000px"
               alt={slide.label}
               className="h-full w-full object-cover"
               width={2000}
@@ -253,10 +255,11 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
         {welcomeDone && (
           <motion.div
             key={index}
-            initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            style={{ transformOrigin: "left" }}
             transition={PROGRESS_TRANSITION}
-            className="h-full bg-accent"
+            className="h-full w-full bg-accent"
           />
         )}
       </div>
@@ -275,6 +278,8 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
             <img
               src={logoFooter}
               alt="Cabo Tours"
+              width={518}
+              height={526}
               className="h-16 w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
               loading="eager"
             />
@@ -289,22 +294,37 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
             { to: "/", label: "HOME", active: true },
             { to: "/packages", label: "HOLIDAYS" },
             { to: "/destinations", label: "DESTINATIONS" },
-            { to: "/packages", label: "FLIGHTS" },
+            {
+              href: "https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20flight%20tickets",
+              label: "FLIGHTS",
+            },
             { to: "/cabs", label: "CAB SERVICES" },
             { to: "/visa", label: "VISA" },
             { to: "/contact", label: "CONTACT" },
-          ].map((i, k) => (
-            <Link
-              key={k}
-              to={i.to}
-              className="relative py-1 transition hover:text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-            >
-              {i.label}
-              {i.active && (
-                <span className="absolute -bottom-0 left-0 right-0 mx-auto h-[2px] w-5 bg-accent" />
-              )}
-            </Link>
-          ))}
+          ].map((i, k) =>
+            "href" in i ? (
+              <a
+                key={k}
+                href={i.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative py-1 transition hover:text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              >
+                {i.label}
+              </a>
+            ) : (
+              <Link
+                key={k}
+                to={i.to}
+                className="relative py-1 transition hover:text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              >
+                {i.label}
+                {i.active && (
+                  <span className="absolute -bottom-0 left-0 right-0 mx-auto h-[2px] w-5 bg-accent" />
+                )}
+              </Link>
+            ),
+          )}
         </nav>
         <div className="flex-1 flex justify-end items-center gap-5 text-white/85">
           <div className="hidden md:flex items-center">
@@ -388,7 +408,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                     aria-label={`Switch to slide showing ${s.label}`}
                   >
                     <img
-                      src={s.image}
+                      src={getOptimizedImageUrl(s.image, { width: 320, quality: 75 })}
                       alt={s.label}
                       className="absolute inset-0 h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
                       loading="eager"
@@ -443,10 +463,11 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
             <div className="h-px w-full bg-white/25" />
             <motion.div
               key={`bar-${index}`}
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              style={{ transformOrigin: "left" }}
               transition={PROGRESS_TRANSITION}
-              className="absolute top-0 left-0 h-px bg-accent"
+              className="absolute top-0 left-0 w-full h-px bg-accent"
             />
           </div>
           <div className="ml-auto flex items-center gap-3 font-display text-white">
@@ -475,7 +496,7 @@ const SectionHead = React.memo(function SectionHead({ eyebrow, title, copy }: { 
       <h2 className="mt-4 font-display uppercase leading-[0.95] text-[clamp(2rem,4.6vw,3.6rem)]">
         {title}
       </h2>
-      {copy && <p className="mt-5 text-white/65 leading-relaxed max-w-xl">{copy}</p>}
+      {copy && <p className="mt-5 text-white/80 leading-relaxed max-w-xl">{copy}</p>}
     </div>
   );
 });
@@ -516,9 +537,9 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
     <section className="relative py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHead
-          eyebrow="Destinations"
-          title={"Where shall we\ntake you next?"}
-          copy="Hand-picked across India and the world — every itinerary stitched with stays, transfers and the small things that make a journey feel like yours."
+          eyebrow="Our Services"
+          title={"What can we\ndo for you?"}
+          copy="Hand-picked across India and the world — every service tailored with care, precision and the small things that make it feel like yours."
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {destinations.map((d, i) => (
@@ -531,15 +552,38 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
               className="group relative h-[420px] overflow-hidden rounded-[26px] ring-1 ring-white/10"
             >
               <img
-                src={d.image}
+                src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
                 alt={d.name}
                 loading="eager"
+                width={640}
+                height={420}
                 className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
               />
               {d.slug === "kerala" ? (
                 <Link to="/kerala" className="absolute inset-0 z-10 block">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 </Link>
+              ) : d.slug === "kashmir" ? (
+                <Link to="/cabs" className="absolute inset-0 z-10 block">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                </Link>
+              ) : d.slug === "domestic-packages" ? (
+                <Link to="/domestic-packages" className="absolute inset-0 z-10 block">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                </Link>
+              ) : d.slug === "international-packages" ? (
+                <Link to="/international-packages" className="absolute inset-0 z-10 block">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                </Link>
+              ) : d.href ? (
+                <a
+                  href={d.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 z-10 block"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                </a>
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
               )}
@@ -549,6 +593,27 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
                     <Link to="/kerala" className="hover:text-brand transition duration-300">
                       {d.region} · {d.country}
                     </Link>
+                  ) : d.slug === "kashmir" ? (
+                    <Link to="/cabs" className="hover:text-brand transition duration-300">
+                      {d.region} · {d.country}
+                    </Link>
+                  ) : d.slug === "domestic-packages" ? (
+                    <Link to="/domestic-packages" className="hover:text-brand transition duration-300">
+                      {d.region} · {d.country}
+                    </Link>
+                  ) : d.slug === "international-packages" ? (
+                    <Link to="/international-packages" className="hover:text-brand transition duration-300">
+                      {d.region} · {d.country}
+                    </Link>
+                  ) : d.href ? (
+                    <a
+                      href={d.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-brand transition duration-300"
+                    >
+                      {d.region} · {d.country}
+                    </a>
                   ) : (
                     <>{d.region} · {d.country}</>
                   )}
@@ -563,11 +628,32 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
                     >
                       Explore <ArrowRight className="h-3 w-3" />
                     </Link>
+                  ) : d.slug === "kashmir" ? (
+                    <Link
+                      to="/cabs"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                    >
+                      Explore <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  ) : d.slug === "domestic-packages" ? (
+                    <Link
+                      to="/domestic-packages"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                    >
+                      Explore <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  ) : d.slug === "international-packages" ? (
+                    <Link
+                      to="/international-packages"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                    >
+                      Explore <ArrowRight className="h-3 w-3" />
+                    </Link>
                   ) : (
                     <a
-                      href={waLink(waMessages.destination(d.name))}
+                      href={d.href || waLink(waMessages.destination(d.name))}
                       target="_blank"
-                      rel="noreferrer"
+                      rel={d.href ? "noopener noreferrer" : "noreferrer"}
                       className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                     >
                       Explore <ArrowRight className="h-3 w-3" />
@@ -606,9 +692,11 @@ const PopularPackages = React.memo(function PopularPackages() {
               >
                 <div className="relative h-52 overflow-hidden">
                   <img
-                    src={p.image || dest.image}
+                    src={getOptimizedImageUrl(p.image || dest.image, { width: 640, quality: 75 })}
                     alt={p.title}
                     loading="eager"
+                    width={640}
+                    height={208}
                     className="h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
                   />
                   <div className="absolute top-3 left-3 rounded-full bg-black/55 backdrop-blur px-3 py-1 text-[10px] tracking-[0.22em] uppercase text-white">
@@ -684,7 +772,7 @@ const WhyChoose = React.memo(function WhyChoose() {
           {items.map((it) => (
             <div key={it.t} className="bg-background p-8 lg:p-10">
               <div className="font-display text-brand text-2xl uppercase">{it.t}</div>
-              <p className="mt-3 text-sm leading-relaxed text-white/65">{it.d}</p>
+              <p className="mt-3 text-sm leading-relaxed text-white/80">{it.d}</p>
             </div>
           ))}
         </div>
@@ -712,9 +800,11 @@ function ProgressiveImage({
         />
       )}
       <img
-        src={src}
+        src={getOptimizedImageUrl(src, { width: 320, quality: 75 })}
         alt={alt}
         loading="eager"
+        width={320}
+        height={180}
         onLoad={() => setLoaded(true)}
         className={`${className} transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}
       />
@@ -796,7 +886,7 @@ const Experiences = React.memo(function Experiences() {
           });
           setLikesCounts(updatedCounts);
         })
-        .catch(() => {});
+        .catch(() => { });
     } else {
       const localCounts: Record<string, number> = {};
       loadedStories.forEach((s) => {
@@ -983,18 +1073,16 @@ const Experiences = React.memo(function Experiences() {
                     <div className="flex items-center gap-4 text-[11px] text-white/50">
                       <button
                         onClick={() => handleLike(story.id)}
-                        className={`group flex items-center gap-1.5 transition-colors duration-300 ${
-                          likedIds.has(story.id)
+                        className={`group flex items-center gap-1.5 transition-colors duration-300 ${likedIds.has(story.id)
                             ? "text-brand"
                             : "hover:text-brand text-white/60"
-                        }`}
+                          }`}
                       >
                         <Heart
-                          className={`w-3.5 h-3.5 transition-colors duration-300 ${
-                            likedIds.has(story.id)
+                          className={`w-3.5 h-3.5 transition-colors duration-300 ${likedIds.has(story.id)
                               ? "fill-brand text-brand"
                               : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
-                          }`}
+                            }`}
                         />
                         <span>{likesCounts[story.id] ?? story.likes}</span>
                       </button>
@@ -1063,18 +1151,16 @@ const Experiences = React.memo(function Experiences() {
                     <div className="flex items-center gap-4 text-[11px] text-white/50">
                       <button
                         onClick={() => handleLike(story.id)}
-                        className={`group flex items-center gap-1.5 transition-colors duration-300 ${
-                          likedIds.has(story.id)
+                        className={`group flex items-center gap-1.5 transition-colors duration-300 ${likedIds.has(story.id)
                             ? "text-brand"
                             : "hover:text-brand text-white/60"
-                        }`}
+                          }`}
                       >
                         <Heart
-                          className={`w-3.5 h-3.5 transition-colors duration-300 ${
-                            likedIds.has(story.id)
+                          className={`w-3.5 h-3.5 transition-colors duration-300 ${likedIds.has(story.id)
                               ? "fill-brand text-brand"
                               : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
-                          }`}
+                            }`}
                         />
                         <span>{likesCounts[story.id] ?? story.likes}</span>
                       </button>
@@ -1176,7 +1262,7 @@ const Stats = React.memo(function Stats() {
             <div className="font-display text-[clamp(2.4rem,5vw,4rem)] text-brand leading-none">
               {s.n}
             </div>
-            <div className="mt-3 text-[11px] tracking-[0.3em] uppercase text-white/55">{s.t}</div>
+            <div className="mt-3 text-[11px] tracking-[0.3em] uppercase text-white/80">{s.t}</div>
           </div>
         ))}
       </div>
@@ -1191,6 +1277,8 @@ const BookingCta = React.memo(function BookingCta() {
         src={maldives}
         alt="Maldives overwater villas beach view background"
         loading="eager"
+        width={1920}
+        height={1280}
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/30" />

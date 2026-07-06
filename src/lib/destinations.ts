@@ -2,20 +2,23 @@ import kerala from "@/assets/dest-kerala.webp";
 import kashmir from "@/assets/dest-kashmir.webp";
 import dubai from "@/assets/dest-dubai.webp";
 import bali from "@/assets/dest-bali.webp";
-import maldives from "@/assets/dest-maldives.webp";
-import thailand from "@/assets/dest-thailand.webp";
+import destFlightTickets from "@/assets/dest-flight-tickets.webp";
+import destVisaTickets from "@/assets/dest-visa-tickets.webp";
+import keralaCabService from "@/assets/kerala-cab-service.webp";
+import destDomesticPackages from "@/assets/dest-domestic-packages.webp";
+import destInternationalPackages from "@/assets/dest-international-packages.webp";
 
-const keralaHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-alleppey-backwaters.webp";
-const kashmirHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-kashmir-dallake.webp";
-const dubaiHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-dubai-skyline.webp";
+export const keralaHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-alleppey-backwaters.webp";
+export const kashmirHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-kashmir-dallake.webp";
+export const dubaiHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-dubai-skyline.webp";
 import baliHero from "@/assets/dest-bali.webp";
-import maldivesHero from "@/assets/dest-maldives.webp";
-import thailandHero from "@/assets/dest-thailand.webp";
+import destFlightTicketsHero from "@/assets/dest-flight-tickets.webp";
+import destVisaTicketsHero from "@/assets/dest-visa-tickets.webp";
 
 export type Destination = {
   slug: string;
   name: string;
-  region: "Domestic" | "International";
+  region: string;
   country: string;
   image: string;
   heroImage?: string;
@@ -25,6 +28,7 @@ export type Destination = {
   bestTime: string;
   duration: string;
   startingFrom: string;
+  href?: string;
 };
 
 export const destinations: Destination[] = [
@@ -37,7 +41,7 @@ export const destinations: Destination[] = [
     heroImage: keralaHero,
     tagline: "God's Own Country",
     description:
-      "Drift through palm-lined backwaters on a teakwood houseboat, sip cardamom tea in Munnar's tea estates, and unwind on quiet Varkala cliffs as Kerala unfolds in slow, golden frames.",
+      "Experience the best of Kerala holiday tours. Drift through palm-lined backwaters on a teakwood houseboat, sip Munnar tea, and explore local cliffs and heritage with our reliable taxi rentals in Calicut and across Kerala.",
     highlights: [
       "Alleppey Houseboats",
       "Munnar Tea Estates",
@@ -51,12 +55,12 @@ export const destinations: Destination[] = [
   },
   {
     slug: "kashmir",
-    name: "Kashmir",
-    region: "Domestic",
-    country: "India",
-    image: kashmir,
+    name: "Kerala Cab Services",
+    region: "Transport",
+    country: "Kerala",
+    image: keralaCabService,
     heroImage: kashmirHero,
-    tagline: "Paradise on Earth",
+    tagline: "Travel Anywhere, Anytime",
     description:
       "Glide across mirror-calm Dal Lake on a shikara, wander Mughal gardens framed by the Himalayas, and wake to snowfall in Gulmarg's pine valleys.",
     highlights: [
@@ -71,85 +75,90 @@ export const destinations: Destination[] = [
     startingFrom: "₹26,500",
   },
   {
-    slug: "dubai",
-    name: "Dubai",
-    region: "International",
-    country: "United Arab Emirates",
-    image: dubai,
+    slug: "domestic-packages",
+    name: "Domestic Packages",
+    region: "Domestic",
+    country: "India",
+    image: destDomesticPackages,
     heroImage: dubaiHero,
-    tagline: "City of Gold",
+    tagline: "Explore Incredible India",
     description:
-      "From Burj Khalifa sunsets to silent desert dunes, Dubai is a city of contrasts — curated to your tempo with private dining, dhow cruises and skyline suites.",
-    highlights: ["Burj Khalifa", "Desert Safari", "Dhow Cruise", "Palm Jumeirah", "Global Village"],
-    bestTime: "Nov – Mar",
-    duration: "5 nights",
-    startingFrom: "₹49,900",
+      "Explore the vast beauty and diversity of India, from backwaters to hills and palaces.",
+    highlights: ["Munnar Hills", "Goa Beaches", "Hampi Ruins", "Taj Mahal", "Himalayan Valleys"],
+    bestTime: "Sep - Apr",
+    duration: "Various",
+    startingFrom: "₹15,000",
   },
   {
-    slug: "bali",
-    name: "Bali",
+    slug: "international-packages",
+    name: "International Packages",
     region: "International",
-    country: "Indonesia",
-    image: bali,
-    heroImage: baliHero,
-    tagline: "Island of the Gods",
+    country: "Worldwide",
+    image: destInternationalPackages,
+    heroImage: destInternationalPackages,
+    tagline: "Explore the World",
     description:
-      "Wake to mist rolling over Ubud's emerald rice terraces, surf Uluwatu's golden coast and end days in candlelit cliffside villas.",
-    highlights: [
-      "Ubud Rice Terraces",
-      "Uluwatu Temple",
-      "Nusa Penida",
-      "Seminyak Sunsets",
-      "Tegallalang",
-    ],
-    bestTime: "Apr – Oct",
-    duration: "6 nights",
-    startingFrom: "₹54,500",
-  },
-  {
-    slug: "maldives",
-    name: "Maldives",
-    region: "International",
-    country: "Maldives",
-    image: maldives,
-    heroImage: maldivesHero,
-    tagline: "Atolls & Overwater Villas",
-    description:
-      "Private villas perched above translucent lagoons, coral gardens a single step beneath your deck, and seaplane transfers framed by atolls.",
-    highlights: [
-      "Overwater Villas",
-      "Coral Reef Snorkel",
-      "Seaplane Transfer",
-      "Sandbank Picnic",
-      "Spa Rituals",
-    ],
-    bestTime: "Nov – Apr",
-    duration: "4 – 5 nights",
-    startingFrom: "₹78,900",
-  },
-  {
-    slug: "thailand",
-    name: "Thailand",
-    region: "International",
-    country: "Thailand",
-    image: thailand,
-    heroImage: thailandHero,
-    tagline: "Smiles, Sand & Spice",
-    description:
-      "Longtail boats, limestone cathedrals and waters the color of polished jade — Thailand pairs cinematic islands with electric city nights.",
-    highlights: [
-      "Phi Phi Islands",
-      "Bangkok Markets",
-      "Phuket Beaches",
-      "Krabi Caves",
-      "Chiang Mai Temples",
-    ],
-    bestTime: "Nov – Apr",
-    duration: "6 nights",
+      "Explore the rich culture, scenery, and wonders of the world with Cabo's curated international packages.",
+    highlights: [],
+    bestTime: "Year Round",
+    duration: "Various",
     startingFrom: "₹42,500",
+  },
+  {
+    slug: "flight-tickets",
+    name: "Flight Tickets",
+    region: "Book Now",
+    country: "Flights",
+    image: destFlightTickets,
+    heroImage: destFlightTicketsHero,
+    tagline: "Best Fares, Anywhere",
+    description: "Book flight tickets to anywhere in the world at the best fares.",
+    highlights: [],
+    bestTime: "Year Round",
+    duration: "Anywhere",
+    startingFrom: "Best Fares",
+    href: "https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20flight%20tickets",
+  },
+  {
+    slug: "visa-tickets",
+    name: "Visa & Tickets",
+    region: "Assistance",
+    country: "Visa & Tickets",
+    image: destVisaTickets,
+    heroImage: destVisaTicketsHero,
+    tagline: "Hassle-Free Documentation",
+    description: "End-to-end visa assistance and flight ticketing support for worldwide travel.",
+    highlights: [],
+    bestTime: "Year Round",
+    duration: "Assistance",
+    startingFrom: "Documentation",
+    href: "https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20visa%20and%20ticket%20assistance",
   },
 ];
 
+export const baliDetail: Destination = {
+  slug: "bali",
+  name: "Bali",
+  region: "International",
+  country: "Indonesia",
+  image: bali,
+  heroImage: baliHero,
+  tagline: "Island of the Gods",
+  description:
+    "Wake to mist rolling over Ubud's emerald rice terraces, surf Uluwatu's golden coast and experience our premium Bali international holiday packages from Kerala.",
+  highlights: [
+    "Ubud Rice Terraces",
+    "Uluwatu Temple",
+    "Nusa Penida",
+    "Seminyak Sunsets",
+    "Tegallalang",
+  ],
+  bestTime: "Apr – Oct",
+  duration: "6 nights",
+  startingFrom: "₹54,500",
+};
+
 export function getDestination(slug: string) {
+  if (slug === "bali") return baliDetail;
   return destinations.find((d) => d.slug === slug);
 }

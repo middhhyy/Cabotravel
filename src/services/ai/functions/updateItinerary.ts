@@ -9,6 +9,7 @@ import type { TripResponse } from "@/types/itinerary";
 interface UpdateRequest {
   command: string;
   currentTrip: TripResponse;
+  originalRequest?: any;
 }
 
 export const updateItineraryServerFn = createServerFn({ method: "POST" })
@@ -42,12 +43,16 @@ export const updateItineraryServerFn = createServerFn({ method: "POST" })
     const canonical = ResponseTransformer.transform(merged);
 
     // 6. Save update
-    await setCachedItinerary(request.originalRequest, canonical);
+    if (request.originalRequest) {
+      await setCachedItinerary(request.originalRequest, canonical);
+    }
 
     // 7. Background Resolution
     setTimeout(() => {
       resolveLocationsInBackground(canonical, async (updatedTrip) => {
-        await setCachedItinerary(request.originalRequest, updatedTrip);
+        if (request.originalRequest) {
+          await setCachedItinerary(request.originalRequest, updatedTrip);
+        }
       });
     }, 0);
 

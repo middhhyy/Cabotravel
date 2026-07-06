@@ -5,32 +5,32 @@ import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { waLink, waMessages, FOUNDER } from "@/lib/whatsapp";
 const kashmirHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-kashmir-dallake.webp";
-import founder from "@/assets/founder.jpeg";
+import founder from "@/assets/founder.webp";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Cabo Tours & Travels" },
+      { title: "About Us | Cabo Tours & Travels — Curated Travel Agency" },
       {
         name: "description",
         content:
-          "Cabo Tours & Travels is a Kerala-rooted travel company crafting curated international and domestic journeys. Meet the team behind every itinerary.",
+          "Meet Cabo Tours & Travels, your Kerala-rooted travel agency crafting curated international tour packages, domestic holiday trips, and custom itineraries.",
       },
-      { property: "og:title", content: "About — Cabo Tours & Travels" },
+      { property: "og:title", content: "About Us | Cabo Tours & Travels — Curated Travel Agency" },
       {
         property: "og:description",
         content:
-          "Cabo Tours & Travels is a Kerala-rooted travel company crafting curated international and domestic journeys.",
+          "Meet Cabo Tours & Travels, your Kerala-rooted travel agency crafting curated international tour packages, domestic holiday trips, and custom itineraries.",
       },
       { property: "og:url", content: "https://cabotours.in/about" },
       { property: "og:image", content: "https://cabotours.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "About — Cabo Tours & Travels" },
+      { name: "twitter:title", content: "About Us | Cabo Tours & Travels — Curated Travel Agency" },
       {
         name: "twitter:description",
         content:
-          "Cabo Tours & Travels is a Kerala-rooted travel company crafting curated international and domestic journeys.",
+          "Meet Cabo Tours & Travels, your Kerala-rooted travel agency crafting curated international tour packages, domestic holiday trips, and custom itineraries.",
       },
       { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
     ],
@@ -99,7 +99,14 @@ function AboutPage() {
       <section className="bg-[oklch(0.16_0.01_250)] border-y border-white/10 py-20">
         <div className="mx-auto max-w-6xl px-6 lg:px-10 grid gap-12 lg:grid-cols-2 items-center">
           <div className="relative h-[420px] overflow-hidden rounded-[26px] ring-1 ring-white/10">
-            <img src={founder} alt={FOUNDER} className="h-full w-full object-cover object-[center_28%]" />
+            <img
+              src={founder}
+              alt={FOUNDER}
+              width={1024}
+              height={1280}
+              loading="eager"
+              className="h-full w-full object-cover object-[center_28%]"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
             <div className="absolute bottom-6 left-6">
               <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">Founder</div>

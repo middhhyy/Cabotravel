@@ -9,16 +9,36 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { getStories, getStoryImage, GuestStory } from "@/utils/stories";
 import { getLikesStateServerFn, toggleLikeServerFn } from "@/services/testimonials/functions";
 import { trackEvent } from "@/lib/analytics";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 export const Route = createFileRoute("/stories")({
   head: () => ({
     meta: [
-      { title: "Guest Stories & Reviews — Cabo Tours" },
+      { title: "Guest Travel Stories & Reviews | Cabo Tours & Travels" },
       {
         name: "description",
-        content: "See all travel diaries, reviews, and memories shared from the heart by our verified guests.",
+        content:
+          "Read real guest travel stories, verified reviews, and holiday diaries from travelers who booked custom international and domestic packages with Cabo Tours.",
       },
+      { property: "og:title", content: "Guest Travel Stories & Reviews | Cabo Tours & Travels" },
+      {
+        property: "og:description",
+        content:
+          "Read real guest travel stories, verified reviews, and holiday diaries from travelers who booked custom packages with Cabo Tours.",
+      },
+      { property: "og:url", content: "https://cabotours.in/stories" },
+      { property: "og:image", content: "https://cabotours.in/social-preview.png" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Guest Travel Stories & Reviews | Cabo Tours & Travels" },
+      {
+        name: "twitter:description",
+        content:
+          "Read real guest travel stories, verified reviews, and holiday diaries from travelers who booked custom packages.",
+      },
+      { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
     ],
+    links: [{ rel: "canonical", href: "https://cabotours.in/stories" }],
   }),
   component: StoriesPage,
 });
@@ -42,39 +62,39 @@ function StoriesPage() {
     const loadedStories = getStories();
 
     // Fetch approved feedback from Supabase
-    import("@/lib/supabase").then(({ supabase }) => {
-      supabase
-        .from("feedback")
-        .select("*")
-        .eq("status", "approved")
-        .order("created_at", { ascending: false })
-        .then(({ data, error }) => {
-          if (!error && data) {
-            const dbStories: GuestStory[] = data.map((item: any) => ({
-              id: item.id,
-              name: item.name,
-              username: `@user_${item.name.toLowerCase().replace(/\s+/g, "")}`,
-              platform: "Verified Guest",
-              time: new Date(item.created_at).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric"
-              }),
-              caption: item.message,
-              img: item.image_url || "Kerala", // Fallback to preset if null
-              likes: "0",
-              comments: "0",
-              destination: item.rating ? `⭐ ${item.rating} Rating` : "Cabo Trip",
-              height: "h-[350px]"
-            }));
-            setStories([...dbStories, ...loadedStories]);
-          } else {
-            setStories(loadedStories);
-          }
-        })
-        .catch(() => {
+    import("@/lib/supabase").then(async ({ supabase }) => {
+      try {
+        const { data, error } = await supabase
+          .from("feedback")
+          .select("*")
+          .eq("status", "approved")
+          .order("created_at", { ascending: false });
+
+        if (!error && data) {
+          const dbStories: GuestStory[] = data.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            username: `@user_${item.name.toLowerCase().replace(/\s+/g, "")}`,
+            platform: "Verified Guest",
+            time: new Date(item.created_at).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric"
+            }),
+            caption: item.message,
+            img: item.image_url || "Kerala", // Fallback to preset if null
+            likes: "0",
+            comments: "0",
+            destination: item.rating ? `⭐ ${item.rating} Rating` : "Cabo Trip",
+            height: "h-[350px]"
+          }));
+          setStories([...dbStories, ...loadedStories]);
+        } else {
           setStories(loadedStories);
-        });
+        }
+      } catch {
+        setStories(loadedStories);
+      }
     }).catch(() => {
       setStories(loadedStories);
     });
@@ -266,14 +286,14 @@ function StoriesPage() {
                   <button
                     onClick={() => handleLikeToggle(story.id)}
                     className={`flex items-center gap-1.5 transition duration-300 ${likedIds.has(story.id)
-                        ? "text-brand hover:text-brand"
-                        : "hover:text-brand text-white/60"
+                      ? "text-brand hover:text-brand"
+                      : "hover:text-brand text-white/60"
                       }`}
                   >
                     <Heart
                       className={`w-3.5 h-3.5 transition-colors duration-300 ${likedIds.has(story.id)
-                          ? "fill-brand text-brand"
-                          : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
+                        ? "fill-brand text-brand"
+                        : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
                         }`}
                     />
                     <span>{likesCounts[story.id] ?? story.likes}</span>
@@ -313,9 +333,11 @@ function ProgressiveImage({
         />
       )}
       <img
-        src={src}
+        src={getOptimizedImageUrl(src, { width: 320, quality: 75 })}
         alt={alt}
         loading="eager"
+        width={320}
+        height={180}
         onLoad={() => setLoaded(true)}
         className={`${className} transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}
       />

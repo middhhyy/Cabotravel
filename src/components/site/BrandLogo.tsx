@@ -17,6 +17,8 @@ export function BrandLogo({
       <img
         src={logoFooter}
         alt="Cabo Tours"
+        width={518}
+        height={526}
         className={`${imgHeight} w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]`}
         loading="eager"
       />

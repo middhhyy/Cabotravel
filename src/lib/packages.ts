@@ -1,13 +1,13 @@
 import { destinations } from "./destinations";
-import backwatersImg from "@/assets/pkg-kerala-backwaters.png";
-import munnarImg from "@/assets/pkg-munnar-hills.png";
-import kovalamImg from "@/assets/pkg-kovalam-beach.png";
-import trivandrumImg from "@/assets/pkg-trivandrum-heritage.png";
-import thekkadyImg from "@/assets/pkg-thekkady-wildlife.png";
-import ayurvedaImg from "@/assets/pkg-ayurveda-wellness.png";
-import wayanadImg from "@/assets/pkg-wayanad-romantic.png";
-import vagamonImg from "@/assets/pkg-vagamon-adventure.png";
-import fortKochiImg from "@/assets/pkg-fort-kochi-culture.png";
+import backwatersImg from "@/assets/pkg-kerala-backwaters.webp";
+import munnarImg from "@/assets/pkg-munnar-hills.webp";
+import kovalamImg from "@/assets/pkg-kovalam-beach.webp";
+import trivandrumImg from "@/assets/pkg-trivandrum-heritage.webp";
+import thekkadyImg from "@/assets/pkg-thekkady-wildlife.webp";
+import ayurvedaImg from "@/assets/pkg-ayurveda-wellness.webp";
+import wayanadImg from "@/assets/pkg-wayanad-romantic.webp";
+import vagamonImg from "@/assets/pkg-vagamon-adventure.webp";
+import fortKochiImg from "@/assets/pkg-fort-kochi-culture.webp";
 
 export type Pkg = {
   slug: string;

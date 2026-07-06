@@ -13,6 +13,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -384,7 +385,14 @@ function FeedbackModerator() {
               <div className="flex items-start gap-4">
                 {f.image_url ? (
                   <div className="w-16 h-16 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-black/40 flex items-center justify-center relative group">
-                    <img src={f.image_url} alt={f.name} className="w-full h-full object-cover" />
+                    <img
+                      src={getOptimizedImageUrl(f.image_url, { width: 120, quality: 75 })}
+                      alt={f.name}
+                      loading="eager"
+                      width={64}
+                      height={64}
+                      className="w-full h-full object-cover"
+                    />
                     <a
                       href={f.image_url}
                       target="_blank"
@@ -407,7 +415,7 @@ function FeedbackModerator() {
                     <span className="text-[10px] text-white/40">
                       {new Date(f.created_at).toLocaleDateString()}
                     </span>
-                    
+
                     {f.rating && (
                       <span className="flex items-center gap-0.5 text-accent text-xs">
                         <Star className="w-3.5 h-3.5 fill-brand text-brand" /> {f.rating}
@@ -415,18 +423,17 @@ function FeedbackModerator() {
                     )}
 
                     <span
-                      className={`text-[9px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded ${
-                        f.status === "approved"
+                      className={`text-[9px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded ${f.status === "approved"
                           ? "bg-green-500/10 text-green-400 border border-green-500/20"
                           : f.status === "rejected"
-                          ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                          : "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
-                      }`}
+                            ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                            : "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
+                        }`}
                     >
                       {f.status}
                     </span>
                   </div>
-                  
+
                   <p className="mt-2 text-xs text-white/70 leading-relaxed max-w-2xl">{f.message}</p>
                 </div>
               </div>

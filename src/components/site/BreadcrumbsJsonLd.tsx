@@ -10,6 +10,11 @@ export function BreadcrumbsJsonLd() {
   // Split path into clean segments, removing empty elements
   const segments = location.pathname.split("/").filter(Boolean);
 
+  // Do not add breadcrumbs to the homepage itself
+  if (segments.length === 0) {
+    return null;
+  }
+
   // Initialize breadcrumb list with Home
   const breadcrumbs = [
     {
@@ -35,11 +40,23 @@ export function BreadcrumbsJsonLd() {
     } else if (segment === "visa") {
       name = "Visa Services";
     } else if (segment === "about") {
-      name = "About";
+      name = "About Us";
     } else if (segment === "contact") {
-      name = "Contact";
+      name = "Contact Us";
     } else if (segment === "generate") {
       name = "Trip Generator";
+    } else if (segment === "cabs") {
+      name = "Cab Services";
+    } else if (segment === "domestic-packages") {
+      name = "Domestic Packages";
+    } else if (segment === "international-packages") {
+      name = "International Packages";
+    } else if (segment === "stories") {
+      name = "Guest Stories";
+    } else if (segment === "feedback") {
+      name = "Feedback";
+    } else if (segment === "kerala") {
+      name = "Kerala Getaways";
     } else if (parentSegment === "destinations") {
       const match = destinations.find((d) => d.slug === segment);
       name = match ? match.name : segment.charAt(0).toUpperCase() + segment.slice(1);

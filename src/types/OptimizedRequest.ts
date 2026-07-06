@@ -9,4 +9,12 @@ export type OptimizedRequest = {
   transport?: string;
   interests?: string[];
   raw?: string; // Only populated if unstructured data couldn't be parsed
+
+  // Short keys used for token-saving compact payload
+  d?: string;     // destination
+  dy?: number;    // duration (days)
+  b?: string;     // budget
+  t?: string;     // travelers
+  s?: string[];   // styles/interests
+  m?: string;     // month
 };

@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { destinations } from "@/lib/destinations";
-import { packages } from "@/lib/packages";
 
 // TODO: replace with your project URL once a project name or custom domain is set.
 const BASE_URL = "https://cabotours.in";
@@ -17,13 +16,21 @@ export const Route = createFileRoute("/sitemap.xml")({
           "/visa",
           "/about",
           "/contact",
-          "/flights",
-          "/hotels",
-          "/blogs",
-          "/support",
           "/generate",
-          ...destinations.map((d) => `/destinations/${d.slug}`),
-          ...packages.map((p) => `/packages/${p.slug}`),
+          "/domestic-packages",
+          "/international-packages",
+          "/cabs",
+          "/stories",
+          "/feedback",
+          "/kerala",
+          "/destinations/bali",
+          ...destinations
+            .filter(
+              (d) =>
+                !["kashmir", "domestic-packages", "international-packages"].includes(d.slug) &&
+                !d.href,
+            )
+            .map((d) => `/destinations/${d.slug}`),
         ];
 
         const urls = paths

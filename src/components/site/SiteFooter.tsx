@@ -40,7 +40,7 @@ export function SiteFooter() {
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <BrandLogo size="lg" />
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/65">
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/80">
               A travel company crafting curated journeys across the world — from Kerala's backwaters
               to Maldivian atolls. International & Domestic tours, flights, hotels, visas and
               bespoke experiences.
@@ -114,8 +114,26 @@ export function SiteFooter() {
               Services
             </div>
             <ul className="space-y-2.5 text-sm text-white/70">
-              <li>Flight Booking</li>
-              <li>Hotel Booking</li>
+              <li>
+                <a
+                  href="https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20flight%20tickets"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-brand"
+                >
+                  Flight Booking
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20hotels"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-brand"
+                >
+                  Hotel Booking
+                </a>
+              </li>
               <li>Cruise Booking</li>
               <li>Bus & Train Tickets</li>
               <li>Taxi & Transfers</li>
@@ -136,7 +154,14 @@ export function SiteFooter() {
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden="true" />
-                <span>{BUSINESS_INFO.maps.displayAddress}</span>
+                <a
+                  href={BUSINESS_INFO.maps.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-brand transition-colors"
+                >
+                  {BUSINESS_INFO.maps.displayAddress}
+                </a>
               </li>
             </ul>
             <div className="mt-5 flex gap-3">
@@ -162,14 +187,14 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-[11px] tracking-[0.18em] uppercase text-white/40">
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-[11px] tracking-[0.18em] uppercase text-white/60">
           <div>© {new Date().getFullYear()} Cabo Tours & Travels</div>
           <div style={{ fontFamily: "'Lobster', cursive", fontSize: "15px" }} className="normal-case tracking-normal">
             <a
               href="https://verdestudios.co"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/40 hover:text-white transition-colors"
+              className="text-white/60 hover:text-white transition-colors"
             >
               Powered by Verde Studios
             </a>

@@ -4,7 +4,7 @@ import { WeatherAdapter } from "../../external/WeatherAdapter";
 import { CurrencyAdapter } from "../../external/CurrencyAdapter";
 import { PlacesAdapter } from "../../external/PlacesAdapter";
 import { buildSystemPrompt } from "./PromptBuilder";
-import type { OptimizedRequest } from "./TokenOptimizer";
+import type { OptimizedRequest } from "@/types/OptimizedRequest";
 import type { TripResponse } from "@/types/itinerary";
 
 export class PlannerAgent {

@@ -11,12 +11,31 @@ import { trackEvent } from "@/lib/analytics";
 export const Route = createFileRoute("/feedback")({
   head: () => ({
     meta: [
-      { title: "Share Your Feedback — Cabo Tours & Travels" },
+      { title: "Share Your Feedback & Travel Review | Cabo Tours & Travels" },
       {
         name: "description",
-        content: "We love hearing from our guests. Share your travel experiences and help us improve.",
+        content:
+          "Help us craft better journeys. Share your holiday feedback, reviews, and travel experience of booking domestic or international tour packages with Cabo.",
       },
+      { property: "og:title", content: "Share Your Feedback & Travel Review | Cabo Tours & Travels" },
+      {
+        property: "og:description",
+        content:
+          "Help us craft better journeys. Share your holiday feedback, reviews, and travel experience of booking tour packages with Cabo.",
+      },
+      { property: "og:url", content: "https://cabotours.in/feedback" },
+      { property: "og:image", content: "https://cabotours.in/social-preview.png" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Share Your Feedback & Travel Review | Cabo Tours & Travels" },
+      {
+        name: "twitter:description",
+        content:
+          "Help us craft better journeys. Share your holiday feedback, reviews, and travel experience of booking tour packages with Cabo.",
+      },
+      { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
     ],
+    links: [{ rel: "canonical", href: "https://cabotours.in/feedback" }],
   }),
   component: FeedbackPage,
 });
@@ -187,9 +206,8 @@ function FeedbackPage() {
                     className="p-1 hover:scale-110 transition focus:outline-none"
                   >
                     <Star
-                      className={`h-7 w-7 ${
-                        rating && rating >= star ? "fill-brand text-brand" : "text-white/20 fill-none"
-                      }`}
+                      className={`h-7 w-7 ${rating && rating >= star ? "fill-brand text-brand" : "text-white/20 fill-none"
+                        }`}
                     />
                   </button>
                 ))}
@@ -215,13 +233,21 @@ function FeedbackPage() {
               <label className="block text-[11px] text-white/50 mb-2 uppercase tracking-[0.22em] font-semibold">
                 Upload Photo (Optional)
               </label>
-              
+
               {previewUrl ? (
                 <div className="relative rounded-xl overflow-hidden border border-white/10 aspect-video max-h-52 bg-black/20">
-                  <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
+                  <img
+                    src={previewUrl}
+                    alt="Preview"
+                    width={320}
+                    height={180}
+                    loading="eager"
+                    className="w-full h-full object-cover"
+                  />
                   <button
                     type="button"
                     onClick={handleRemovePhoto}
+                    aria-label="Remove photo"
                     className="absolute top-2.5 right-2.5 bg-black/60 hover:bg-black p-1.5 rounded-full border border-white/20 text-white/80 hover:text-white transition"
                   >
                     <X className="w-4 h-4" />

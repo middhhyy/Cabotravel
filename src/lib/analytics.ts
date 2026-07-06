@@ -4,7 +4,7 @@ export const GA_TRACKING_ID = import.meta.env.VITE_GA_TRACKING_ID;
 declare global {
   interface Window {
     dataLayer: any[];
-    gtag: (...args: any[]) => void;
+    gtag?: (...args: any[]) => void;
   }
 }
 
@@ -20,7 +20,7 @@ export function initGA() {
   const scriptId = "google-analytics-gtag";
   if (!document.getElementById(scriptId)) {
     const script = document.createElement("script");
-    script.async = True;
+    script.async = true;
     script.id = scriptId;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
     document.head.appendChild(script);

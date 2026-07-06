@@ -13,7 +13,7 @@ export function useUpdateTrip() {
     setLoading(true);
     setError(null);
     try {
-      const result = await updateItineraryServerFn({ command, currentTrip });
+      const result = await updateItineraryServerFn({ data: { command, currentTrip } });
       return result;
     } catch (err) {
       setError("Failed to update itinerary. Please try again.");

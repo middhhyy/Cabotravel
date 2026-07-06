@@ -13,27 +13,27 @@ import { BUSINESS_INFO } from "@/lib/business";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Cabo Tours & Travels" },
+      { title: "Contact Us | Cabo Tours & Travels — Calicut Travel Agent" },
       {
         name: "description",
         content:
-          "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or message us on WhatsApp at +91 77364 06630 to start customizing your custom trip packages today!",
+          "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or WhatsApp us at +91 77364 06630 to start customizing your custom trip packages today!",
       },
-      { property: "og:title", content: "Contact — Cabo Tours & Travels" },
+      { property: "og:title", content: "Contact Us | Cabo Tours & Travels — Calicut Travel Agent" },
       {
         property: "og:description",
         content:
-          "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or message us on WhatsApp to customize your trip.",
+          "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or WhatsApp us to customize your trip.",
       },
       { property: "og:url", content: "https://cabotours.in/contact" },
       { property: "og:image", content: "https://cabotours.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Contact — Cabo Tours & Travels" },
+      { name: "twitter:title", content: "Contact Us | Cabo Tours & Travels — Calicut Travel Agent" },
       {
         name: "twitter:description",
         content:
-          "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or message us on WhatsApp.",
+          "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or WhatsApp us to customize your trip.",
       },
       { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
     ],

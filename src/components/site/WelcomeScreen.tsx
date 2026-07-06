@@ -4,6 +4,7 @@ import logoAsset from "@/assets/cabo-logo.webp";
 
 export function WelcomeScreen({ show, onComplete }: { show: boolean; onComplete: () => void }) {
   const [revealed, setRevealed] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     if (show) {
@@ -15,6 +16,7 @@ export function WelcomeScreen({ show, onComplete }: { show: boolean; onComplete:
       // The visual logo sweep ends around 5.8s and the camera push ends at 10s.
       // 5.5s is a good time to gracefully fade out into the landing page.
       const t2 = setTimeout(() => {
+        setDismissed(true);
         onComplete();
       }, 5500);
 
@@ -25,6 +27,11 @@ export function WelcomeScreen({ show, onComplete }: { show: boolean; onComplete:
       };
     }
   }, [show, onComplete]);
+
+  const handleSkip = () => {
+    setDismissed(true);
+    onComplete();
+  };
 
   return (
     <AnimatePresence>
@@ -53,6 +60,8 @@ export function WelcomeScreen({ show, onComplete }: { show: boolean; onComplete:
                   <img
                     src={logoAsset}
                     alt="Cabo Tours & Travels"
+                    width={1536}
+                    height={1024}
                     className="welcome-logo"
                     draggable={false}
                     loading="eager"
@@ -63,6 +72,16 @@ export function WelcomeScreen({ show, onComplete }: { show: boolean; onComplete:
               </div>
             </div>
           </div>
+
+          {/* Skip Button */}
+          {!dismissed && (
+            <button
+              onClick={handleSkip}
+              className="absolute bottom-8 right-8 z-[110] rounded-full border border-black/15 bg-white/75 hover:bg-black hover:text-white hover:border-black backdrop-blur-md px-6 py-2.5 text-[11px] font-semibold tracking-[0.25em] uppercase text-black/80 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 cursor-pointer shadow-sm hover:shadow active:scale-95"
+            >
+              Skip Intro
+            </button>
+          )}
         </motion.div>
       )}
     </AnimatePresence>

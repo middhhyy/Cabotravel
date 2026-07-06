@@ -10,6 +10,7 @@ import { destinations } from "@/lib/destinations";
 import { waLink, waMessages } from "@/lib/whatsapp";
 const dubaiHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-dubai-skyline.webp";
 import { trackEvent } from "@/lib/analytics";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 const CATEGORIES = [
   "All",
@@ -27,27 +28,27 @@ const CATEGORIES = [
 export const Route = createFileRoute("/packages")({
   head: () => ({
     meta: [
-      { title: "Tour Packages — Cabo Tours & Travels" },
+      { title: "Custom Tour Packages & Trip Itineraries | Cabo Tours" },
       {
         name: "description",
         content:
           "Browse our curated honeymoon, family, group, and luxury tour packages across Kerala, Kashmir, Dubai, Bali, Thailand, and Maldives from Cabo Tours & Travels!",
       },
-      { property: "og:title", content: "Tour Packages — Cabo Tours & Travels" },
+      { property: "og:title", content: "Custom Tour Packages & Trip Itineraries | Cabo Tours" },
       {
         property: "og:description",
         content:
-          "Browse our curated honeymoon, family, group, and luxury tour packages across Kerala, Kashmir, Dubai, Bali, Thailand, and Maldives.",
+          "Browse our curated honeymoon, family, group, and luxury tour packages across Kerala, Kashmir, Dubai, Bali, Thailand, and Maldives from Cabo Tours.",
       },
       { property: "og:url", content: "https://cabotours.in/packages" },
       { property: "og:image", content: "https://cabotours.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Tour Packages — Cabo Tours & Travels" },
+      { name: "twitter:title", content: "Custom Tour Packages & Trip Itineraries | Cabo Tours" },
       {
         name: "twitter:description",
         content:
-          "Browse our curated honeymoon, family, group, and luxury tour packages across Kerala, Kashmir, Dubai, Bali, Thailand, and Maldives.",
+          "Browse our curated honeymoon, family, group, and luxury tour packages across Kerala, Kashmir, Dubai, Bali, Thailand, and Maldives from Cabo Tours.",
       },
       { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
     ],
@@ -81,7 +82,7 @@ function PackagesPage() {
             actually love.
           </>
         }
-        subtitle="Honeymoons, family escapes, group adventures and quiet luxury — each itinerary tested, priced and stitched by our team."
+        subtitle="Book customized Kerala holiday tours, international escapes, and family trips. Each package itinerary is tested, priced, and stitched by our team."
         image={dubaiHero}
         width={2000}
         height={1125}
@@ -113,8 +114,8 @@ function PackagesPage() {
               key={c}
               onClick={() => setCat(c)}
               className={`rounded-full px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] transition ${cat === c
-                  ? "bg-brand text-white"
-                  : "border border-white/20 text-white/70 hover:text-white"
+                ? "bg-brand text-white"
+                : "border border-white/20 text-white/70 hover:text-white"
                 }`}
             >
               {c}
@@ -137,9 +138,11 @@ function PackagesPage() {
                 >
                   <div className="relative h-56 overflow-hidden">
                     <img
-                      src={p.image || dest.image}
+                      src={getOptimizedImageUrl(p.image || dest.image, { width: 640, quality: 75 })}
                       alt={p.title}
                       loading="eager"
+                      width={640}
+                      height={224}
                       className="h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
                     />
                     <div className="absolute top-3 left-3 rounded-full bg-black/55 backdrop-blur px-3 py-1 text-[10px] tracking-[0.22em] uppercase text-white">

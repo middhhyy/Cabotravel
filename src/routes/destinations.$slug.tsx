@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { ArrowRight, MapPin, Calendar, Clock } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -6,9 +6,23 @@ import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { destinations, getDestination } from "@/lib/destinations";
 import { packages } from "@/lib/packages";
 import { waLink, waMessages } from "@/lib/whatsapp";
+import { BUSINESS_INFO } from "@/lib/business";
+import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
 
 export const Route = createFileRoute("/destinations/$slug")({
   loader: ({ params }) => {
+    if (params.slug === "kashmir") {
+      throw redirect({
+        to: "/cabs",
+        replace: true,
+      });
+    }
+    if (params.slug === "dubai" || params.slug === "domestic-packages") {
+      throw redirect({
+        to: "/domestic-packages",
+        replace: true,
+      });
+    }
     const d = getDestination(params.slug);
     if (!d) throw notFound();
     return d;
@@ -65,14 +79,49 @@ function DestinationDetail() {
   const related = packages.filter((p) => p.destinationSlug === d.slug);
   const more = destinations.filter((x) => x.slug !== d.slug).slice(0, 3);
 
+  const price = parseInt(d.startingFrom.replace(/[^0-9]/g, ""), 10) || 12499;
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": `${d.name} Tour Package`,
+    "description": d.description,
+    "image": d.image,
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "INR",
+      "price": price,
+      "priceValidUntil": "2027-12-31",
+      "availability": "https://schema.org/InStock",
+      "url": `https://cabotours.in/destinations/${d.slug}`,
+    },
+    "provider": {
+      "@type": "TravelAgency",
+      "name": BUSINESS_INFO.name,
+      "url": "https://cabotours.in",
+      "telephone": BUSINESS_INFO.phone,
+      "priceRange": "$$",
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "2500",
+    },
+  };
+
   return (
     <main className="bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
       <SiteNav transparentOnTop />
 
       {/* Hero */}
       <section className="relative h-[80vh] min-h-[560px] w-full overflow-hidden">
         <img
-          src={d.heroImage || d.image}
+          src={getOptimizedImageUrl(d.heroImage || d.image, { width: 1280, quality: 75 })}
+          srcSet={getSupabaseSrcSet(d.heroImage || d.image) || undefined}
+          sizes="100vw"
           alt={d.name}
           className="absolute inset-0 h-full w-full object-cover"
           loading="eager"
@@ -200,9 +249,11 @@ function DestinationDetail() {
               className="group relative block h-72 overflow-hidden rounded-[22px] ring-1 ring-white/10"
             >
               <img
-                src={m.image}
+                src={getOptimizedImageUrl(m.image, { width: 640, quality: 75 })}
                 alt={m.name}
                 loading="eager"
+                width={640}
+                height={288}
                 className="h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent" />
