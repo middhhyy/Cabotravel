@@ -3,9 +3,13 @@ import logoFooter from "@/assets/cabo-logo-footer.webp";
 export function BrandLogo({
   size = "md",
   variant = "light",
+  loading = "eager",
+  fetchPriority,
 }: {
   size?: "sm" | "md" | "lg";
   variant?: "light" | "dark";
+  loading?: "eager" | "lazy";
+  fetchPriority?: "high" | "low" | "auto";
 }) {
   const imgHeight = size === "lg" ? "h-20" : size === "sm" ? "h-10" : "h-14";
   const text = size === "lg" ? "text-base" : "text-[13px]";
@@ -20,7 +24,9 @@ export function BrandLogo({
         width={280}
         height={284}
         className={`${imgHeight} w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]`}
-        loading="eager"
+        loading={loading}
+        decoding={loading === "lazy" ? "async" : undefined}
+        fetchPriority={fetchPriority}
       />
       <div className="leading-none">
         <div className={`font-display tracking-[0.18em] uppercase ${text}`}>Cabo Tours</div>

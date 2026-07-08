@@ -39,7 +39,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10 py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <BrandLogo size="lg" />
+            <BrandLogo size="lg" loading="lazy" />
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/80">
               A travel company crafting curated journeys across the world — from Kerala's backwaters
               to Maldivian atolls. International & Domestic tours, flights, hotels, visas and

@@ -27,6 +27,7 @@ import dubai from "@/assets/dest-dubai.webp";
 import bali from "@/assets/dest-bali.webp";
 import maldives from "@/assets/dest-maldives.webp";
 import logoFooter from "@/assets/cabo-logo-footer.webp";
+import logoAsset from "@/assets/cabo-logo.webp";
 import { destinations } from "@/lib/destinations";
 const backwatersImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-alleppey-backwaters.webp";
 const munnarImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-munnar-tea-gardens.webp";
@@ -80,6 +81,22 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: "https://cabotours.in/" },
+      { rel: "preload", href: logoAsset, as: "image", type: "image/webp", fetchPriority: "high" } as any,
+      {
+        rel: "preload",
+        as: "image",
+        imageSrcSet: getSupabaseSrcSet(backwatersImg, "avif", 92),
+        imageSizes: "100vw",
+        type: "image/avif",
+        fetchPriority: "high",
+      } as any,
+      {
+        rel: "preload",
+        href: getOptimizedImageUrl(backwatersImg, { width: 1920, height: 1125, quality: 92, format: "webp" }),
+        as: "image",
+        type: "image/webp",
+        fetchPriority: "high",
+      } as any,
     ],
   }),
   component: Home,
@@ -1286,7 +1303,8 @@ const BookingCta = React.memo(function BookingCta() {
       <img
         src={maldives}
         alt="Maldives overwater villas beach view background"
-        loading="eager"
+        loading="lazy"
+        decoding="async"
         width={1920}
         height={1280}
         className="absolute inset-0 h-full w-full object-cover"

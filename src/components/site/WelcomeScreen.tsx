@@ -65,6 +65,7 @@ export function WelcomeScreen({ show, onComplete }: { show: boolean; onComplete:
                     className="welcome-logo"
                     draggable={false}
                     loading="eager"
+                    decoding="sync"
                     fetchPriority="high"
                   />
                   <div className="welcome-sweep" aria-hidden="true" />

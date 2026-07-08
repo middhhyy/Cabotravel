@@ -33,6 +33,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
         height={height}
         loading={isHero ? "eager" : "lazy"}
         decoding={isHero ? "sync" : "async"}
+        fetchPriority={isHero ? "high" : undefined}
         {...props}
       />
     );
