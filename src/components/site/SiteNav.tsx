@@ -31,8 +31,10 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
     if (open) {
       lastActiveElement.current = document.activeElement as HTMLElement;
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
       if (lastActiveElement.current) {
         lastActiveElement.current.focus();
         lastActiveElement.current = null;
@@ -40,6 +42,7 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
     }
     return () => {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [open]);
 
@@ -95,9 +98,14 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
           </a>
           <button
             aria-label="Open navigation menu"
+            type="button"
             aria-haspopup="true"
             aria-expanded={open}
-            onClick={() => setOpen(true)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setOpen(true);
+            }}
             className="grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             <Menu className="h-4 w-4" aria-hidden="true" />
@@ -108,7 +116,7 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
       {/* Mobile drawer */}
       {open && (
         <div
-          className="fixed inset-0 z-50 bg-background/95 backdrop-blur-xl lg:hidden"
+          className="fixed inset-0 z-50 bg-background/95 backdrop-blur-xl lg:hidden touch-none"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile Navigation Menu"
@@ -117,7 +125,12 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
             <BrandLogo />
             <button
               aria-label="Close navigation menu"
-              onClick={() => setOpen(false)}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setOpen(false);
+              }}
               className="grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <X className="h-4 w-4" aria-hidden="true" />
