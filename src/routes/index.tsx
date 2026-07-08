@@ -29,14 +29,16 @@ import maldives from "@/assets/dest-maldives.webp";
 import logoFooter from "@/assets/cabo-logo-footer.webp";
 import logoAsset from "@/assets/cabo-logo.webp";
 import { destinations } from "@/lib/destinations";
-const backwatersImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-alleppey-backwaters.webp";
-const munnarImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-munnar-tea-gardens.webp";
-const kovalamImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-kovalam-beach.webp";
-const fortKochiImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-fort-kochi.webp";
-const wayanadImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-wayanad.webp";
-const thekkadyImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-thekkady.webp";
-const vagamonImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-vagamon.webp";
-const varkalaImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-varkala.webp";
+import { cld } from "@/lib/cloudinary";
+
+const backwatersImg = cld("cabo-travel/hero/hero-alleppey-backwaters", 1920);
+const munnarImg = cld("cabo-travel/hero/hero-munnar-tea-gardens", 1920);
+const kovalamImg = cld("cabo-travel/hero/hero-kovalam-beach", 1920);
+const fortKochiImg = cld("cabo-travel/hero/hero-fort-kochi", 1920);
+const wayanadImg = cld("cabo-travel/hero/hero-wayanad", 1920);
+const thekkadyImg = cld("cabo-travel/hero/hero-thekkady", 1920);
+const vagamonImg = cld("cabo-travel/hero/hero-vagamon", 1920);
+const varkalaImg = cld("cabo-travel/hero/hero-varkala", 1920);
 import { packages } from "@/lib/packages";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
@@ -84,17 +86,8 @@ export const Route = createFileRoute("/")({
       { rel: "preload", href: logoAsset, as: "image", type: "image/webp", fetchPriority: "high" } as any,
       {
         rel: "preload",
+        href: backwatersImg,
         as: "image",
-        imageSrcSet: getSupabaseSrcSet(backwatersImg, "avif", 92),
-        imageSizes: "100vw",
-        type: "image/avif",
-        fetchPriority: "high",
-      } as any,
-      {
-        rel: "preload",
-        href: getOptimizedImageUrl(backwatersImg, { width: 1920, height: 1125, quality: 92, format: "webp" }),
-        as: "image",
-        type: "image/webp",
         fetchPriority: "high",
       } as any,
     ],
