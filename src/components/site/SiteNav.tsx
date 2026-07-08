@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
 import { waLink, waMessages } from "@/lib/whatsapp";
@@ -18,6 +18,7 @@ const items = [
 export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const lastActiveElement = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -25,6 +26,22 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (open) {
+      lastActiveElement.current = document.activeElement as HTMLElement;
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      if (lastActiveElement.current) {
+        lastActiveElement.current.focus();
+        lastActiveElement.current = null;
+      }
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;

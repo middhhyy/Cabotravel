@@ -79,6 +79,10 @@ export function WelcomeScreen({ show, onComplete }: { show: boolean; onComplete:
             <button
               onClick={handleSkip}
               className="absolute bottom-8 right-8 z-[110] rounded-full border border-black/15 bg-white/75 hover:bg-black hover:text-white hover:border-black backdrop-blur-md px-6 py-2.5 text-[11px] font-semibold tracking-[0.25em] uppercase text-black/80 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 cursor-pointer shadow-sm hover:shadow active:scale-95"
+              style={{
+                bottom: "calc(2rem + env(safe-area-inset-bottom, 0px))",
+                right: "calc(2rem + env(safe-area-inset-right, 0px))"
+              }}
             >
               Skip Intro
             </button>
