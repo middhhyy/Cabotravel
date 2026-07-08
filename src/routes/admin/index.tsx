@@ -117,7 +117,7 @@ function AdminPage() {
                   <label className="block text-sm text-white/60 mb-1">Google Maps API Key</label>
                   <input
                     type="password"
-                    placeholder="Enter API Key"
+                    value="************************"
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white font-mono text-sm focus:border-brand focus:outline-none"
                   />
                 </div>
