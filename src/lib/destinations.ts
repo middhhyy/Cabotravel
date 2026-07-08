@@ -1,3 +1,4 @@
+import { cld } from "./cloudinary";
 import kerala from "@/assets/dest-kerala.webp";
 import kashmir from "@/assets/dest-kashmir.webp";
 import dubai from "@/assets/dest-dubai.webp";
@@ -37,7 +38,7 @@ export const destinations: Destination[] = [
     name: "Kerala",
     region: "Domestic",
     country: "India",
-    image: kerala,
+    image: cld("dest-kerala_ttbnaa", 640),
     heroImage: keralaHero,
     tagline: "God's Own Country",
     description:

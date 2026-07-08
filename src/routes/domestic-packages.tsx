@@ -7,8 +7,8 @@ import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { getOptimizedImageUrl } from "@/lib/utils";
+import { cld } from "@/lib/cloudinary";
 
-import kerala from "@/assets/dest-kerala.webp";
 import tamilNadu from "@/assets/dest-tamil-nadu.webp";
 import goa from "@/assets/dest-goa.webp";
 import karnataka from "@/assets/dest-karnataka.webp";
@@ -36,7 +36,7 @@ const DOMESTIC_DESTINATIONS = [
     name: "Kerala",
     region: "DOMESTIC · INDIA",
     tagline: "God's Own Country",
-    image: kerala,
+    image: cld("dest-kerala_ttbnaa", 640),
     to: "/kerala",
   },
   {

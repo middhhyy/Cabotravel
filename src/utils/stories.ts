@@ -1,3 +1,4 @@
+import { cld } from "@/lib/cloudinary";
 import bali from "@/assets/dest-bali.webp";
 import kerala from "@/assets/dest-kerala.webp";
 import maldives from "@/assets/dest-maldives.webp";
@@ -21,7 +22,7 @@ export interface GuestStory {
 
 export const DESTINATION_PRESETS: Record<string, string> = {
   Bali: bali,
-  Kerala: kerala,
+  Kerala: cld("dest-kerala_ttbnaa", 640),
   Maldives: maldives,
   Kashmir: kashmir,
   Dubai: dubai,
