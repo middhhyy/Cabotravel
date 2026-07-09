@@ -20,6 +20,7 @@ import {
   Users,
   Star,
   Quote,
+  X,
 } from "lucide-react";
 import kerala from "@/assets/dest-kerala.webp";
 import kashmir from "@/assets/dest-kashmir.webp";
@@ -159,6 +160,19 @@ const slides: Slide[] = [
   },
 ];
 
+const heroNavItems = [
+  { to: "/", label: "HOME", active: true },
+  { to: "/packages", label: "HOLIDAYS" },
+  { to: "/destinations", label: "DESTINATIONS" },
+  {
+    href: "https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20flight%20tickets",
+    label: "FLIGHTS",
+  },
+  { to: "/cabs", label: "CAB SERVICES" },
+  { to: "/visa", label: "VISA" },
+  { to: "/contact", label: "CONTACT" },
+];
+
 function Home() {
   const { welcomeDone, setWelcomeDone } = useWelcome();
 
@@ -228,10 +242,41 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
   const slide = slides[index];
   const go = useCallback((dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length), []);
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const lastActiveElement = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
     const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), 6500);
     return () => clearInterval(t);
   }, []);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      lastActiveElement.current = document.activeElement as HTMLElement;
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      if (lastActiveElement.current) {
+        lastActiveElement.current.focus();
+        lastActiveElement.current = null;
+      }
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
 
   const upcoming = Array.from({ length: 4 }, (_, k) => slides[(index + 1 + k) % slides.length]);
 
@@ -297,18 +342,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
           className="hidden md:flex items-center gap-7 lg:gap-9 text-[11px] tracking-[0.22em] text-white/85"
           aria-label="Hero navigation"
         >
-          {[
-            { to: "/", label: "HOME", active: true },
-            { to: "/packages", label: "HOLIDAYS" },
-            { to: "/destinations", label: "DESTINATIONS" },
-            {
-              href: "https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20flight%20tickets",
-              label: "FLIGHTS",
-            },
-            { to: "/cabs", label: "CAB SERVICES" },
-            { to: "/visa", label: "VISA" },
-            { to: "/contact", label: "CONTACT" },
-          ].map((i, k) =>
+          {heroNavItems.map((i, k) =>
             "href" in i ? (
               <a
                 key={k}
@@ -337,14 +371,101 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
           <div className="hidden md:flex items-center">
             <Search className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
           </div>
-          <Link
-            to="/contact"
+          <button
+            type="button"
+            aria-label="Open navigation menu"
+            aria-haspopup="true"
+            aria-expanded={mobileMenuOpen}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setMobileMenuOpen(true);
+            }}
             className="md:hidden text-[10px] tracking-[0.22em] text-white/90 uppercase border border-white/40 rounded-full px-3 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
           >
             Menu
-          </Link>
+          </button>
         </div>
       </motion.header>
+
+      {/* Mobile drawer */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-background/95 backdrop-blur-xl md:hidden touch-none"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile Navigation Menu"
+        >
+          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+            <Link
+              to="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-3 text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            >
+              <img
+                src={logoFooter}
+                alt=""
+                width={280}
+                height={284}
+                className="h-16 w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
+                loading="eager"
+              />
+              <span className="font-display tracking-[0.18em] text-[13px]">CABO TOURS</span>
+            </Link>
+            <button
+              aria-label="Close navigation menu"
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setMobileMenuOpen(false);
+              }}
+              className="grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            >
+              <X className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
+          <nav className="flex flex-col gap-1 p-6" aria-label="Mobile Navigation">
+            {heroNavItems.map((i, k) =>
+              "href" in i ? (
+                <a
+                  key={k}
+                  href={i.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="font-display text-2xl uppercase tracking-[0.05em] text-white/90 py-3 border-b border-white/5 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                >
+                  {i.label}
+                </a>
+              ) : (
+                <Link
+                  key={k}
+                  to={i.to}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="font-display text-2xl uppercase tracking-[0.05em] text-white/90 py-3 border-b border-white/5 [&.active]:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  activeProps={{ className: "active" }}
+                  activeOptions={{ exact: i.to === "/" }}
+                >
+                  {i.label}
+                </Link>
+              )
+            )}
+            <a
+              href={waLink(waMessages.general)}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                trackEvent("whatsapp_click", "engagement", "Hero Mobile CTA");
+              }}
+              className="mt-6 inline-flex items-center justify-center rounded-full bg-brand px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            >
+              Book on WhatsApp
+            </a>
+          </nav>
+        </div>
+      )}
 
       <div className="relative z-10 grid h-full grid-cols-1 lg:grid-cols-12 items-end lg:items-center px-6 md:px-10 lg:px-14 pb-36 lg:pb-0 pt-28">
         <div className="lg:col-span-6 max-w-xl">
