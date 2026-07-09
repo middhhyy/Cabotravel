@@ -8,6 +8,7 @@ interface ResponsiveImageProps extends React.ImgHTMLAttributes<HTMLImageElement>
   height?: number;
   quality?: number;
   isHero?: boolean;
+  widths?: number[];
 }
 
 export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
@@ -17,7 +18,9 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
   height,
   quality = 90,
   isHero = false,
+  widths,
   className,
+  sizes,
   ...props
 }) => {
   const isSupabase = src && src.includes("supabase.co/storage/v1/object/public/");
@@ -31,6 +34,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
         className={className}
         width={width}
         height={height}
+        sizes={sizes}
         loading={isHero ? "eager" : "lazy"}
         decoding={isHero ? "sync" : "async"}
         fetchPriority={isHero ? "high" : undefined}
@@ -40,19 +44,20 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
   }
 
   // Generate srcsets for AVIF and WebP formats
-  const avifSrcSet = getSupabaseSrcSet(src, "avif", quality);
-  const webpSrcSet = getSupabaseSrcSet(src, "webp", quality);
+  const avifSrcSet = getSupabaseSrcSet(src, "avif", quality, widths);
+  const webpSrcSet = getSupabaseSrcSet(src, "webp", quality, widths);
 
   return (
     <picture className={className}>
-      {avifSrcSet && <source srcSet={avifSrcSet} type="image/avif" />}
-      {webpSrcSet && <source srcSet={webpSrcSet} type="image/webp" />}
+      {avifSrcSet && <source srcSet={avifSrcSet} type="image/avif" sizes={sizes} />}
+      {webpSrcSet && <source srcSet={webpSrcSet} type="image/webp" sizes={sizes} />}
       <img
         src={getOptimizedImageUrl(src, { width, height, quality, format: "webp" })}
         alt={alt}
         className={className}
         width={width}
         height={height}
+        sizes={sizes}
         loading={isHero ? "eager" : "lazy"}
         decoding={isHero ? "sync" : "async"}
         fetchPriority={isHero ? "high" : undefined}

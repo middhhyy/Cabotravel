@@ -27,11 +27,16 @@ export function getOptimizedImageUrl(
   return transformedUrl;
 }
 
-export function getSupabaseSrcSet(url: string, format: "avif" | "webp" = "webp", quality = 90): string {
+export function getSupabaseSrcSet(
+  url: string,
+  format: "avif" | "webp" = "webp",
+  quality = 90,
+  customWidths?: number[]
+): string {
   if (!url || !url.includes("supabase.co/storage/v1/object/public/")) {
     return "";
   }
-  const widths = [640, 1024, 1536, 2000];
+  const widths = customWidths || [640, 1024, 1536, 2000];
   return widths
     .map((w) => `${getOptimizedImageUrl(url, { width: w, quality, format })} ${w}w`)
     .join(", ");

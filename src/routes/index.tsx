@@ -414,9 +414,11 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                   <ResponsiveImage
                     src={s.image}
                     alt={s.label}
-                    width={210}
-                    height={340}
-                    quality={90}
+                    width={450}
+                    height={728}
+                    quality={80}
+                    widths={[450]}
+                    sizes="(max-width: 640px) 135px, (max-width: 1024px) 185px, 210px"
                     isHero
                     className="absolute inset-0 h-full w-full object-cover transition duration-[1200ms] group-hover:scale-110"
                   />
