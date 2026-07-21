@@ -26,8 +26,8 @@ export const Route = createFileRoute("/stories")({
         content:
           "Read real guest travel stories, verified reviews, and holiday diaries from travelers who booked custom packages with Cabo Tours.",
       },
-      { property: "og:url", content: "https://cabotourskerala.in/stories" },
-      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { property: "og:url", content: "https://www.cabotourskerala.in/stories" },
+      { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Guest Travel Stories & Reviews | Cabo Tours & Travels" },
@@ -36,9 +36,9 @@ export const Route = createFileRoute("/stories")({
         content:
           "Read real guest travel stories, verified reviews, and holiday diaries from travelers who booked custom packages.",
       },
-      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { name: "twitter:image", content: "https://www.cabotourskerala.in/social-preview.png" },
     ],
-    links: [{ rel: "canonical", href: "https://cabotourskerala.in/stories" }],
+    links: [{ rel: "canonical", href: "https://www.cabotourskerala.in/stories" }],
   }),
   component: StoriesPage,
 });

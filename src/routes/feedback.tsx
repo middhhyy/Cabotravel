@@ -23,8 +23,8 @@ export const Route = createFileRoute("/feedback")({
         content:
           "Help us craft better journeys. Share your holiday feedback, reviews, and travel experience of booking tour packages with Cabo.",
       },
-      { property: "og:url", content: "https://cabotourskerala.in/feedback" },
-      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { property: "og:url", content: "https://www.cabotourskerala.in/feedback" },
+      { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Share Your Feedback & Travel Review | Cabo Tours & Travels" },
@@ -33,9 +33,9 @@ export const Route = createFileRoute("/feedback")({
         content:
           "Help us craft better journeys. Share your holiday feedback, reviews, and travel experience of booking tour packages with Cabo.",
       },
-      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { name: "twitter:image", content: "https://www.cabotourskerala.in/social-preview.png" },
     ],
-    links: [{ rel: "canonical", href: "https://cabotourskerala.in/feedback" }],
+    links: [{ rel: "canonical", href: "https://www.cabotourskerala.in/feedback" }],
   }),
   component: FeedbackPage,
 });

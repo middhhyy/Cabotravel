@@ -27,8 +27,8 @@ export const Route = createFileRoute("/trip/$id")({
         property: "og:description",
         content: `View your custom-generated tour plan for ${loaderData?.trip?.destination || "your destination"}. Personalized daily breakdown, activities, hotels, and flight tips.`,
       },
-      { property: "og:url", content: `https://cabotourskerala.in/trip/${loaderData?.id}` },
-      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { property: "og:url", content: `https://www.cabotourskerala.in/trip/${loaderData?.id}` },
+      { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       {
@@ -39,9 +39,9 @@ export const Route = createFileRoute("/trip/$id")({
         name: "twitter:description",
         content: `View your custom-generated tour plan for ${loaderData?.trip?.destination || "your destination"}.`,
       },
-      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { name: "twitter:image", content: "https://www.cabotourskerala.in/social-preview.png" },
     ],
-    links: [{ rel: "canonical", href: `https://cabotourskerala.in/trip/${loaderData?.id}` }],
+    links: [{ rel: "canonical", href: `https://www.cabotourskerala.in/trip/${loaderData?.id}` }],
   }),
   errorComponent: ({ error }) => {
     return (

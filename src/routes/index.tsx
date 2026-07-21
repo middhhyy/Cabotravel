@@ -70,8 +70,8 @@ export const Route = createFileRoute("/")({
         content:
           "Premium tour packages and curated travel itineraries across Kerala, Dubai, Bali, and the Maldives. Personalized visa help, flights, hotels & bespoke trips.",
       },
-      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
-      { property: "og:url", content: "https://cabotourskerala.in/" },
+      { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
+      { property: "og:url", content: "https://www.cabotourskerala.in/" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       {
@@ -83,10 +83,10 @@ export const Route = createFileRoute("/")({
         content:
           "Premium tour packages and curated travel itineraries across Kerala, Dubai, Bali, and the Maldives.",
       },
-      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { name: "twitter:image", content: "https://www.cabotourskerala.in/social-preview.png" },
     ],
     links: [
-      { rel: "canonical", href: "https://cabotourskerala.in/" },
+      { rel: "canonical", href: "https://www.cabotourskerala.in/" },
       { rel: "preload", href: logoAsset, as: "image", type: "image/webp", fetchPriority: "high" } as any,
       {
         rel: "preload",
@@ -325,11 +325,12 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
         <div className="flex-1 flex justify-start">
           <Link
             to="/"
+            aria-label="Cabo Tours & Travels Home"
             className="flex items-center gap-3 text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
           >
             <img
               src={logoFooter}
-              alt=""
+              alt="Cabo Tours & Travels Logo"
               width={280}
               height={284}
               className="h-16 w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
@@ -399,12 +400,13 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
           <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
             <Link
               to="/"
+              aria-label="Cabo Tours & Travels Home"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center gap-3 text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             >
               <img
                 src={logoFooter}
-                alt=""
+                alt="Cabo Tours & Travels Logo"
                 width={280}
                 height={284}
                 className="h-16 w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.2)]"

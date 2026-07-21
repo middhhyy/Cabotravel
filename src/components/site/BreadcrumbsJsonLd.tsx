@@ -2,7 +2,7 @@ import { useLocation } from "@tanstack/react-router";
 import { destinations } from "@/lib/destinations";
 import { packages } from "@/lib/packages";
 
-const BASE_URL = "https://cabotourskerala.in";
+const BASE_URL = "https://www.cabotourskerala.in";
 
 export function BreadcrumbsJsonLd() {
   const location = useLocation();

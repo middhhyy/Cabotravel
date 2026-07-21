@@ -42,9 +42,9 @@ export const Route = createFileRoute("/destinations/$slug")({
       { property: "og:description", content: loaderData?.tagline ?? "Curated travel packages." },
       {
         property: "og:image",
-        content: loaderData?.image ?? "https://cabotourskerala.in/social-preview.png",
+        content: loaderData?.image ?? "https://www.cabotourskerala.in/social-preview.png",
       },
-      { property: "og:url", content: `https://cabotourskerala.in/destinations/${loaderData?.slug}` },
+      { property: "og:url", content: `https://www.cabotourskerala.in/destinations/${loaderData?.slug}` },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       {
@@ -57,10 +57,10 @@ export const Route = createFileRoute("/destinations/$slug")({
       },
       {
         name: "twitter:image",
-        content: loaderData?.image ?? "https://cabotourskerala.in/social-preview.png",
+        content: loaderData?.image ?? "https://www.cabotourskerala.in/social-preview.png",
       },
     ],
-    links: [{ rel: "canonical", href: `https://cabotourskerala.in/destinations/${loaderData?.slug}` }],
+    links: [{ rel: "canonical", href: `https://www.cabotourskerala.in/destinations/${loaderData?.slug}` }],
   }),
   notFoundComponent: () => (
     <main className="min-h-screen grid place-items-center bg-background text-white">
@@ -93,12 +93,12 @@ function DestinationDetail() {
       "price": price,
       "priceValidUntil": "2027-12-31",
       "availability": "https://schema.org/InStock",
-      "url": `https://cabotourskerala.in/destinations/${d.slug}`,
+      "url": `https://www.cabotourskerala.in/destinations/${d.slug}`,
     },
     "provider": {
       "@type": "TravelAgency",
       "name": BUSINESS_INFO.name,
-      "url": "https://cabotourskerala.in",
+      "url": "https://www.cabotourskerala.in",
       "telephone": BUSINESS_INFO.phone,
       "priceRange": "$$",
     },

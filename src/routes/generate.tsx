@@ -53,8 +53,8 @@ export const Route = createFileRoute("/generate")({
         content:
           "Generate your custom domestic or international tour itinerary using our smart trip builder.",
       },
-      { property: "og:url", content: "https://cabotourskerala.in/generate" },
-      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { property: "og:url", content: "https://www.cabotourskerala.in/generate" },
+      { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       {
@@ -66,9 +66,9 @@ export const Route = createFileRoute("/generate")({
         content:
           "Generate your custom domestic or international tour itinerary using our smart trip builder.",
       },
-      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { name: "twitter:image", content: "https://www.cabotourskerala.in/social-preview.png" },
     ],
-    links: [{ rel: "canonical", href: "https://cabotourskerala.in/generate" }],
+    links: [{ rel: "canonical", href: "https://www.cabotourskerala.in/generate" }],
   }),
   component: GeneratePage,
 });

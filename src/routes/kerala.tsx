@@ -36,8 +36,8 @@ export const Route = createFileRoute("/kerala")({
         content:
           "Book customized Kerala holiday tours, weekend getaways, staycations, and luxury resort stays in Munnar, Wayanad, Varkala, and Alleppey.",
       },
-      { property: "og:url", content: "https://cabotourskerala.in/kerala" },
-      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { property: "og:url", content: "https://www.cabotourskerala.in/kerala" },
+      { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Kerala Weekend Getaways & Staycations | Cabo Tours" },
@@ -46,9 +46,9 @@ export const Route = createFileRoute("/kerala")({
         content:
           "Book customized Kerala holiday tours, weekend getaways, staycations, and luxury resort stays with Cabo Tours.",
       },
-      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { name: "twitter:image", content: "https://www.cabotourskerala.in/social-preview.png" },
     ],
-    links: [{ rel: "canonical", href: "https://cabotourskerala.in/kerala" }],
+    links: [{ rel: "canonical", href: "https://www.cabotourskerala.in/kerala" }],
   }),
   component: KeralaPage,
 });

@@ -66,6 +66,7 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 lg:px-10 py-4">
         <Link
           to="/"
+          aria-label="Cabo Tours & Travels Home"
           className="shrink-0 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <BrandLogo />

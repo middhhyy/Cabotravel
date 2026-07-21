@@ -25,8 +25,8 @@ export const Route = createFileRoute("/contact")({
         content:
           "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or WhatsApp us to customize your trip.",
       },
-      { property: "og:url", content: "https://cabotourskerala.in/contact" },
-      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { property: "og:url", content: "https://www.cabotourskerala.in/contact" },
+      { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Contact Us | Cabo Tours & Travels — Calicut Travel Agent" },
@@ -35,9 +35,9 @@ export const Route = createFileRoute("/contact")({
         content:
           "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or WhatsApp us to customize your trip.",
       },
-      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { name: "twitter:image", content: "https://www.cabotourskerala.in/social-preview.png" },
     ],
-    links: [{ rel: "canonical", href: "https://cabotourskerala.in/contact" }],
+    links: [{ rel: "canonical", href: "https://www.cabotourskerala.in/contact" }],
   }),
   component: ContactPage,
 });

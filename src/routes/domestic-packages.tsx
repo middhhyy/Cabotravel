@@ -183,8 +183,8 @@ export const Route = createFileRoute("/domestic-packages")({
         content:
           "Explore the rich diversity of India with Cabo's curated domestic holiday packages.",
       },
-      { property: "og:url", content: "https://cabotourskerala.in/domestic-packages" },
-      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { property: "og:url", content: "https://www.cabotourskerala.in/domestic-packages" },
+      { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Domestic Tour Packages & Holidays | Cabo Tours & Travels" },
@@ -194,7 +194,7 @@ export const Route = createFileRoute("/domestic-packages")({
           "Explore the rich diversity of India with Cabo's curated domestic holiday packages.",
       },
     ],
-    links: [{ rel: "canonical", href: "https://cabotourskerala.in/domestic-packages" }],
+    links: [{ rel: "canonical", href: "https://www.cabotourskerala.in/domestic-packages" }],
   }),
   component: DomesticPackagesPage,
 });

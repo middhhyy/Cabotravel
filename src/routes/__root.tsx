@@ -89,12 +89,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Cabo Tours & Travels" },
       { property: "og:description", content: "Curated journeys, crafted for you." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://cabotourskerala.in" },
-      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { property: "og:url", content: "https://www.cabotourskerala.in" },
+      { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Cabo Tours & Travels" },
       { name: "twitter:description", content: "Curated journeys, crafted for you." },
-      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
+      { name: "twitter:image", content: "https://www.cabotourskerala.in/social-preview.png" },
     ];
 
     const gscVerification = import.meta.env.VITE_GOOGLE_SITE_VERIFICATION;
@@ -160,12 +160,12 @@ function RootShell({ children }: { children: ReactNode }) {
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://cabotourskerala.in/#organization",
+        "@id": "https://www.cabotourskerala.in/#organization",
         name: BUSINESS_INFO.name,
-        url: "https://cabotourskerala.in",
+        url: "https://www.cabotourskerala.in",
         logo: {
           "@type": "ImageObject",
-          url: "https://cabotourskerala.in/social-preview.png",
+          url: "https://www.cabotourskerala.in/social-preview.png",
           width: 1200,
           height: 630,
         },
@@ -173,10 +173,10 @@ function RootShell({ children }: { children: ReactNode }) {
       },
       {
         "@type": "TravelAgency",
-        "@id": "https://cabotourskerala.in/#agency",
+        "@id": "https://www.cabotourskerala.in/#agency",
         name: BUSINESS_INFO.name,
-        url: "https://cabotourskerala.in",
-        logo: "https://cabotourskerala.in/social-preview.png",
+        url: "https://www.cabotourskerala.in",
+        logo: "https://www.cabotourskerala.in/social-preview.png",
         email: BUSINESS_INFO.email,
         telephone: BUSINESS_INFO.phone,
         priceRange: "$$",
@@ -267,11 +267,11 @@ function RootShell({ children }: { children: ReactNode }) {
       },
       {
         "@type": "WebSite",
-        "@id": "https://cabotourskerala.in/#website",
-        url: "https://cabotourskerala.in",
+        "@id": "https://www.cabotourskerala.in/#website",
+        url: "https://www.cabotourskerala.in",
         name: BUSINESS_INFO.name,
         publisher: {
-          "@id": "https://cabotourskerala.in/#organization",
+          "@id": "https://www.cabotourskerala.in/#organization",
         },
       },
     ],
