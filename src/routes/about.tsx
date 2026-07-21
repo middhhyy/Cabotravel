@@ -22,8 +22,8 @@ export const Route = createFileRoute("/about")({
         content:
           "Meet Cabo Tours & Travels, your Kerala-rooted travel agency crafting curated international tour packages, domestic holiday trips, and custom itineraries.",
       },
-      { property: "og:url", content: "https://cabotours.in/about" },
-      { property: "og:image", content: "https://cabotours.in/social-preview.png" },
+      { property: "og:url", content: "https://cabotourskerala.in/about" },
+      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "About Us | Cabo Tours & Travels — Curated Travel Agency" },
@@ -32,9 +32,9 @@ export const Route = createFileRoute("/about")({
         content:
           "Meet Cabo Tours & Travels, your Kerala-rooted travel agency crafting curated international tour packages, domestic holiday trips, and custom itineraries.",
       },
-      { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
+      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
     ],
-    links: [{ rel: "canonical", href: "https://cabotours.in/about" }],
+    links: [{ rel: "canonical", href: "https://cabotourskerala.in/about" }],
   }),
   component: AboutPage,
 });

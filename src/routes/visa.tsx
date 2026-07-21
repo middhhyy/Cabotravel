@@ -22,8 +22,8 @@ export const Route = createFileRoute("/visa")({
         content:
           "Get end-to-end visa assistance and document processing services for UAE, Thailand, Bali, Schengen, and more with the experts at Cabo Tours & Travels.",
       },
-      { property: "og:url", content: "https://cabotours.in/visa" },
-      { property: "og:image", content: "https://cabotours.in/social-preview.png" },
+      { property: "og:url", content: "https://cabotourskerala.in/visa" },
+      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Visa Assistance & Processing Services | Cabo Tours" },
@@ -32,9 +32,9 @@ export const Route = createFileRoute("/visa")({
         content:
           "Get end-to-end visa assistance and document processing services for UAE, Thailand, Bali, Schengen, and more with the experts at Cabo Tours & Travels.",
       },
-      { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
+      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
     ],
-    links: [{ rel: "canonical", href: "https://cabotours.in/visa" }],
+    links: [{ rel: "canonical", href: "https://cabotourskerala.in/visa" }],
   }),
   component: VisaPage,
 });

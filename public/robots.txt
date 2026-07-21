@@ -4,4 +4,4 @@ Disallow: /admin/
 Disallow: /agency/
 Disallow: /api/
 
-Sitemap: https://cabotours.in/sitemap.xml
+Sitemap: https://cabotourskerala.in/sitemap.xml

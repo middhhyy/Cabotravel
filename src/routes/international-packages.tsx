@@ -135,8 +135,8 @@ export const Route = createFileRoute("/international-packages")({
         content:
           "Craft your dream holiday with Cabo's curated international tour packages. Explore custom travel packages to Bali, Dubai, Thailand, Maldives and beyond.",
       },
-      { property: "og:url", content: "https://cabotours.in/international-packages" },
-      { property: "og:image", content: "https://cabotours.in/social-preview.png" },
+      { property: "og:url", content: "https://cabotourskerala.in/international-packages" },
+      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "International Tour Packages & Holidays | Cabo Tours" },
@@ -146,7 +146,7 @@ export const Route = createFileRoute("/international-packages")({
           "Craft your dream holiday with Cabo's curated international tour packages. Explore custom travel packages to Bali, Dubai, Thailand, Maldives and beyond.",
       },
     ],
-    links: [{ rel: "canonical", href: "https://cabotours.in/international-packages" }],
+    links: [{ rel: "canonical", href: "https://cabotourskerala.in/international-packages" }],
   }),
   component: InternationalPackagesPage,
 });

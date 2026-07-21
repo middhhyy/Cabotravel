@@ -40,8 +40,8 @@ export const Route = createFileRoute("/packages")({
         content:
           "Browse our curated honeymoon, family, group, and luxury tour packages across Kerala, Kashmir, Dubai, Bali, Thailand, and Maldives from Cabo Tours.",
       },
-      { property: "og:url", content: "https://cabotours.in/packages" },
-      { property: "og:image", content: "https://cabotours.in/social-preview.png" },
+      { property: "og:url", content: "https://cabotourskerala.in/packages" },
+      { property: "og:image", content: "https://cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Custom Tour Packages & Trip Itineraries | Cabo Tours" },
@@ -50,9 +50,9 @@ export const Route = createFileRoute("/packages")({
         content:
           "Browse our curated honeymoon, family, group, and luxury tour packages across Kerala, Kashmir, Dubai, Bali, Thailand, and Maldives from Cabo Tours.",
       },
-      { name: "twitter:image", content: "https://cabotours.in/social-preview.png" },
+      { name: "twitter:image", content: "https://cabotourskerala.in/social-preview.png" },
     ],
-    links: [{ rel: "canonical", href: "https://cabotours.in/packages" }],
+    links: [{ rel: "canonical", href: "https://cabotourskerala.in/packages" }],
   }),
   component: PackagesPage,
 });

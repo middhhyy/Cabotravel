@@ -3,7 +3,7 @@ import type {} from "@tanstack/react-start";
 import { destinations } from "@/lib/destinations";
 
 // TODO: replace with your project URL once a project name or custom domain is set.
-const BASE_URL = "https://cabotours.in";
+const BASE_URL = "https://cabotourskerala.in";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {

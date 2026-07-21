@@ -2,7 +2,7 @@ export const BUSINESS_INFO = {
   name: "Cabo Tours & Travels",
   phone: "+91 77364 06630",
   phoneDisplay: "+91 77364 06630",
-  email: "hello@cabotours.in",
+  email: "hello@cabotourskerala.in",
   founder: "Amal & Meera",
   address: {
     streetAddress: "Calicut",
