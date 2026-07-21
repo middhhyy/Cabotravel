@@ -109,8 +109,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { rel: "stylesheet", href: appCss, media: "print", id: "main-stylesheet" } as any,
 
         {
+          rel: "shortcut icon",
+          href: "/favicon.ico",
+        },
+        {
           rel: "apple-touch-icon",
           href: "/apple-touch-icon.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "192x192",
+          href: "/android-chrome-192x192.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "512x512",
+          href: "/android-chrome-512x512.png",
         },
         {
           rel: "icon",
