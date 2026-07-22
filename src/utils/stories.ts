@@ -118,12 +118,16 @@ const DEFAULT_STORIES: GuestStory[] = [
 
 export const getStories = (): GuestStory[] => {
   if (typeof window === "undefined") return DEFAULT_STORIES;
-  const stored = localStorage.getItem("cabo_guest_stories");
-  if (!stored) {
-    localStorage.setItem("cabo_guest_stories", JSON.stringify(DEFAULT_STORIES));
-    return DEFAULT_STORIES;
-  }
   try {
+    const stored = localStorage.getItem("cabo_guest_stories");
+    if (!stored) {
+      try {
+        localStorage.setItem("cabo_guest_stories", JSON.stringify(DEFAULT_STORIES));
+      } catch {
+        // ignore
+      }
+      return DEFAULT_STORIES;
+    }
     return JSON.parse(stored);
   } catch (e) {
     return DEFAULT_STORIES;
@@ -132,7 +136,11 @@ export const getStories = (): GuestStory[] => {
 
 export const saveStories = (stories: GuestStory[]) => {
   if (typeof window !== "undefined") {
-    localStorage.setItem("cabo_guest_stories", JSON.stringify(stories));
+    try {
+      localStorage.setItem("cabo_guest_stories", JSON.stringify(stories));
+    } catch {
+      // ignore
+    }
   }
 };
 

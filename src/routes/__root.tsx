@@ -316,17 +316,56 @@ import { GoogleAnalytics } from "@/components/site/GoogleAnalytics";
 import { BreadcrumbsJsonLd } from "@/components/site/BreadcrumbsJsonLd";
 import { WelcomeProvider } from "@/components/site/WelcomeProvider";
 
+class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-6 text-center">
+          <div className="max-w-md space-y-4">
+            <h1 className="text-2xl font-display uppercase tracking-wider text-brand">Something went wrong</h1>
+            <p className="text-sm text-white/70">
+              The application encountered an unexpected error. Please reload the page to try again.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 inline-flex items-center justify-center rounded-full bg-brand px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            >
+              Reload Page
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <GoogleAnalytics />
-      <BreadcrumbsJsonLd />
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <WelcomeProvider>
-        <Outlet />
-      </WelcomeProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <GoogleAnalytics />
+        <BreadcrumbsJsonLd />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <WelcomeProvider>
+          <Outlet />
+        </WelcomeProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }

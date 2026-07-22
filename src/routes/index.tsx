@@ -1038,12 +1038,16 @@ const Experiences = React.memo(function Experiences() {
 
   const getOrCreateSessionId = () => {
     if (typeof window === "undefined") return "";
-    let sessionId = localStorage.getItem("cabo_session_id");
-    if (!sessionId) {
-      sessionId = "sess-" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      localStorage.setItem("cabo_session_id", sessionId);
+    try {
+      let sessionId = localStorage.getItem("cabo_session_id");
+      if (!sessionId) {
+        sessionId = "sess-" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        localStorage.setItem("cabo_session_id", sessionId);
+      }
+      return sessionId;
+    } catch {
+      return "";
     }
-    return sessionId;
   };
 
   useEffect(() => {
