@@ -4,6 +4,8 @@ import { Menu, X } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
+import { motion, AnimatePresence } from "framer-motion";
+import { BUSINESS_INFO } from "@/lib/business";
 
 const items = [
   { to: "/", label: "Home" },
@@ -30,11 +32,14 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
   useEffect(() => {
     if (open) {
       lastActiveElement.current = document.activeElement as HTMLElement;
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
     } else {
       document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
+      document.body.style.paddingRight = "";
       if (lastActiveElement.current) {
         lastActiveElement.current.focus();
         lastActiveElement.current = null;
@@ -42,7 +47,7 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
     }
     return () => {
       document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
   }, [open]);
 
@@ -115,53 +120,80 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
       </div>
 
       {/* Mobile drawer */}
-      {open && (
-        <div
-          className="fixed inset-0 z-50 bg-background/95 backdrop-blur-xl lg:hidden touch-none"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile Navigation Menu"
-        >
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-            <BrandLogo />
-            <button
-              aria-label="Close navigation menu"
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setOpen(false);
-              }}
-              className="grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      <AnimatePresence>
+        {open && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[6px] lg:hidden"
+            />
+            {/* Drawer Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
+              className="fixed right-0 top-0 bottom-0 z-50 w-[85vw] max-w-[320px] bg-background border-l border-white/10 shadow-2xl flex flex-col lg:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile Navigation Menu"
             >
-              <X className="h-4 w-4" aria-hidden="true" />
-            </button>
-          </div>
-          <nav className="flex flex-col gap-1 p-6" aria-label="Mobile Navigation">
-            {items.map((i) => (
-              <Link
-                key={i.to}
-                to={i.to}
-                onClick={() => setOpen(false)}
-                className="font-display text-2xl uppercase tracking-[0.05em] text-white/90 py-3 border-b border-white/5 [&.active]:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-                activeProps={{ className: "active" }}
-                activeOptions={{ exact: i.to === "/" }}
-              >
-                {i.label}
-              </Link>
-            ))}
-            <a
-              href={waLink(waMessages.general)}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => trackEvent("whatsapp_click", "engagement", "SiteNav Mobile CTA")}
-              className="mt-6 inline-flex items-center justify-center rounded-full bg-brand px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-            >
-              Book on WhatsApp
-            </a>
-          </nav>
-        </div>
-      )}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+                <BrandLogo />
+                <button
+                  aria-label="Close navigation menu"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setOpen(false);
+                  }}
+                  className="grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                >
+                  <X className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </div>
+              <nav className="flex flex-col gap-3 p-6 flex-1 overflow-y-auto scrollbar-none" aria-label="Mobile Navigation">
+                {items.map((i) => (
+                  <Link
+                    key={i.to}
+                    to={i.to}
+                    onClick={() => setOpen(false)}
+                    className="font-display text-2xl uppercase tracking-[0.05em] text-white/90 py-4 border-b border-white/5 [&.active]:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                    activeProps={{ className: "active" }}
+                    activeOptions={{ exact: i.to === "/" }}
+                  >
+                    {i.label}
+                  </Link>
+                ))}
+                <a
+                  href={waLink(waMessages.general)}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackEvent("whatsapp_click", "engagement", "SiteNav Mobile CTA")}
+                  className="mt-6 inline-flex items-center justify-center rounded-full bg-brand px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand shrink-0"
+                >
+                  Book on WhatsApp
+                </a>
+
+                {/* Bottom info block */}
+                <div className="mt-auto pt-8 pb-4 border-t border-white/5 space-y-4 text-left">
+                  <div className="text-[10px] tracking-[0.2em] uppercase text-white/45 font-semibold">Contact</div>
+                  <div className="text-xs text-white/60 space-y-2">
+                    <div>📞 {BUSINESS_INFO.phoneDisplay}</div>
+                    <div>✉️ {BUSINESS_INFO.email}</div>
+                  </div>
+                </div>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

@@ -135,7 +135,7 @@ function ContactPage() {
                   value={form.notes}
                   onChange={(e) => setForm({ ...form, notes: e.target.value })}
                   placeholder="Honeymoon? Family with kids? Tell us anything that helps."
-                  className="w-full rounded-2xl border border-white/15 bg-background px-4 py-3 text-sm text-white placeholder:text-white/35 focus:outline-none focus:border-brand"
+                  className="w-full rounded-2xl border border-white/20 hover:border-white/35 bg-white/[0.02] px-4 py-3 text-sm text-white placeholder:text-white/35 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-300"
                 />
               </div>
               <div className="sm:col-span-2 flex flex-wrap items-center gap-3 mt-2">
@@ -219,7 +219,7 @@ function Field({
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-2xl border border-white/15 bg-background px-4 py-3 text-sm text-white placeholder:text-white/35 focus:outline-none focus:border-brand"
+        className="w-full rounded-2xl border border-white/20 hover:border-white/35 bg-white/[0.02] px-4 py-3 text-sm text-white placeholder:text-white/35 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-300"
       />
     </div>
   );

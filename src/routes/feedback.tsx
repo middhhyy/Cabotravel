@@ -170,7 +170,7 @@ function FeedbackPage() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="bg-white/5 border border-white/10 rounded-[26px] p-6 md:p-10 space-y-6 backdrop-blur-md"
+            className="bg-white/5 border border-white/10 rounded-[26px] p-6 md:p-10 space-y-5 backdrop-blur-md"
           >
             {errorMsg && (
               <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs px-4 py-3 rounded-xl">
@@ -179,7 +179,7 @@ function FeedbackPage() {
             )}
 
             <div>
-              <label htmlFor="name" className="block text-[11px] text-white/50 mb-2 uppercase tracking-[0.22em] font-semibold">
+              <label htmlFor="name" className="block text-[10px] uppercase tracking-[0.3em] text-white/55 mb-2">
                 Your Name
               </label>
               <input
@@ -189,12 +189,12 @@ function FeedbackPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Priyan Nair"
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-brand focus:outline-none"
+                className="w-full bg-white/[0.02] border border-white/20 hover:border-white/35 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-300"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] text-white/50 mb-2 uppercase tracking-[0.22em] font-semibold">
+              <label className="block text-[10px] uppercase tracking-[0.3em] text-white/55 mb-2">
                 Rating
               </label>
               <div className="flex gap-2">
@@ -215,7 +215,7 @@ function FeedbackPage() {
             </div>
 
             <div>
-              <label htmlFor="message" className="block text-[11px] text-white/50 mb-2 uppercase tracking-[0.22em] font-semibold">
+              <label htmlFor="message" className="block text-[10px] uppercase tracking-[0.3em] text-white/55 mb-2">
                 Your Experience / Caption
               </label>
               <textarea
@@ -225,12 +225,12 @@ function FeedbackPage() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Describe your trip, the service, and the memorable moments..."
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-brand focus:outline-none resize-none"
+                className="w-full bg-white/[0.02] border border-white/20 hover:border-white/35 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-300 resize-none"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] text-white/50 mb-2 uppercase tracking-[0.22em] font-semibold">
+              <label className="block text-[10px] uppercase tracking-[0.3em] text-white/55 mb-2">
                 Upload Photo (Optional)
               </label>
 
@@ -254,24 +254,24 @@ function FeedbackPage() {
                   </button>
                 </div>
               ) : (
-                <label className="flex flex-col items-center justify-center border border-dashed border-white/10 hover:border-brand/40 bg-black/40 rounded-xl p-8 cursor-pointer group transition">
-                  <Upload className="h-6 w-6 text-white/40 group-hover:text-brand transition mb-3" />
-                  <span className="text-xs text-white/60 group-hover:text-white transition">Click to select a photo</span>
-                  <span className="text-[10px] text-white/40 mt-1">Images only, max 5MB</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="hidden"
-                  />
-                </label>
+                <label className="flex flex-col items-center justify-center border border-white/15 hover:border-brand/45 bg-white/[0.02] hover:bg-white/[0.04] rounded-xl p-6 cursor-pointer group transition duration-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)]">
+                   <Upload className="h-5 w-5 text-white/45 group-hover:text-brand transition mb-2" />
+                   <span className="text-xs text-white/65 group-hover:text-white transition font-medium">Click to select a photo</span>
+                   <span className="text-[10px] text-white/40 mt-0.5">Images only, max 5MB</span>
+                   <input
+                     type="file"
+                     accept="image/*"
+                     onChange={handleFileChange}
+                     className="hidden"
+                   />
+                 </label>
               )}
             </div>
 
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-4 bg-brand text-white font-semibold text-[11px] rounded-full hover:scale-[1.01] transition shadow-lg shadow-brand/10 uppercase tracking-[0.22em]"
+              className="w-full py-3.5 bg-brand text-white font-semibold text-[11px] rounded-full hover:scale-[1.01] hover:shadow-[0_8px_24px_rgba(67,168,232,0.25)] focus:ring-2 focus:ring-brand/20 active:scale-95 transition-all duration-300 uppercase tracking-[0.22em] cursor-pointer"
             >
               {submitting ? "Submitting..." : "Submit Feedback"}
             </button>

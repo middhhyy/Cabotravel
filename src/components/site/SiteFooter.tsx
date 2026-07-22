@@ -37,7 +37,7 @@ export function SiteFooter() {
   return (
     <footer className="relative border-t border-white/10 bg-[oklch(0.13_0.01_250)]">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 py-16 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-12">
+        <div className="grid gap-x-12 gap-y-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <BrandLogo size="lg" loading="lazy" />
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/80">
@@ -57,7 +57,7 @@ export function SiteFooter() {
 
           <div className="lg:col-span-2">
             <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 mb-4">Explore</div>
-            <ul className="space-y-2.5 text-sm text-white/70">
+            <ul className="space-y-3.5 text-sm text-white/70">
               <li>
                 <Link
                   to="/destinations"
@@ -113,7 +113,7 @@ export function SiteFooter() {
             <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 mb-4">
               Services
             </div>
-            <ul className="space-y-2.5 text-sm text-white/70">
+            <ul className="space-y-3.5 text-sm text-white/70">
               <li>
                 <a
                   href="https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20flight%20tickets"
@@ -143,7 +143,7 @@ export function SiteFooter() {
 
           <div className="lg:col-span-3">
             <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 mb-4">Contact</div>
-            <ul className="space-y-3 text-sm text-white/75">
+            <ul className="space-y-4 text-sm text-white/75">
               <li className="flex items-start gap-3">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden="true" />
                 <span>{BUSINESS_INFO.phoneDisplay}</span>
@@ -164,7 +164,7 @@ export function SiteFooter() {
                 </a>
               </li>
             </ul>
-            <div className="mt-5 flex gap-3">
+            <div className="mt-7 flex gap-3">
               <a
                 href={BUSINESS_INFO.socials.instagram}
                 target="_blank"
@@ -187,7 +187,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-[11px] tracking-[0.18em] uppercase text-white/60">
+        <div className="mt-16 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-[11px] tracking-[0.18em] uppercase text-white/60">
           <div>© {new Date().getFullYear()} Cabo Tours & Travels</div>
           <div style={{ fontFamily: "'Lobster', cursive", fontSize: "15px" }} className="normal-case tracking-normal">
             <a

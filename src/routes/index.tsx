@@ -31,6 +31,7 @@ import logoFooter from "@/assets/cabo-logo-footer.webp";
 import logoAsset from "@/assets/cabo-logo.webp";
 import { destinations } from "@/lib/destinations";
 import { cld } from "@/lib/cloudinary";
+import { BUSINESS_INFO } from "@/lib/business";
 
 const backwatersImg = cld("hero-alleppey-backwaters_tsgi4y", 1920);
 const munnarImg = cld("hero-munnar-tea-gardens_uggh6o", 1920);
@@ -175,6 +176,16 @@ const heroNavItems = [
 
 function Home() {
   const { welcomeDone, setWelcomeDone } = useWelcome();
+  const [showFloatingCTA, setShowFloatingCTA] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show floating CTA when scrolled past the hero section (85% of window height)
+      setShowFloatingCTA(window.scrollY > window.innerHeight * 0.85);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -209,6 +220,16 @@ function Home() {
         <FAQSection />
         <SiteFooter />
         <WhatsAppFab />
+        {showFloatingCTA && (
+          <a
+            href={waLink(waMessages.general)}
+            target="_blank"
+            rel="noreferrer"
+            className="fixed bottom-5 left-5 z-40 md:hidden flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white shadow-[0_12px_32px_-8px_rgba(67,168,232,0.65)] hover:scale-105 transition-all duration-300"
+          >
+            Book Now
+          </a>
+        )}
       </main>
     </>
   );
@@ -253,11 +274,14 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
   useEffect(() => {
     if (mobileMenuOpen) {
       lastActiveElement.current = document.activeElement as HTMLElement;
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
     } else {
       document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
+      document.body.style.paddingRight = "";
       if (lastActiveElement.current) {
         lastActiveElement.current.focus();
         lastActiveElement.current = null;
@@ -265,7 +289,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
     }
     return () => {
       document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
   }, [mobileMenuOpen]);
 
@@ -390,84 +414,111 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
       </motion.header>
 
       {/* Mobile drawer */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-50 bg-background/95 backdrop-blur-xl md:hidden touch-none"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile Navigation Menu"
-        >
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-            <Link
-              to="/"
-              aria-label="Cabo Tours & Travels Home"
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[6px] md:hidden"
+            />
+            {/* Drawer Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
+              className="fixed right-0 top-0 bottom-0 z-50 w-[85vw] max-w-[320px] bg-background border-l border-white/10 shadow-2xl flex flex-col md:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile Navigation Menu"
             >
-              <img
-                src={logoFooter}
-                alt="Cabo Tours & Travels Logo"
-                width={280}
-                height={284}
-                className="h-16 w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
-                loading="eager"
-              />
-              <span className="font-display tracking-[0.18em] text-[13px]">CABO TOURS</span>
-            </Link>
-            <button
-              aria-label="Close navigation menu"
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setMobileMenuOpen(false);
-              }}
-              className="grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
-            >
-              <X className="h-4 w-4" aria-hidden="true" />
-            </button>
-          </div>
-          <nav className="flex flex-col gap-1 p-6" aria-label="Mobile Navigation">
-            {heroNavItems.map((i, k) =>
-              "href" in i ? (
-                <a
-                  key={k}
-                  href={i.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="font-display text-2xl uppercase tracking-[0.05em] text-white/90 py-3 border-b border-white/5 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-                >
-                  {i.label}
-                </a>
-              ) : (
+              <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
                 <Link
-                  key={k}
-                  to={i.to}
+                  to="/"
+                  aria-label="Cabo Tours & Travels Home"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="font-display text-2xl uppercase tracking-[0.05em] text-white/90 py-3 border-b border-white/5 [&.active]:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-                  activeProps={{ className: "active" }}
-                  activeOptions={{ exact: i.to === "/" }}
+                  className="flex items-center gap-3 text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                 >
-                  {i.label}
+                  <img
+                    src={logoFooter}
+                    alt="Cabo Tours & Travels Logo"
+                    width={280}
+                    height={284}
+                    className="h-16 w-auto object-contain select-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
+                    loading="eager"
+                  />
+                  <span className="font-display tracking-[0.18em] text-[13px]">CABO TOURS</span>
                 </Link>
-              )
-            )}
-            <a
-              href={waLink(waMessages.general)}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                trackEvent("whatsapp_click", "engagement", "Hero Mobile CTA");
-              }}
-              className="mt-6 inline-flex items-center justify-center rounded-full bg-brand px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-            >
-              Book on WhatsApp
-            </a>
-          </nav>
-        </div>
-      )}
+                <button
+                  aria-label="Close navigation menu"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                >
+                  <X className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </div>
+              <nav className="flex flex-col gap-3 p-6 flex-1 overflow-y-auto scrollbar-none" aria-label="Mobile Navigation">
+                {heroNavItems.map((i, k) =>
+                  "href" in i ? (
+                    <a
+                      key={k}
+                      href={i.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="font-display text-2xl uppercase tracking-[0.05em] text-white/90 py-4 border-b border-white/5 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                    >
+                      {i.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={k}
+                      to={i.to}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="font-display text-2xl uppercase tracking-[0.05em] text-white/90 py-4 border-b border-white/5 [&.active]:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                      activeProps={{ className: "active" }}
+                      activeOptions={{ exact: i.to === "/" }}
+                    >
+                      {i.label}
+                    </Link>
+                  )
+                )}
+                <a
+                  href={waLink(waMessages.general)}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    trackEvent("whatsapp_click", "engagement", "Hero Mobile CTA");
+                  }}
+                  className="mt-6 inline-flex items-center justify-center rounded-full bg-brand px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand shrink-0"
+                >
+                  Book on WhatsApp
+                </a>
+
+                {/* Bottom info block */}
+                <div className="mt-auto pt-8 pb-4 border-t border-white/5 space-y-4 text-left">
+                  <div className="text-[10px] tracking-[0.2em] uppercase text-white/45 font-semibold">Contact</div>
+                  <div className="text-xs text-white/60 space-y-2">
+                    <div>📞 {BUSINESS_INFO.phoneDisplay}</div>
+                    <div>✉️ {BUSINESS_INFO.email}</div>
+                  </div>
+                </div>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <div className="relative z-10 grid h-full grid-cols-1 lg:grid-cols-12 items-end lg:items-center px-6 md:px-10 lg:px-14 pb-36 lg:pb-0 pt-28">
         <div className="lg:col-span-6 max-w-xl">
@@ -663,7 +714,7 @@ const ServicesStrip = React.memo(function ServicesStrip() {
 
 const FeaturedDestinations = React.memo(function FeaturedDestinations() {
   return (
-    <section className="relative py-24 lg:py-32">
+    <section className="relative py-20 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHead
           eyebrow="Our Services"
@@ -748,7 +799,7 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
                     <>{d.region} · {d.country}</>
                   )}
                 </div>
-                <h3 className="mt-1 font-display text-2xl uppercase text-white">{d.name}</h3>
+                <h3 className="mt-1 font-display text-xl md:text-2xl uppercase text-white">{d.name}</h3>
                 <p className="mt-3 text-sm text-white/70 line-clamp-2">{d.tagline}</p>
                 <div className="mt-6 flex items-center justify-end">
                   {d.slug === "kerala" ? (
@@ -801,7 +852,7 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
 
 const PopularPackages = React.memo(function PopularPackages() {
   return (
-    <section className="relative py-24 lg:py-32 bg-[oklch(0.16_0.01_250)] border-y border-white/10">
+    <section className="relative py-20 md:py-24 lg:py-32 bg-[oklch(0.16_0.01_250)] border-y border-white/10">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="flex items-end justify-between flex-wrap gap-6 mb-12">
           <SectionHead eyebrow="Packages" title={"Most-loved\nholiday plans"} />
@@ -838,7 +889,7 @@ const PopularPackages = React.memo(function PopularPackages() {
                     <div className="text-[10px] tracking-[0.22em] uppercase text-white/50">
                       {dest.name}
                     </div>
-                    <h3 className="mt-1 font-display text-xl uppercase">{p.title}</h3>
+                    <h3 className="mt-1 font-display text-xl md:text-2xl uppercase">{p.title}</h3>
                     <div className="mt-3 flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-white/60">
                       <span>
                         {p.nights}N / {p.days}D
@@ -895,13 +946,13 @@ const WhyChoose = React.memo(function WhyChoose() {
     },
   ];
   return (
-    <section className="py-24 lg:py-32">
+    <section className="py-20 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHead eyebrow="Why Cabo" title={"Travel like\nyou meant it."} />
         <div className="grid gap-px bg-white/10 rounded-[24px] overflow-hidden md:grid-cols-2 lg:grid-cols-3">
           {items.map((it) => (
             <div key={it.t} className="bg-background p-8 lg:p-10">
-              <div className="font-display text-brand text-2xl uppercase">{it.t}</div>
+              <div className="font-display text-brand text-xl md:text-2xl uppercase">{it.t}</div>
               <p className="mt-3 text-sm leading-relaxed text-white/80">{it.d}</p>
             </div>
           ))}
@@ -1104,7 +1155,7 @@ const Experiences = React.memo(function Experiences() {
   };
 
   return (
-    <section ref={sectionRef} className="relative py-24 lg:py-32 bg-[oklch(0.16_0.01_250)] border-y border-white/10 overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 md:py-24 lg:py-32 bg-[oklch(0.16_0.01_250)] border-y border-white/10 overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand/10 rounded-full blur-[160px] mix-blend-screen opacity-60" />
@@ -1369,23 +1420,23 @@ const Testimonials = React.memo(function Testimonials() {
     },
   ];
   return (
-    <section className="py-24 lg:py-32">
+    <section className="py-20 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHead eyebrow="Guests" title={"They came back\nwith stories."} />
         <div className="grid gap-6 md:grid-cols-3">
           {reviews.map((r) => (
             <div
               key={r.n}
-              className="rounded-[22px] bg-[oklch(0.2_0.01_250)] p-8 ring-1 ring-white/10 relative"
+              className="rounded-[22px] bg-[oklch(0.2_0.01_250)] p-6 md:p-8 ring-1 ring-white/10 relative"
             >
-              <Quote className="h-7 w-7 text-brand mb-4" />
-              <p className="text-[15px] leading-relaxed text-white/85">"{r.r}"</p>
-              <div className="mt-6 flex items-center gap-1 text-accent">
+              <Quote className="h-6 w-6 md:h-7 md:w-7 text-brand mb-3 md:mb-4" />
+              <p className="text-sm md:text-[15px] leading-normal md:leading-relaxed text-white/85">"{r.r}"</p>
+              <div className="mt-4 md:mt-6 flex items-center gap-1 text-accent">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="h-3.5 w-3.5 fill-current" />
                 ))}
               </div>
-              <div className="mt-3 font-display uppercase text-sm">{r.n}</div>
+              <div className="mt-2 md:mt-3 font-display uppercase text-sm">{r.n}</div>
               <div className="text-[10px] tracking-[0.22em] uppercase text-white/70">{r.loc}</div>
             </div>
           ))}
@@ -1403,7 +1454,7 @@ const Stats = React.memo(function Stats() {
     { n: "8 yrs", t: "Crafting Journeys" },
   ];
   return (
-    <section className="border-y border-white/10 bg-[oklch(0.14_0.01_250)] py-16">
+    <section className="border-y border-white/10 bg-[oklch(0.14_0.01_250)] py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 grid grid-cols-2 md:grid-cols-4 gap-8">
         {stats.map((s) => (
           <div key={s.t} className="text-center">
@@ -1420,7 +1471,7 @@ const Stats = React.memo(function Stats() {
 
 const BookingCta = React.memo(function BookingCta() {
   return (
-    <section className="relative overflow-hidden py-28 lg:py-36">
+    <section className="relative overflow-hidden py-20 md:py-24 lg:py-32">
       <img
         src={maldives}
         alt="Maldives overwater villas beach view background"
@@ -1501,7 +1552,7 @@ const FAQSection = React.memo(function FAQSection() {
   };
 
   return (
-    <section className="relative py-24 bg-background border-t border-white/5">
+    <section className="relative py-20 md:py-24 lg:py-32 bg-background border-t border-white/5">
       <div className="mx-auto max-w-4xl px-6 lg:px-10">
         <div className="text-center max-w-xl mx-auto mb-16">
           <span className="text-[11px] tracking-[0.3em] uppercase text-brand">FAQ</span>
