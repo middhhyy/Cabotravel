@@ -21,6 +21,8 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const lastActiveElement = useRef<HTMLElement | null>(null);
+  const scrollLockY = useRef<number>(0);
+  const isLockedRef = useRef<boolean>(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -30,25 +32,31 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
   }, []);
 
   useEffect(() => {
+    if (typeof document === "undefined" || !document.body) return;
+
     if (open) {
       lastActiveElement.current = document.activeElement as HTMLElement;
       const scrollY = window.scrollY;
+      scrollLockY.current = scrollY;
+      isLockedRef.current = true;
+      
       document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}px`;
       document.body.style.left = "0";
       document.body.style.right = "0";
       document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
-      document.body.dataset.scrollLockY = scrollY.toString();
-    } else {
-      const scrollY = parseInt(document.body.dataset.scrollLockY || "0", 10);
+    } else if (isLockedRef.current) {
+      const scrollY = scrollLockY.current;
+      isLockedRef.current = false;
+      
       document.body.style.position = "";
       document.body.style.top = "";
       document.body.style.left = "";
       document.body.style.right = "";
       document.body.style.width = "";
       document.body.style.overflow = "";
-      delete document.body.dataset.scrollLockY;
+      
       if (scrollY > 0) {
         window.scrollTo(0, scrollY);
       }
@@ -58,16 +66,17 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
       }
     }
     return () => {
-      const scrollY = parseInt(document.body.dataset.scrollLockY || "0", 10);
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
-      document.body.style.overflow = "";
-      delete document.body.dataset.scrollLockY;
-      if (scrollY > 0) {
-        window.scrollTo(0, scrollY);
+      if (isLockedRef.current) {
+        const scrollY = scrollLockY.current;
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.body.style.width = "";
+        document.body.style.overflow = "";
+        if (scrollY > 0) {
+          window.scrollTo(0, scrollY);
+        }
       }
     };
   }, [open]);
