@@ -176,16 +176,6 @@ const heroNavItems = [
 
 function Home() {
   const { welcomeDone, setWelcomeDone } = useWelcome();
-  const [showFloatingCTA, setShowFloatingCTA] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Show floating CTA when scrolled past the hero section (85% of window height)
-      setShowFloatingCTA(window.scrollY > window.innerHeight * 0.85);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -220,16 +210,6 @@ function Home() {
         <FAQSection />
         <SiteFooter />
         <WhatsAppFab />
-        {showFloatingCTA && (
-          <a
-            href={waLink(waMessages.general)}
-            target="_blank"
-            rel="noreferrer"
-            className="fixed bottom-5 left-5 z-40 md:hidden flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white shadow-[0_12px_32px_-8px_rgba(67,168,232,0.65)] hover:scale-105 transition-all duration-300"
-          >
-            Book Now
-          </a>
-        )}
       </main>
     </>
   );
@@ -1033,8 +1013,31 @@ const Experiences = React.memo(function Experiences() {
   const [stories, setStories] = useState<GuestStory[]>([]);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [likesCounts, setLikesCounts] = useState<Record<string, number>>({});
-  const sectionRef = useRef<HTMLDivElement>(null);
   const [hasIntersected, setHasIntersected] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const handleCarouselScroll = () => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const scrollLeft = el.scrollLeft;
+    const cardElements = el.querySelectorAll("[data-story-card]");
+    let closestIndex = 0;
+    let minDistance = Infinity;
+    const containerCenter = el.getBoundingClientRect().left + el.clientWidth / 2;
+
+    for (let i = 0; i < cardElements.length; i++) {
+      const card = cardElements[i] as HTMLElement;
+      const cardCenter = card.getBoundingClientRect().left + card.clientWidth / 2;
+      const distance = Math.abs(cardCenter - containerCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = i;
+      }
+    }
+    setActiveStoryIndex(Math.max(0, Math.min(3, closestIndex)));
+  };
 
   const getOrCreateSessionId = () => {
     if (typeof window === "undefined") return "";
@@ -1341,11 +1344,17 @@ const Experiences = React.memo(function Experiences() {
             </div>
 
             {/* Mobile Horizontal Carousel */}
-            <div className="md:hidden flex gap-4 overflow-x-auto pb-6 scrollbar-none snap-x snap-mandatory -mx-6 px-6">
+            <div
+              ref={carouselRef}
+              onScroll={handleCarouselScroll}
+              style={{ WebkitOverflowScrolling: "touch" }}
+              className="md:hidden flex gap-4 overflow-x-auto pb-6 scrollbar-none snap-x snap-mandatory -mx-6 px-6 touch-pan-x"
+            >
               {stories.slice(0, 4).map((story, i) => (
                 <div
                   key={`mobile-${story.id || story.username}`}
-                  className="snap-center shrink-0 w-[85vw] max-w-[320px] relative flex flex-col justify-between overflow-hidden rounded-[20px] bg-white/[0.03] border border-white/10 p-5 shadow-2xl backdrop-blur-lg h-[400px]"
+                  data-story-card
+                  className="snap-center shrink-0 w-[85vw] max-w-[320px] relative flex flex-col justify-between overflow-hidden rounded-[20px] bg-white/[0.03] border border-white/10 p-5 shadow-2xl backdrop-blur-lg h-[420px]"
                 >
                   {/* Top Bar */}
                   <div className="flex items-center justify-between mb-4">
@@ -1368,8 +1377,8 @@ const Experiences = React.memo(function Experiences() {
 
                   {/* Caption & Image Container */}
                   <div className="flex-1 flex flex-col justify-between">
-                    <p className="text-xs text-white/70 leading-relaxed mb-4">{story.caption}</p>
-                    <div className="relative flex-1 rounded-[14px] overflow-hidden border border-white/5 min-h-[140px]">
+                    <p className="text-xs text-white/70 leading-relaxed mb-4 line-clamp-4">{story.caption}</p>
+                    <div className="relative flex-1 rounded-[14px] overflow-hidden border border-white/5 min-h-[130px]">
                       <ProgressiveImage
                         src={getStoryImage(story.img)}
                         alt={story.destination}
@@ -1415,6 +1424,33 @@ const Experiences = React.memo(function Experiences() {
                     </div>
                   </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Pagination Dots */}
+            <div className="md:hidden flex items-center justify-center gap-1.5 mt-2">
+              {stories.slice(0, 4).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    const el = carouselRef.current;
+                    if (!el) return;
+                    const cards = el.querySelectorAll("[data-story-card]");
+                    const card = cards[i] as HTMLElement;
+                    if (card) {
+                      el.scrollTo({
+                        left: card.offsetLeft - (el.clientWidth - card.clientWidth) / 2,
+                        behavior: "smooth"
+                      });
+                    }
+                  }}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    activeStoryIndex === i
+                      ? "bg-brand w-5"
+                      : "bg-white/20 w-1.5 hover:bg-white/40"
+                  }`}
+                  aria-label={`Go to story ${i + 1}`}
+                />
               ))}
             </div>
           </div>

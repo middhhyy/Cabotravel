@@ -170,7 +170,7 @@ function FeedbackPage() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="bg-white/5 border border-white/10 rounded-[26px] p-6 md:p-10 space-y-5 backdrop-blur-md"
+            className="bg-white/5 border border-white/10 rounded-[26px] p-6 md:p-10 space-y-6 backdrop-blur-md"
           >
             {errorMsg && (
               <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs px-4 py-3 rounded-xl">
@@ -179,7 +179,7 @@ function FeedbackPage() {
             )}
 
             <div>
-              <label htmlFor="name" className="block text-[10px] uppercase tracking-[0.3em] text-white/55 mb-2">
+              <label htmlFor="name" className="block text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60 mb-2.5">
                 Your Name
               </label>
               <input
@@ -194,10 +194,10 @@ function FeedbackPage() {
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.3em] text-white/55 mb-2">
+              <label className="block text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60 mb-2.5">
                 Rating
               </label>
-              <div className="flex gap-2">
+              <div className="flex items-center gap-1.5 -ml-1">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
@@ -215,7 +215,7 @@ function FeedbackPage() {
             </div>
 
             <div>
-              <label htmlFor="message" className="block text-[10px] uppercase tracking-[0.3em] text-white/55 mb-2">
+              <label htmlFor="message" className="block text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60 mb-2.5">
                 Your Experience / Caption
               </label>
               <textarea
@@ -230,7 +230,7 @@ function FeedbackPage() {
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.3em] text-white/55 mb-2">
+              <label className="block text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60 mb-2.5">
                 Upload Photo (Optional)
               </label>
 
@@ -254,7 +254,7 @@ function FeedbackPage() {
                   </button>
                 </div>
               ) : (
-                <label className="flex flex-col items-center justify-center border border-white/15 hover:border-brand/45 bg-white/[0.02] hover:bg-white/[0.04] rounded-xl p-6 cursor-pointer group transition duration-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)]">
+                <label className="flex flex-col items-center justify-center border border-dashed border-white/15 hover:border-brand/45 bg-white/[0.02] hover:bg-white/[0.04] rounded-xl p-6 cursor-pointer group transition duration-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)]">
                    <Upload className="h-5 w-5 text-white/45 group-hover:text-brand transition mb-2" />
                    <span className="text-xs text-white/65 group-hover:text-white transition font-medium">Click to select a photo</span>
                    <span className="text-[10px] text-white/40 mt-0.5">Images only, max 5MB</span>
