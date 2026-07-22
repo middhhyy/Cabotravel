@@ -274,22 +274,43 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
   useEffect(() => {
     if (mobileMenuOpen) {
       lastActiveElement.current = document.activeElement as HTMLElement;
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
-      if (scrollbarWidth > 0) {
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-      }
+      document.body.dataset.scrollLockY = scrollY.toString();
     } else {
+      const scrollY = parseInt(document.body.dataset.scrollLockY || "0", 10);
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
       document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
+      delete document.body.dataset.scrollLockY;
+      if (scrollY > 0) {
+        window.scrollTo(0, scrollY);
+      }
       if (lastActiveElement.current) {
         lastActiveElement.current.focus();
         lastActiveElement.current = null;
       }
     }
     return () => {
+      const scrollY = parseInt(document.body.dataset.scrollLockY || "0", 10);
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
       document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
+      delete document.body.dataset.scrollLockY;
+      if (scrollY > 0) {
+        window.scrollTo(0, scrollY);
+      }
     };
   }, [mobileMenuOpen]);
 
@@ -432,7 +453,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
-              className="fixed right-0 top-0 bottom-0 z-50 w-[85vw] max-w-[320px] bg-background border-l border-white/10 shadow-2xl flex flex-col md:hidden"
+              className="fixed right-0 top-0 bottom-0 z-50 w-[80vw] max-w-[300px] bg-background border-l border-white/10 shadow-2xl flex flex-col md:hidden"
               role="dialog"
               aria-modal="true"
               aria-label="Mobile Navigation Menu"
@@ -462,12 +483,12 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                     e.stopPropagation();
                     setMobileMenuOpen(false);
                   }}
-                  className="grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                  className="grid h-12 w-12 place-items-center rounded-full border border-white/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                 >
-                  <X className="h-4 w-4" aria-hidden="true" />
+                  <X className="h-5 w-5" strokeWidth={2.5} aria-hidden="true" />
                 </button>
               </div>
-              <nav className="flex flex-col gap-3 p-6 flex-1 overflow-y-auto scrollbar-none" aria-label="Mobile Navigation">
+              <nav className="flex flex-col gap-4 p-6 flex-1 overflow-y-auto scrollbar-none" aria-label="Mobile Navigation">
                 {heroNavItems.map((i, k) =>
                   "href" in i ? (
                     <a
@@ -476,7 +497,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="font-display text-2xl uppercase tracking-[0.05em] text-white/90 py-4 border-b border-white/5 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                      className="font-display text-2xl uppercase tracking-[0.05em] py-4 px-4 border-b border-white/5 border-l-4 border-l-transparent text-white/80 transition-all duration-200 rounded-r-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                     >
                       {i.label}
                     </a>
@@ -485,8 +506,8 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                       key={k}
                       to={i.to}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="font-display text-2xl uppercase tracking-[0.05em] text-white/90 py-4 border-b border-white/5 [&.active]:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-                      activeProps={{ className: "active" }}
+                      className="font-display text-2xl uppercase tracking-[0.05em] py-4 px-4 border-b border-white/5 border-l-4 border-l-transparent text-white/80 transition-all duration-200 rounded-r-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                      activeProps={{ className: "active border-l-brand bg-white/[0.03] text-brand font-bold" }}
                       activeOptions={{ exact: i.to === "/" }}
                     >
                       {i.label}
@@ -501,7 +522,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                     setMobileMenuOpen(false);
                     trackEvent("whatsapp_click", "engagement", "Hero Mobile CTA");
                   }}
-                  className="mt-6 inline-flex items-center justify-center rounded-full bg-brand px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand shrink-0"
+                  className="mt-6 mb-8 inline-flex items-center justify-center rounded-full bg-brand px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand shrink-0"
                 >
                   Book on WhatsApp
                 </a>
@@ -509,7 +530,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                 {/* Bottom info block */}
                 <div className="mt-auto pt-8 pb-4 border-t border-white/5 space-y-4 text-left">
                   <div className="text-[10px] tracking-[0.2em] uppercase text-white/45 font-semibold">Contact</div>
-                  <div className="text-xs text-white/60 space-y-2">
+                  <div className="text-sm text-white/70 space-y-2.5">
                     <div>📞 {BUSINESS_INFO.phoneDisplay}</div>
                     <div>✉️ {BUSINESS_INFO.email}</div>
                   </div>
