@@ -23,8 +23,14 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
   const lastActiveElement = useRef<HTMLElement | null>(null);
   const isLockedRef = useRef<boolean>(false);
 
+  console.log("[SiteNav] Render. open:", open, "scrolled:", scrolled, "isLockedRef:", isLockedRef.current);
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
+    const onScroll = () => {
+      const isScrolled = window.scrollY > 30;
+      console.log("[SiteNav] onScroll fired. window.scrollY:", window.scrollY, "isScrolled:", isScrolled);
+      setScrolled(isScrolled);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -32,16 +38,19 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
 
   useEffect(() => {
     if (typeof document === "undefined" || !document.body) return;
+    console.log("[SiteNav] open effect triggered. open:", open, "isLockedRef:", isLockedRef.current);
 
     if (open) {
       lastActiveElement.current = document.activeElement as HTMLElement;
       isLockedRef.current = true;
       
+      console.log("[SiteNav] Applying overflow: hidden");
       document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else if (isLockedRef.current) {
       isLockedRef.current = false;
       
+      console.log("[SiteNav] Clearing overflow");
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
       
@@ -52,6 +61,7 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
     }
     return () => {
       if (isLockedRef.current) {
+        console.log("[SiteNav] Cleanup: Clearing overflow");
         document.documentElement.style.overflow = "";
         document.body.style.overflow = "";
       }
@@ -115,8 +125,10 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
             aria-haspopup="true"
             aria-expanded={open}
             onClick={(e) => {
+              console.log("[SiteNav] Menu button clicked! e.defaultPrevented:", e.defaultPrevented);
               e.preventDefault();
               e.stopPropagation();
+              console.log("[SiteNav] Calling setOpen(true)");
               setOpen(true);
             }}
             className="grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
