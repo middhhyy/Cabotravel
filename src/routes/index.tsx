@@ -1192,7 +1192,7 @@ const Experiences = React.memo(function Experiences() {
   };
 
   return (
-    <section ref={sectionRef} className="relative py-20 md:py-24 lg:py-32 bg-[oklch(0.16_0.01_250)] border-y border-white/10 overflow-hidden">
+    <section ref={sectionRef} className="relative pt-20 pb-36 md:py-24 lg:py-32 bg-[oklch(0.16_0.01_250)] border-y border-white/10 overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand/10 rounded-full blur-[160px] mix-blend-screen opacity-60" />
@@ -1236,7 +1236,7 @@ const Experiences = React.memo(function Experiences() {
             </div>
 
             {/* CTA */}
-            <div className="mt-8 hidden md:flex flex-col gap-4">
+            <div className="mt-8 hidden lg:flex flex-col gap-4">
               <Link
                 to="/stories"
                 onClick={() => trackEvent("view_all_diaries", "navigation")}
@@ -1258,7 +1258,7 @@ const Experiences = React.memo(function Experiences() {
           {/* Right Column: Masonry of social-style travel posts */}
           <div className="lg:col-span-8">
             {/* Desktop Masonry Grid */}
-            <div className="hidden md:grid md:grid-cols-2 gap-6">
+            <div className="hidden lg:grid lg:grid-cols-2 gap-6">
               {stories.slice(0, 4).map((story, i) => (
                 <motion.div
                   key={story.id || story.username}
@@ -1343,25 +1343,14 @@ const Experiences = React.memo(function Experiences() {
               ))}
             </div>
 
-            {/* Swipe Helper for Mobile */}
-            <div className="md:hidden flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] text-white/40 mb-4 animate-pulse">
-              <span>← Swipe to explore stories →</span>
-            </div>
-
-            {/* Mobile Horizontal Carousel */}
-            <div
-              ref={carouselRef}
-              onScroll={handleCarouselScroll}
-              style={{ WebkitOverflowScrolling: "touch" }}
-              className="md:hidden flex gap-4 overflow-x-auto pb-6 scrollbar-none snap-x snap-proximity overscroll-x-contain -mx-6 px-6"
-            >
-              {stories.slice(0, 4).map((story, i) => (
+            {/* Mobile/Tablet Vertical Stack (screens < 1024px) */}
+            <div className="lg:hidden flex flex-col gap-6 w-full mt-4">
+              {stories.slice(0, 3).map((story, i) => (
                 <div
-                  key={`mobile-${story.id || story.username}`}
-                  data-story-card
-                  className="snap-center shrink-0 w-[80vw] max-w-[320px] relative flex flex-col justify-between overflow-hidden rounded-[20px] bg-neutral-900/60 border border-white/10 p-5 shadow-md h-[420px] will-change-transform"
+                  key={`featured-mobile-${story.id || story.username}`}
+                  className="flex flex-col bg-white/[0.02] border border-white/5 rounded-[24px] p-5 shadow-sm hover:bg-white/[0.04] transition-colors focus-within:ring-2 focus-within:ring-brand outline-none"
                 >
-                  {/* Top Bar */}
+                  {/* Card Header: Avatar & Info */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand/40 to-brand/10 border border-brand/20 flex items-center justify-center font-display text-xs text-white font-semibold">
@@ -1374,113 +1363,59 @@ const Experiences = React.memo(function Experiences() {
                         <div className="text-[10px] text-white/50 mt-1">{story.username}</div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      {getPlatformIcon(story.platform)}
-                      <span className="text-[9px] text-white/40">{story.time}</span>
-                    </div>
-                  </div>
-
-                  {/* Caption & Image Container */}
-                  <div className="flex-1 flex flex-col justify-between">
-                    <p className="text-xs text-white/70 leading-relaxed mb-4 line-clamp-4">{story.caption}</p>
-                    <div className="relative flex-1 rounded-[14px] overflow-hidden border border-white/5 min-h-[130px]">
-                      <ProgressiveImage
-                        src={getStoryImage(story.img)}
-                        alt={story.destination}
-                        className="absolute inset-0 w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-                    </div>
-                  </div>
-
-                  {/* Bottom Bar */}
-                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
-                    <div className="flex items-center gap-4 text-[11px] text-white/50">
-                      <button
-                        onClick={() => handleLike(story.id)}
-                        className={`group flex items-center gap-2 p-3 -m-3 min-w-[44px] min-h-[44px] transition-colors duration-300 ${likedIds.has(story.id)
-                          ? "text-brand"
-                          : "hover:text-brand text-white/60"
-                          }`}
-                        aria-label="Like story"
-                      >
-                        <Heart
-                          className={`w-3.5 h-3.5 transition-colors duration-300 ${likedIds.has(story.id)
-                            ? "fill-brand text-brand"
-                            : "fill-none group-hover:fill-brand/20 group-hover:text-brand"
-                            }`}
-                        />
-                        <span>{likesCounts[story.id] ?? story.likes}</span>
-                      </button>
-                      <span className="flex items-center gap-1.5">
-                        <svg
-                          className="w-3.5 h-3.5 fill-none stroke-current"
-                          viewBox="0 0 24 24"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                        </svg>
-                        <span>{story.comments}</span>
+                    <div className="flex flex-col items-end gap-1">
+                      <div className="flex items-center gap-1.5">
+                        {getPlatformIcon(story.platform)}
+                        <span className="text-[9px] text-white/40">{story.time}</span>
+                      </div>
+                      {/* Rating display */}
+                      <span className="text-[10px] text-accent font-semibold">
+                        ⭐ 5.0 Rating
                       </span>
                     </div>
-                    <div className="inline-flex items-center gap-1 text-[9px] tracking-wider uppercase text-brand font-semibold">
-                      📍 {story.destination}
-                    </div>
                   </div>
+
+                  {/* Card Body: Caption Clamped */}
+                  <div className="flex-1 flex flex-col justify-between">
+                    <p className="text-xs text-white/70 leading-relaxed line-clamp-3">
+                      {story.caption}
+                    </p>
+                    <Link
+                      to="/stories"
+                      onClick={() => trackEvent("read_full_story", "navigation")}
+                      className="inline-flex items-center gap-1 text-[10px] font-semibold text-brand tracking-wider uppercase mt-3 hover:text-white transition w-max cursor-pointer focus-visible:ring-1 focus-visible:ring-brand"
+                      aria-label={`Read full story by ${story.name}`}
+                    >
+                      Read Full Story <span className="text-xs">→</span>
+                    </Link>
+                  </div>
+
+                  {/* Card Image: Aspect Ratio 4:3, Rounded-xl, Max-h 220px */}
+                  {story.img && (
+                    <div className="relative aspect-[4/3] w-full max-h-[220px] rounded-xl overflow-hidden mt-4 border border-white/5">
+                      <ProgressiveImage
+                        src={getStoryImage(story.img)}
+                        alt={story.destination || "Guest story travel photo"}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                    </div>
+                  )}
                 </div>
               ))}
-            </div>
 
-            {/* Pagination Dots */}
-            <div className="md:hidden flex items-center justify-center gap-4 mt-3">
-              {stories.slice(0, 4).map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => {
-                    const el = carouselRef.current;
-                    if (!el) return;
-                    const cards = el.querySelectorAll("[data-story-card]");
-                    const card = cards[i] as HTMLElement;
-                    if (card) {
-                      el.scrollTo({
-                        left: card.offsetLeft - (el.clientWidth - card.clientWidth) / 2,
-                        behavior: "smooth"
-                      });
-                    }
-                  }}
-                  className="p-3 -m-3 group flex items-center justify-center min-w-[32px] min-h-[32px]"
-                  aria-label={`Go to story ${i + 1}`}
+              {/* View All Guest Stories Button */}
+              <div className="flex justify-center mt-4">
+                <Link
+                  to="/stories"
+                  onClick={() => trackEvent("view_all_diaries_mobile", "navigation")}
+                  className="group inline-flex items-center justify-center gap-2 py-4 px-8 border border-white/10 hover:border-brand/40 bg-white/[0.02] hover:bg-brand/5 text-[11px] tracking-[0.3em] uppercase text-white hover:text-brand rounded-full transition-all duration-300 w-full max-w-sm text-center"
+                  aria-label="View all guest stories"
                 >
-                  <span
-                    className={`h-1.5 rounded-full transition-all duration-300 block ${
-                      activeStoryIndex === i
-                        ? "bg-brand w-5"
-                        : "bg-white/20 w-1.5 group-hover:bg-white/40"
-                    }`}
-                  />
-                </button>
-              ))}
-            </div>
-
-            {/* Mobile CTA Buttons */}
-            <div className="md:hidden flex flex-col gap-4 mt-8 items-center border-t border-white/5 pt-6">
-              <Link
-                to="/stories"
-                onClick={() => trackEvent("view_all_diaries", "navigation")}
-                className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-white hover:text-brand transition"
-              >
-                Read Travel Diaries{" "}
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-              <Link
-                to="/feedback"
-                className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-brand hover:text-white transition"
-              >
-                Share Your Feedback{" "}
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
+                  View All Guest Stories{" "}
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
