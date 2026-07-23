@@ -1353,7 +1353,7 @@ const Experiences = React.memo(function Experiences() {
               ref={carouselRef}
               onScroll={handleCarouselScroll}
               style={{ WebkitOverflowScrolling: "touch" }}
-              className="md:hidden flex gap-4 overflow-x-auto overflow-y-hidden pb-6 scrollbar-none snap-x snap-proximity overscroll-x-contain -mx-6 px-6"
+              className="md:hidden flex gap-4 overflow-x-auto pb-6 scrollbar-none snap-x snap-proximity overscroll-x-contain -mx-6 px-6"
             >
               {stories.slice(0, 4).map((story, i) => (
                 <div
