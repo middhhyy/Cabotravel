@@ -667,7 +667,44 @@ function LeadManager() {
 
   useEffect(() => {
     fetchLeads();
-  }, []);
+
+    // Setup Supabase Realtime subscription for leads, tasks, and interactions
+    const crmChannel = supabase
+      .channel("realtime-leads-crm")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "leads" },
+        () => {
+          fetchLeads();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "tasks" },
+        (payload: any) => {
+          fetchLeads();
+          const taskLeadId = payload.new?.lead_id || payload.old?.lead_id;
+          if (taskLeadId && selectedLeadId === taskLeadId) {
+            fetchLeadDetails(taskLeadId);
+          }
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "interactions" },
+        (payload: any) => {
+          const interactionLeadId = payload.new?.lead_id || payload.old?.lead_id;
+          if (interactionLeadId && selectedLeadId === interactionLeadId) {
+            fetchLeadDetails(interactionLeadId);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(crmChannel);
+    };
+  }, [selectedLeadId]);
 
   const handleToggleExpand = async (leadId: string) => {
     if (selectedLeadId === leadId) {
