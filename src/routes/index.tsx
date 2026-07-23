@@ -1017,55 +1017,6 @@ const Experiences = React.memo(function Experiences() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const touchStartRef = useRef({ x: 0, y: 0, locked: false, isVertical: false });
-
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    const touch = e.touches[0];
-    touchStartRef.current = {
-      x: touch.clientX,
-      y: touch.clientY,
-      locked: false,
-      isVertical: false,
-    };
-  };
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    const info = touchStartRef.current;
-    if (info.locked) {
-      if (info.isVertical && carouselRef.current) {
-        carouselRef.current.style.overflowX = "hidden";
-      }
-      return;
-    }
-
-    const touch = e.touches[0];
-    const dx = touch.clientX - info.x;
-    const dy = touch.clientY - info.y;
-    const absX = Math.abs(dx);
-    const absY = Math.abs(dy);
-
-    if (absX > 6 || absY > 6) {
-      info.locked = true;
-      if (absY > absX) {
-        info.isVertical = true;
-        if (carouselRef.current) {
-          carouselRef.current.style.overflowX = "hidden";
-        }
-      } else {
-        info.isVertical = false;
-        if (carouselRef.current) {
-          carouselRef.current.style.overflowX = "auto";
-        }
-      }
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (carouselRef.current) {
-      carouselRef.current.style.overflowX = "auto";
-    }
-    touchStartRef.current.locked = false;
-  };
 
   const handleCarouselScroll = () => {
     const el = carouselRef.current;
@@ -1285,7 +1236,7 @@ const Experiences = React.memo(function Experiences() {
             </div>
 
             {/* CTA */}
-            <div className="mt-8 flex flex-col gap-4">
+            <div className="mt-8 hidden md:flex flex-col gap-4">
               <Link
                 to="/stories"
                 onClick={() => trackEvent("view_all_diaries", "navigation")}
@@ -1392,22 +1343,23 @@ const Experiences = React.memo(function Experiences() {
               ))}
             </div>
 
+            {/* Swipe Helper for Mobile */}
+            <div className="md:hidden flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] text-white/40 mb-4 animate-pulse">
+              <span>← Swipe to explore stories →</span>
+            </div>
+
             {/* Mobile Horizontal Carousel */}
             <div
               ref={carouselRef}
               onScroll={handleCarouselScroll}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              onTouchCancel={handleTouchEnd}
               style={{ WebkitOverflowScrolling: "touch" }}
-              className="md:hidden flex gap-4 overflow-x-auto overflow-y-hidden pb-6 scrollbar-none snap-x snap-mandatory overscroll-x-contain -mx-6 px-6 touch-manipulation"
+              className="md:hidden flex gap-4 overflow-x-auto overflow-y-hidden pb-6 scrollbar-none snap-x snap-proximity overscroll-x-contain -mx-6 px-6"
             >
               {stories.slice(0, 4).map((story, i) => (
                 <div
                   key={`mobile-${story.id || story.username}`}
                   data-story-card
-                  className="snap-center shrink-0 w-[85vw] max-w-[320px] relative flex flex-col justify-between overflow-hidden rounded-[20px] bg-white/[0.03] border border-white/10 p-5 shadow-2xl backdrop-blur-lg h-[420px] will-change-transform"
+                  className="snap-center shrink-0 w-[80vw] max-w-[320px] relative flex flex-col justify-between overflow-hidden rounded-[20px] bg-neutral-900/60 border border-white/10 p-5 shadow-md h-[420px] will-change-transform"
                 >
                   {/* Top Bar */}
                   <div className="flex items-center justify-between mb-4">
@@ -1446,10 +1398,11 @@ const Experiences = React.memo(function Experiences() {
                     <div className="flex items-center gap-4 text-[11px] text-white/50">
                       <button
                         onClick={() => handleLike(story.id)}
-                        className={`group flex items-center gap-1.5 transition-colors duration-300 ${likedIds.has(story.id)
+                        className={`group flex items-center gap-2 p-3 -m-3 min-w-[44px] min-h-[44px] transition-colors duration-300 ${likedIds.has(story.id)
                           ? "text-brand"
                           : "hover:text-brand text-white/60"
                           }`}
+                        aria-label="Like story"
                       >
                         <Heart
                           className={`w-3.5 h-3.5 transition-colors duration-300 ${likedIds.has(story.id)
@@ -1481,7 +1434,7 @@ const Experiences = React.memo(function Experiences() {
             </div>
 
             {/* Pagination Dots */}
-            <div className="md:hidden flex items-center justify-center gap-1.5 mt-2">
+            <div className="md:hidden flex items-center justify-center gap-4 mt-3">
               {stories.slice(0, 4).map((_, i) => (
                 <button
                   key={i}
@@ -1497,14 +1450,37 @@ const Experiences = React.memo(function Experiences() {
                       });
                     }
                   }}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    activeStoryIndex === i
-                      ? "bg-brand w-5"
-                      : "bg-white/20 w-1.5 hover:bg-white/40"
-                  }`}
+                  className="p-3 -m-3 group flex items-center justify-center min-w-[32px] min-h-[32px]"
                   aria-label={`Go to story ${i + 1}`}
-                />
+                >
+                  <span
+                    className={`h-1.5 rounded-full transition-all duration-300 block ${
+                      activeStoryIndex === i
+                        ? "bg-brand w-5"
+                        : "bg-white/20 w-1.5 group-hover:bg-white/40"
+                    }`}
+                  />
+                </button>
               ))}
+            </div>
+
+            {/* Mobile CTA Buttons */}
+            <div className="md:hidden flex flex-col gap-4 mt-8 items-center border-t border-white/5 pt-6">
+              <Link
+                to="/stories"
+                onClick={() => trackEvent("view_all_diaries", "navigation")}
+                className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-white hover:text-brand transition"
+              >
+                Read Travel Diaries{" "}
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </Link>
+              <Link
+                to="/feedback"
+                className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-brand hover:text-white transition"
+              >
+                Share Your Feedback{" "}
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </Link>
             </div>
           </div>
         </div>
