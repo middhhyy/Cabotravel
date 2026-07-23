@@ -8,7 +8,7 @@ create table if not exists public.guest_stories (
   avatar_url text,
   country text,
   destination text not null,
-  story text not null check (char_length(story) >= 50 and char_length(story) <= 1000),
+  story text not null check (char_length(story) >= 1 and char_length(story) <= 1000),
   rating integer not null check (rating >= 1 and rating <= 5),
   trip_date date not null,
   created_at timestamptz not null default now(),

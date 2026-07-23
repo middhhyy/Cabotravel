@@ -176,7 +176,7 @@ export function ShareJourneyModal({ isOpen, onClose }: ShareJourneyModalProps) {
     const finalDestination = destination === "other" ? customDestination : destination;
     if (!finalDestination.trim()) return toast.error("Destination is required.");
     if (!tripDate) return toast.error("Trip Date is required.");
-    if (story.length < 50) return toast.error("Story must be at least 50 characters.");
+    if (story.length < 1) return toast.error("Story text is required.");
     if (story.length > 1000) return toast.error("Story cannot exceed 1000 characters.");
 
     setLoading(true);
@@ -444,8 +444,8 @@ export function ShareJourneyModal({ isOpen, onClose }: ShareJourneyModalProps) {
                 <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold">
                   Your Travel Story <span className="text-brand">*</span>
                 </Label>
-                <span className={`text-[10px] ${story.length < 50 || story.length > 1000 ? "text-red-400" : "text-white/40"}`}>
-                  {story.length}/1000 characters (min 50)
+                <span className={`text-[10px] ${story.length > 1000 ? "text-red-400" : "text-white/40"}`}>
+                  {story.length}/1000 characters
                 </span>
               </div>
               <Textarea
