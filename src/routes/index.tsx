@@ -54,6 +54,7 @@ import { getStories, getStoryImage, GuestStory } from "@/utils/stories";
 import { trackEvent } from "@/lib/analytics";
 import { getLikesStateServerFn, toggleLikeServerFn } from "@/services/testimonials/functions";
 import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
+import { ShareJourneyModal } from "@/components/stories/ShareJourneyModal";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 
 export const Route = createFileRoute("/")({
@@ -1011,6 +1012,7 @@ const getStoryTransition = (i: number) => ({
 
 const Experiences = React.memo(function Experiences() {
   const [stories, setStories] = useState<GuestStory[]>([]);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [likesCounts, setLikesCounts] = useState<Record<string, number>>({});
   const [hasIntersected, setHasIntersected] = useState(false);
@@ -1079,14 +1081,44 @@ const Experiences = React.memo(function Experiences() {
     const fetchDbStories = async () => {
       try {
         const { supabase } = await import("@/lib/supabase");
-        const { data, error } = await supabase
+        
+        // Fetch new guest stories
+        const { data: dbStoriesData, error: dbError } = await supabase
+          .from("guest_stories")
+          .select("*, guest_story_images(image_url)")
+          .eq("status", "approved")
+          .order("created_at", { ascending: false });
+
+        let allDbStories: GuestStory[] = [];
+
+        if (!dbError && dbStoriesData) {
+          allDbStories = dbStoriesData.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            username: item.username || `@traveler_${item.name.toLowerCase().replace(/\s+/g, "")}`,
+            platform: "Verified Guest",
+            time: new Date(item.trip_date).toLocaleDateString("en-US", {
+              month: "short",
+              year: "numeric"
+            }),
+            caption: item.story,
+            img: item.guest_story_images?.[0]?.image_url || "Kerala",
+            likes: String(item.likes || 0),
+            comments: "0",
+            destination: item.destination,
+            height: "h-[350px]"
+          }));
+        }
+
+        // Fetch old feedback reviews
+        const { data: feedbackData, error: feedbackError } = await supabase
           .from("feedback")
           .select("*")
           .eq("status", "approved")
           .order("created_at", { ascending: false });
 
-        if (!error && data) {
-          const dbStories: GuestStory[] = data.map((item: any) => ({
+        if (!feedbackError && feedbackData) {
+          const mappedFeedback: GuestStory[] = feedbackData.map((item: any) => ({
             id: item.id,
             name: item.name,
             username: `@user_${item.name.toLowerCase().replace(/\s+/g, "")}`,
@@ -1097,14 +1129,17 @@ const Experiences = React.memo(function Experiences() {
               year: "numeric"
             }),
             caption: item.message,
-            img: item.image_url || "Kerala", // Fallback to preset if null
+            img: item.image_url || "Kerala",
             likes: "0",
             comments: "0",
             destination: item.rating ? `⭐ ${item.rating} Rating` : "Cabo Trip",
             height: "h-[350px]"
           }));
-          setStories([...dbStories, ...loadedStories]);
+          
+          allDbStories = [...allDbStories, ...mappedFeedback];
         }
+
+        setStories([...allDbStories, ...loadedStories]);
       } catch { }
     };
     fetchDbStories();
@@ -1237,19 +1272,19 @@ const Experiences = React.memo(function Experiences() {
 
             {/* CTA */}
             <div className="mt-8 hidden lg:flex flex-col gap-4">
+              <button
+                onClick={() => setIsShareModalOpen(true)}
+                className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-brand hover:text-white transition cursor-pointer text-left focus:outline-none focus-visible:ring-1 focus-visible:ring-brand"
+              >
+                Share Your Journey{" "}
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </button>
               <Link
-                to="/stories"
+                to="/guest-stories"
                 onClick={() => trackEvent("view_all_diaries", "navigation")}
                 className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-white hover:text-brand transition"
               >
                 Read Travel Diaries{" "}
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-              <Link
-                to="/feedback"
-                className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-brand hover:text-white transition"
-              >
-                Share Your Feedback{" "}
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
@@ -1404,10 +1439,18 @@ const Experiences = React.memo(function Experiences() {
                 </div>
               ))}
 
-              {/* View All Guest Stories Button */}
-              <div className="flex justify-center mt-4">
+              {/* Share Journey & View All Guest Stories Buttons */}
+              <div className="flex flex-col gap-4 items-center mt-4 w-full">
+                <button
+                  onClick={() => setIsShareModalOpen(true)}
+                  className="group inline-flex items-center justify-center gap-2 py-4 px-8 border border-brand/20 bg-brand/5 hover:bg-brand/10 text-[11px] tracking-[0.3em] uppercase text-brand hover:text-white rounded-full transition-all duration-300 w-full max-w-sm text-center cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  aria-label="Share your journey"
+                >
+                  Share Your Journey{" "}
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </button>
                 <Link
-                  to="/stories"
+                  to="/guest-stories"
                   onClick={() => trackEvent("view_all_diaries_mobile", "navigation")}
                   className="group inline-flex items-center justify-center gap-2 py-4 px-8 border border-white/10 hover:border-brand/40 bg-white/[0.02] hover:bg-brand/5 text-[11px] tracking-[0.3em] uppercase text-white hover:text-brand rounded-full transition-all duration-300 w-full max-w-sm text-center"
                   aria-label="View all guest stories"
@@ -1431,6 +1474,7 @@ const Experiences = React.memo(function Experiences() {
           100% { transform: translateX(100%); }
         }
       `}</style>
+      <ShareJourneyModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} />
     </section>
   );
 });
