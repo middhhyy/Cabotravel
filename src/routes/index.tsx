@@ -248,41 +248,33 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
   const lastActiveElement = useRef<HTMLElement | null>(null);
   const isLockedRef = useRef<boolean>(false);
 
-  console.log("[Hero] Render. mobileMenuOpen:", mobileMenuOpen, "isLockedRef:", isLockedRef.current);
-
   useEffect(() => {
     const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), 6500);
     return () => clearInterval(t);
   }, []);
 
   useEffect(() => {
-    if (typeof document === "undefined" || !document.body) return;
-    console.log("[Hero] mobileMenuOpen effect triggered. mobileMenuOpen:", mobileMenuOpen, "isLockedRef:", isLockedRef.current);
+    if (!mobileMenuOpen) return;
 
-    if (mobileMenuOpen) {
-      lastActiveElement.current = document.activeElement as HTMLElement;
-      isLockedRef.current = true;
-      
-      console.log("[Hero] Applying overflow: hidden");
-      document.documentElement.style.overflow = "hidden";
-      document.body.style.overflow = "hidden";
-    } else if (isLockedRef.current) {
-      isLockedRef.current = false;
-      
-      console.log("[Hero] Clearing overflow");
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
-      
-      if (lastActiveElement.current) {
-        lastActiveElement.current.focus();
-        lastActiveElement.current = null;
+    const preventDefault = (e: TouchEvent | WheelEvent) => {
+      const drawer = document.querySelector('[role="dialog"]');
+      if (drawer && drawer.contains(e.target as Node)) {
+        return; // Allow scrolling inside the drawer
       }
-    }
+      e.preventDefault();
+    };
+
+    document.addEventListener("touchmove", preventDefault, { passive: false });
+    document.addEventListener("wheel", preventDefault, { passive: false });
+
+    // Restore focus on close if we can
+    const lastActive = document.activeElement as HTMLElement;
+
     return () => {
-      if (isLockedRef.current) {
-        console.log("[Hero] Cleanup: Clearing overflow");
-        document.documentElement.style.overflow = "";
-        document.body.style.overflow = "";
+      document.removeEventListener("touchmove", preventDefault);
+      document.removeEventListener("wheel", preventDefault);
+      if (lastActive) {
+        lastActive.focus();
       }
     };
   }, [mobileMenuOpen]);
@@ -395,13 +387,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
             aria-label="Open navigation menu"
             aria-haspopup="true"
             aria-expanded={mobileMenuOpen}
-            onClick={(e) => {
-              console.log("[Hero] Menu button clicked! e.defaultPrevented:", e.defaultPrevented);
-              e.preventDefault();
-              e.stopPropagation();
-              console.log("[Hero] Calling setMobileMenuOpen(true)");
-              setMobileMenuOpen(true);
-            }}
+            onClick={() => setMobileMenuOpen(true)}
             className="md:hidden text-[10px] tracking-[0.22em] text-white/90 uppercase border border-white/40 rounded-full px-3 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
           >
             Menu
