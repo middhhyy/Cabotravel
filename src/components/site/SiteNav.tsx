@@ -21,7 +21,6 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const lastActiveElement = useRef<HTMLElement | null>(null);
-  const scrollLockY = useRef<number>(0);
   const isLockedRef = useRef<boolean>(false);
 
   useEffect(() => {
@@ -36,30 +35,16 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
 
     if (open) {
       lastActiveElement.current = document.activeElement as HTMLElement;
-      const scrollY = window.scrollY;
-      scrollLockY.current = scrollY;
       isLockedRef.current = true;
       
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = "0";
-      document.body.style.right = "0";
-      document.body.style.width = "100%";
+      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else if (isLockedRef.current) {
-      const scrollY = scrollLockY.current;
       isLockedRef.current = false;
       
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
       
-      if (scrollY > 0) {
-        window.scrollTo(0, scrollY);
-      }
       if (lastActiveElement.current) {
         lastActiveElement.current.focus();
         lastActiveElement.current = null;
@@ -67,16 +52,8 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
     }
     return () => {
       if (isLockedRef.current) {
-        const scrollY = scrollLockY.current;
-        document.body.style.position = "";
-        document.body.style.top = "";
-        document.body.style.left = "";
-        document.body.style.right = "";
-        document.body.style.width = "";
+        document.documentElement.style.overflow = "";
         document.body.style.overflow = "";
-        if (scrollY > 0) {
-          window.scrollTo(0, scrollY);
-        }
       }
     };
   }, [open]);
