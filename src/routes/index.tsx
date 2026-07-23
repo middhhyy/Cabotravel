@@ -1017,6 +1017,55 @@ const Experiences = React.memo(function Experiences() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const touchStartRef = useRef({ x: 0, y: 0, locked: false, isVertical: false });
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    touchStartRef.current = {
+      x: touch.clientX,
+      y: touch.clientY,
+      locked: false,
+      isVertical: false,
+    };
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const info = touchStartRef.current;
+    if (info.locked) {
+      if (info.isVertical && carouselRef.current) {
+        carouselRef.current.style.overflowX = "hidden";
+      }
+      return;
+    }
+
+    const touch = e.touches[0];
+    const dx = touch.clientX - info.x;
+    const dy = touch.clientY - info.y;
+    const absX = Math.abs(dx);
+    const absY = Math.abs(dy);
+
+    if (absX > 6 || absY > 6) {
+      info.locked = true;
+      if (absY > absX) {
+        info.isVertical = true;
+        if (carouselRef.current) {
+          carouselRef.current.style.overflowX = "hidden";
+        }
+      } else {
+        info.isVertical = false;
+        if (carouselRef.current) {
+          carouselRef.current.style.overflowX = "auto";
+        }
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (carouselRef.current) {
+      carouselRef.current.style.overflowX = "auto";
+    }
+    touchStartRef.current.locked = false;
+  };
 
   const handleCarouselScroll = () => {
     const el = carouselRef.current;
@@ -1347,14 +1396,18 @@ const Experiences = React.memo(function Experiences() {
             <div
               ref={carouselRef}
               onScroll={handleCarouselScroll}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchEnd}
               style={{ WebkitOverflowScrolling: "touch" }}
-              className="md:hidden flex gap-4 overflow-x-auto pb-6 scrollbar-none snap-x snap-mandatory -mx-6 px-6 touch-pan-x"
+              className="md:hidden flex gap-4 overflow-x-auto overflow-y-hidden pb-6 scrollbar-none snap-x snap-mandatory overscroll-x-contain -mx-6 px-6 touch-manipulation"
             >
               {stories.slice(0, 4).map((story, i) => (
                 <div
                   key={`mobile-${story.id || story.username}`}
                   data-story-card
-                  className="snap-center shrink-0 w-[85vw] max-w-[320px] relative flex flex-col justify-between overflow-hidden rounded-[20px] bg-white/[0.03] border border-white/10 p-5 shadow-2xl backdrop-blur-lg h-[420px]"
+                  className="snap-center shrink-0 w-[85vw] max-w-[320px] relative flex flex-col justify-between overflow-hidden rounded-[20px] bg-white/[0.03] border border-white/10 p-5 shadow-2xl backdrop-blur-lg h-[420px] will-change-transform"
                 >
                   {/* Top Bar */}
                   <div className="flex items-center justify-between mb-4">
