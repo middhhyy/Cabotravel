@@ -239,6 +239,14 @@ const thumbnailVariants = {
   }
 };
 
+function DrawerLogger() {
+  useEffect(() => {
+    console.log("[NAV] Drawer rendered");
+    return () => console.log("[NAV] Drawer unmounted");
+  }, []);
+  return null;
+}
+
 function Hero({ welcomeDone }: { welcomeDone: boolean }) {
   const [index, setIndex] = useState(0);
   const slide = slides[index];
@@ -247,6 +255,34 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const lastActiveElement = useRef<HTMLElement | null>(null);
   const isLockedRef = useRef<boolean>(false);
+  const drawerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    console.log("[NAV] MOUNTED (Hero)");
+    
+    const handlePointerDown = (e: PointerEvent) => {
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      console.log("[NAV] Element under pointer:", el);
+    };
+    document.addEventListener("pointerdown", handlePointerDown);
+
+    return () => {
+      console.log("[NAV] UNMOUNTED (Hero)");
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("[NAV] open changed:", mobileMenuOpen);
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      console.log("[NAV] Scroll event", window.scrollY);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), 6500);
@@ -257,7 +293,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
     if (!mobileMenuOpen) return;
 
     const preventDefault = (e: TouchEvent | WheelEvent) => {
-      const drawer = document.querySelector('[role="dialog"]');
+      const drawer = drawerRef.current;
       if (drawer && drawer.contains(e.target as Node)) {
         return; // Allow scrolling inside the drawer
       }
@@ -387,7 +423,27 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
             aria-label="Open navigation menu"
             aria-haspopup="true"
             aria-expanded={mobileMenuOpen}
-            onClick={() => setMobileMenuOpen(true)}
+            onPointerDown={() => {
+              const log = "[NAV] pointerdown";
+              console.log(log);
+              (window as any).__addNavLog?.(log);
+            }}
+            onTouchStart={() => {
+              const log = "[NAV] touchstart";
+              console.log(log);
+              (window as any).__addNavLog?.(log);
+            }}
+            onClick={() => {
+              const logText = `[NAV] Hamburger clicked scrollY:${window.scrollY} open:${mobileMenuOpen} time:${performance.now().toFixed(1)}`;
+              console.log(logText);
+              (window as any).__addNavLog?.(logText);
+              
+              const logSet = "[NAV] setOpen(true)";
+              console.log(logSet);
+              (window as any).__addNavLog?.(logSet);
+
+              setMobileMenuOpen(true);
+            }}
             className="md:hidden text-[10px] tracking-[0.22em] text-white/90 uppercase border border-white/40 rounded-full px-3 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
           >
             Menu
@@ -399,17 +455,24 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
+            <DrawerLogger />
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                const log = "[NAV] Backdrop clicked";
+                console.log(log);
+                (window as any).__addNavLog?.(log);
+                setMobileMenuOpen(false);
+              }}
               className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[6px] md:hidden"
             />
             {/* Drawer Panel */}
             <motion.div
+              ref={drawerRef}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -423,7 +486,10 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                 <Link
                   to="/"
                   aria-label="Cabo Tours & Travels Home"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => {
+                    console.log("[Hero] Logo in drawer clicked, calling setMobileMenuOpen(false)");
+                    setMobileMenuOpen(false);
+                  }}
                   className="flex items-center gap-3 text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                 >
                   <img
@@ -439,9 +505,10 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                 <button
                   aria-label="Close navigation menu"
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                  onClick={() => {
+                    const log = "[NAV] Close button clicked";
+                    console.log(log);
+                    (window as any).__addNavLog?.(log);
                     setMobileMenuOpen(false);
                   }}
                   className="grid h-12 w-12 place-items-center rounded-full border border-white/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"

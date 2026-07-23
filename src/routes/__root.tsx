@@ -353,6 +353,70 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
   }
 }
 
+function DebugPanel() {
+  const [logs, setLogs] = useState<{ text: string; time: string }[]>([]);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !import.meta.env.DEV) return;
+
+    const updateLogs = (newLogs: { text: string; time: string }[]) => {
+      setLogs([...newLogs]);
+    };
+
+    let localLogs: { text: string; time: string }[] = [];
+    (window as any).__addNavLog = (text: string) => {
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + "." + String(new Date().getMilliseconds()).padStart(3, '0');
+      localLogs = [{ text, time }, ...localLogs].slice(0, 30);
+      updateLogs(localLogs);
+    };
+
+    // Add global pointerdown listener to check element under pointer
+    const handlePointerDown = (e: PointerEvent) => {
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      const tag = el ? `${el.tagName.toLowerCase()}${el.className ? '.' + el.className.split(' ').filter(Boolean).slice(0, 3).join('.') : ''}` : 'null';
+      (window as any).__addNavLog?.(`[NAV] Element under pointer: ${tag}`);
+    };
+    document.addEventListener("pointerdown", handlePointerDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, []);
+
+  if (typeof window === "undefined" || !import.meta.env.DEV || !visible) return null;
+
+  const copyToClipboard = () => {
+    const text = logs.map(l => `[${l.time}] ${l.text}`).join("\n");
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Logs copied to clipboard!");
+    });
+  };
+
+  return (
+    <div className="fixed bottom-4 left-4 z-[99999] w-80 max-h-60 bg-black/90 border border-brand/50 rounded-lg p-3 text-[10px] font-mono text-emerald-400 flex flex-col shadow-2xl overflow-hidden select-none">
+      <div className="flex justify-between items-center border-b border-brand/20 pb-1 mb-2">
+        <span className="font-bold">NAV DEBUG PANEL</span>
+        <div className="flex gap-2">
+          <button onClick={copyToClipboard} className="bg-brand text-white px-2 py-0.5 rounded hover:bg-brand/80 select-none">Copy Logs</button>
+          <button onClick={() => setVisible(false)} className="text-white hover:text-red-400 select-none">✖</button>
+        </div>
+      </div>
+      <div className="flex-1 overflow-y-auto space-y-1 select-text scrollbar-thin">
+        {logs.length === 0 ? (
+          <div className="text-white/50">No logs yet. Tap hamburger menu...</div>
+        ) : (
+          logs.map((l, i) => (
+            <div key={i} className="leading-tight">
+              <span className="text-white/40">[{l.time}]</span> {l.text}
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -365,6 +429,7 @@ function RootComponent() {
         <WelcomeProvider>
           <Outlet />
         </WelcomeProvider>
+        <DebugPanel />
       </QueryClientProvider>
     </ErrorBoundary>
   );

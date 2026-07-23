@@ -17,14 +17,49 @@ const items = [
   { to: "/contact", label: "Contact" },
 ];
 
+function DrawerLogger() {
+  useEffect(() => {
+    const log = "[NAV] Drawer rendered";
+    console.log(log);
+    (window as any).__addNavLog?.(log);
+    return () => {
+      const logUnmount = "[NAV] Drawer unmounted";
+      console.log(logUnmount);
+      (window as any).__addNavLog?.(logUnmount);
+    };
+  }, []);
+  return null;
+}
+
 export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const lastActiveElement = useRef<HTMLElement | null>(null);
-  const isLockedRef = useRef<boolean>(false);
+  const drawerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
+    const log = "[NAV] MOUNTED (SiteNav)";
+    console.log(log);
+    (window as any).__addNavLog?.(log);
+    return () => {
+      const logUnmount = "[NAV] UNMOUNTED (SiteNav)";
+      console.log(logUnmount);
+      (window as any).__addNavLog?.(logUnmount);
+    };
+  }, []);
+
+  useEffect(() => {
+    const log = `[NAV] open changed: ${open}`;
+    console.log(log);
+    (window as any).__addNavLog?.(log);
+  }, [open]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const log = `[NAV] Scroll event ${window.scrollY}`;
+      console.log(log);
+      (window as any).__addNavLog?.(log);
+      setScrolled(window.scrollY > 30);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -34,7 +69,7 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
     if (!open) return;
 
     const preventDefault = (e: TouchEvent | WheelEvent) => {
-      const drawer = document.querySelector('[role="dialog"]');
+      const drawer = drawerRef.current;
       if (drawer && drawer.contains(e.target as Node)) {
         return; // Allow scrolling inside the drawer
       }
@@ -112,7 +147,27 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
             type="button"
             aria-haspopup="true"
             aria-expanded={open}
-            onClick={() => setOpen(true)}
+            onPointerDown={() => {
+              const log = "[NAV] pointerdown";
+              console.log(log);
+              (window as any).__addNavLog?.(log);
+            }}
+            onTouchStart={() => {
+              const log = "[NAV] touchstart";
+              console.log(log);
+              (window as any).__addNavLog?.(log);
+            }}
+            onClick={() => {
+              const logText = `[NAV] Hamburger clicked scrollY:${window.scrollY} open:${open} time:${performance.now().toFixed(1)}`;
+              console.log(logText);
+              (window as any).__addNavLog?.(logText);
+              
+              const logSet = "[NAV] setOpen(true)";
+              console.log(logSet);
+              (window as any).__addNavLog?.(logSet);
+
+              setOpen(true);
+            }}
             className="grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             <Menu className="h-4 w-4" aria-hidden="true" />
@@ -124,17 +179,24 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
       <AnimatePresence>
         {open && (
           <>
+            <DrawerLogger />
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                const log = "[NAV] Backdrop clicked";
+                console.log(log);
+                (window as any).__addNavLog?.(log);
+                setOpen(false);
+              }}
               className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[6px] lg:hidden"
             />
             {/* Drawer Panel */}
             <motion.div
+              ref={drawerRef}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -145,13 +207,24 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
               aria-label="Mobile Navigation Menu"
             >
               <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-                <BrandLogo />
+                <Link
+                  to="/"
+                  aria-label="Cabo Tours & Travels Home"
+                  onClick={() => {
+                    console.log("[SiteNav] Logo in drawer clicked, calling setOpen(false)");
+                    setOpen(false);
+                  }}
+                  className="flex items-center gap-3 text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                >
+                  <BrandLogo />
+                </Link>
                 <button
                   aria-label="Close navigation menu"
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                  onClick={() => {
+                    const log = "[NAV] Close button clicked";
+                    console.log(log);
+                    (window as any).__addNavLog?.(log);
                     setOpen(false);
                   }}
                   className="grid h-12 w-12 place-items-center rounded-full border border-white/30 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
