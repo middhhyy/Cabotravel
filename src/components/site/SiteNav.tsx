@@ -103,7 +103,8 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
   const solid = !transparentOnTop || scrolled;
 
   return (
-    <header
+    <>
+      <header
       className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${
         solid ? "bg-background/85 backdrop-blur-xl border-b border-white/10" : "bg-transparent"
       }`}
@@ -174,9 +175,10 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
           </button>
         </div>
       </div>
+    </header>
 
-      {/* Mobile drawer */}
-      <AnimatePresence>
+    {/* Mobile drawer */}
+    <AnimatePresence>
         {open && (
           <>
             <DrawerLogger />
@@ -268,6 +270,6 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
