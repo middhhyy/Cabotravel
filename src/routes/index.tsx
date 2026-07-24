@@ -745,16 +745,31 @@ const ServicesStrip = React.memo(function ServicesStrip() {
   return (
     <section className="border-y border-white/10 bg-[oklch(0.16_0.01_250)] py-6">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-white/70">
-          {items.map(({ i: I, t }) => (
-            <div
-              key={t}
-              className="flex items-center gap-2.5 text-[12px] tracking-[0.18em] uppercase"
-            >
-              <I className="h-4 w-4 text-brand" strokeWidth={1.6} />
-              {t}
+        <div className="overflow-hidden w-full text-white/70">
+          <div className="flex w-max animate-marquee">
+            <div className="flex items-center gap-x-10 pr-10">
+              {items.map(({ i: I, t }) => (
+                <div
+                  key={t}
+                  className="flex items-center gap-2.5 text-[12px] tracking-[0.18em] uppercase"
+                >
+                  <I className="h-4 w-4 text-brand" strokeWidth={1.6} />
+                  {t}
+                </div>
+              ))}
             </div>
-          ))}
+            <div className="flex items-center gap-x-10 pr-10">
+              {items.map(({ i: I, t }) => (
+                <div
+                  key={`${t}-clone`}
+                  className="flex items-center gap-2.5 text-[12px] tracking-[0.18em] uppercase"
+                >
+                  <I className="h-4 w-4 text-brand" strokeWidth={1.6} />
+                  {t}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
