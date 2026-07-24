@@ -1613,7 +1613,7 @@ const Testimonials = React.memo(function Testimonials() {
 
         <div className="flex justify-center mt-12">
           <a
-            href="https://search.google.com/local/writereview?fid=0x4838e0163407ab2b:0xd6d0a4454c3b9f24"
+            href="https://www.google.com/search?q=Cabo+Tours+And+Travels+Kerala+reviews"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2.5 rounded-full border border-white/20 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/70 transition hover:border-white/50 hover:text-white"
