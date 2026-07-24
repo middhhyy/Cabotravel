@@ -357,8 +357,10 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
 function DebugPanel() {
   const [logs, setLogs] = useState<{ text: string; time: string }[]>([]);
   const [visible, setVisible] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (typeof window === "undefined" || !import.meta.env.DEV) return;
 
     const updateLogs = (newLogs: { text: string; time: string }[]) => {
@@ -385,7 +387,8 @@ function DebugPanel() {
     };
   }, []);
 
-  if (typeof window === "undefined" || !import.meta.env.DEV || !visible) return null;
+  if (!mounted || typeof window === "undefined" || !import.meta.env.DEV || !visible) return null;
+
 
   const copyToClipboard = () => {
     const text = logs.map(l => `[${l.time}] ${l.text}`).join("\n");
