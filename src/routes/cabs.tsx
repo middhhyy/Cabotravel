@@ -12,6 +12,13 @@ import cabSuv from "@/assets/cab-suv.webp";
 import cabCrysta from "@/assets/cab-crysta.webp";
 import cabTempo from "@/assets/cab-tempo.webp";
 import cabLuxury from "@/assets/cab-luxury.webp";
+import cabInnova from "@/assets/cab-innova.jpg";
+import cabHycross from "@/assets/cab-hycross.jpg";
+import cabTempoNew from "@/assets/cab-tempo.jpg";
+import cabUrbania from "@/assets/cab-urbania.jpg";
+import cabEtios from "@/assets/cab-etios.jpg";
+import cabErtiga from "@/assets/cab-ertiga.jpg";
+import cabCoach from "@/assets/cab-coach.jpg";
 import { trackEvent } from "@/lib/analytics";
 import { getOptimizedImageUrl } from "@/lib/utils";
 
@@ -50,48 +57,84 @@ export const Route = createFileRoute("/cabs")({
 const CABS = [
   {
     id: "sedan",
-    name: "Premium Sedan",
-    capacity: "4 + 1 Seats",
+    name: "Sedan (Etios)",
+    capacity: "4 Seats",
     luggage: "2 bags",
-    description: "Ideal for couples, solo travelers, or small families. Reliable, comfortable, and budget-friendly.",
-    type: "Dzire / Etios / Accent",
-    image: cabSedan,
+    description: "Ideal for solo travelers and small groups. Comfortable, fuel-efficient, and reliable for city transfers and outstation trips.",
+    type: "TOYOTA ETIOS / SIMILAR",
+    image: cabEtios,
   },
   {
-    id: "suv",
-    name: "Comfort SUV",
-    capacity: "6 + 1 Seats",
+    id: "ertiga",
+    name: "Ertiga + MUV",
+    capacity: "6 Seats",
     luggage: "4 bags",
-    description: "Spacious SUVs for small groups who need extra seating or additional luggage capacity.",
-    type: "Ertiga / Marazzo / Similar",
-    image: cabSuv,
+    description: "Perfect for families and small groups needing extra space. Smooth ride with ample luggage room.",
+    type: "ERTIGA / INNOVA / SIMILAR",
+    image: cabErtiga,
+  },
+  {
+    id: "innova",
+    name: "Innova",
+    capacity: "6–7 Seats",
+    luggage: "4 bags",
+    description: "A trusted choice for group travel in Kerala. Spacious interiors, reliable performance on hilly and highway routes.",
+    type: "TOYOTA INNOVA",
+    image: cabInnova,
   },
   {
     id: "crysta",
-    name: "Toyota Innova Crysta",
-    capacity: "7 + 1 Seats",
+    name: "Innova Crysta",
+    capacity: "6–7 Seats",
     luggage: "5 bags",
     description: "The gold standard of premium road travel. Unmatched ride comfort, leather upholstery, and safety.",
-    type: "Premium MUV",
+    type: "PREMIUM MUV",
     image: cabCrysta,
+  },
+  {
+    id: "hycross",
+    name: "Innova Hycross",
+    capacity: "7 Seats",
+    luggage: "5 bags",
+    description: "Next-generation hybrid MUV combining fuel efficiency with premium comfort for long-distance travel.",
+    type: "HYBRID MUV",
+    image: cabHycross,
   },
   {
     id: "tempo",
     name: "Tempo Traveller",
-    capacity: "12 to 26 Seats",
+    capacity: "9–26 Seats",
     luggage: "10+ bags",
     description: "Perfect for large family groups, corporate outings, and wedding guest transportation.",
-    type: "Group Passenger Van",
-    image: cabTempo,
+    type: "GROUP PASSENGER VAN",
+    image: cabTempoNew,
   },
   {
-    id: "luxury",
-    name: "Luxury Cab",
-    capacity: "4 + 1 Seats",
-    luggage: "3 bags",
-    description: "Travel in executive style. Premium German engineered luxury cars for VIP transfers.",
-    type: "Mercedes-Benz / BMW / Audi",
-    image: cabLuxury,
+    id: "luxury-tempo",
+    name: "Luxury Tempo",
+    capacity: "8–12 Seats",
+    luggage: "8+ bags",
+    description: "Elevated group travel with luxury seating, air suspension, and premium interiors for a comfortable journey.",
+    type: "PREMIUM TRAVELLER",
+    image: cabTempoNew,
+  },
+  {
+    id: "luxury-urbania",
+    name: "Luxury Urbania",
+    capacity: "10–16 Seats",
+    luggage: "10+ bags",
+    description: "Premium van experience for corporate groups and large families who refuse to compromise on comfort.",
+    type: "FORCE URBANIA / SIMILAR",
+    image: cabUrbania,
+  },
+  {
+    id: "coach",
+    name: "Coach",
+    capacity: "35–49 Seats",
+    luggage: "20+ bags",
+    description: "Full-sized luxury coaches for large tour groups, pilgrimages, and corporate events across Kerala and India.",
+    type: "LUXURY COACH BUS",
+    image: cabCoach,
   },
 ];
 
