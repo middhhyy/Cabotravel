@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
 import { Users, Briefcase, Compass, ShieldCheck, HelpCircle } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
@@ -55,89 +57,30 @@ export const Route = createFileRoute("/cabs")({
   component: CabsPage,
 });
 
-const CABS = [
-  {
-    id: "sedan",
-    name: "Sedan (Etios)",
-    capacity: "4 Seats",
-    luggage: "2 bags",
-    description: "Ideal for solo travelers and small groups. Comfortable, fuel-efficient, and reliable for city transfers and outstation trips.",
-    type: "TOYOTA ETIOS / SIMILAR",
-    image: cabEtios,
-  },
-  {
-    id: "ertiga",
-    name: "Ertiga + MUV",
-    capacity: "6 Seats",
-    luggage: "4 bags",
-    description: "Perfect for families and small groups needing extra space. Smooth ride with ample luggage room.",
-    type: "ERTIGA / INNOVA / SIMILAR",
-    image: cabErtiga,
-  },
-  {
-    id: "innova",
-    name: "Innova",
-    capacity: "6–7 Seats",
-    luggage: "4 bags",
-    description: "A trusted choice for group travel in Kerala. Spacious interiors, reliable performance on hilly and highway routes.",
-    type: "TOYOTA INNOVA",
-    image: cabInnova,
-  },
-  {
-    id: "crysta",
-    name: "Innova Crysta",
-    capacity: "6–7 Seats",
-    luggage: "5 bags",
-    description: "The gold standard of premium road travel. Unmatched ride comfort, leather upholstery, and safety.",
-    type: "PREMIUM MUV",
-    image: cabCrysta,
-  },
-  {
-    id: "hycross",
-    name: "Innova Hycross",
-    capacity: "7 Seats",
-    luggage: "5 bags",
-    description: "Next-generation hybrid MUV combining fuel efficiency with premium comfort for long-distance travel.",
-    type: "HYBRID MUV",
-    image: cabHycross,
-  },
-  {
-    id: "tempo",
-    name: "Tempo Traveller",
-    capacity: "9–26 Seats",
-    luggage: "10+ bags",
-    description: "Perfect for large family groups, corporate outings, and wedding guest transportation.",
-    type: "GROUP PASSENGER VAN",
-    image: cabTempoNew,
-  },
-  {
-    id: "luxury-tempo",
-    name: "Luxury Tempo",
-    capacity: "8–12 Seats",
-    luggage: "8+ bags",
-    description: "Elevated group travel with luxury seating, air suspension, and premium interiors for a comfortable journey.",
-    type: "PREMIUM TRAVELLER",
-    image: cabTempoNew,
-  },
-  {
-    id: "luxury-urbania",
-    name: "Luxury Urbania",
-    capacity: "10–16 Seats",
-    luggage: "10+ bags",
-    description: "Premium van experience for corporate groups and large families who refuse to compromise on comfort.",
-    type: "FORCE URBANIA / SIMILAR",
-    image: cabUrbania,
-  },
-  {
-    id: "coach",
-    name: "Coach",
-    capacity: "35–49 Seats",
-    luggage: "20+ bags",
-    description: "Full-sized luxury coaches for large tour groups, pilgrimages, and corporate events across Kerala and India.",
-    type: "LUXURY COACH BUS",
-    image: cabCoach,
-  },
-];
+interface Vehicle {
+  id: string;
+  slug: string;
+  name: string;
+  capacity: string;
+  luggage: string;
+  description: string;
+  type: string;
+  image: string;
+  active: boolean;
+  sort_order: number;
+}
+
+const VEHICLE_IMAGES: Record<string, string> = {
+  sedan: cabEtios,
+  ertiga: cabErtiga,
+  innova: cabInnova,
+  crysta: cabCrysta,
+  hycross: cabHycross,
+  tempo: cabTempoNew,
+  "luxury-tempo": cabTempoNew,
+  "luxury-urbania": cabUrbania,
+  coach: cabCoach,
+};
 
 const FEATURES = [
   {
@@ -158,6 +101,41 @@ const FEATURES = [
 ];
 
 function CabsPage() {
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function initAndFetch() {
+      // 1. One-time seed in DEV environment
+      if (import.meta.env.DEV) {
+        try {
+          const { seedVehicles } = await import("@/lib/seedVehicles");
+          await seedVehicles();
+        } catch (err) {
+          console.error("Error seeding vehicles in dev:", err);
+        }
+      }
+
+      // 2. Fetch from Supabase
+      try {
+        const { data, error } = await supabase
+          .from("vehicles")
+          .select("*")
+          .eq("active", true)
+          .order("sort_order", { ascending: true });
+
+        if (error) throw error;
+        setVehicles(data || []);
+      } catch (err) {
+        console.error("Error fetching vehicles:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    initAndFetch();
+  }, []);
+
   return (
     <main className="bg-background">
       <SiteNav transparentOnTop />
@@ -208,57 +186,77 @@ function CabsPage() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {CABS.map((cab, i) => (
-            <motion.div
-              key={cab.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.05 }}
-              className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
-            >
-              <img
-                src={getOptimizedImageUrl(cab.image, { width: 640, quality: 75 })}
-                alt={cab.name}
-                loading="eager"
-                width={640}
-                height={440}
-                className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent" />
-
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 text-[10px] tracking-[0.22em] uppercase text-white/65">
-                  <span className="flex items-center gap-1">
-                    <Users className="h-3 w-3" /> {cab.capacity}
-                  </span>
-                  <span className="h-1 w-1 rounded-full bg-white/40" />
-                  <span className="flex items-center gap-1">
-                    <Briefcase className="h-3 w-3" /> {cab.luggage}
-                  </span>
-                </div>
-
-                <h3 className="mt-2 font-display text-2xl uppercase leading-none">{cab.name}</h3>
-                <p className="mt-1 text-[11px] tracking-widest text-brand uppercase font-semibold">{cab.type}</p>
-                <p className="mt-3 text-xs text-white/70 leading-relaxed max-w-sm">{cab.description}</p>
-
-                <div className="mt-6 flex items-center justify-between">
-                  <a
-                    href={waLink(waMessages.cab(cab.name))}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => {
-                      trackEvent("cab_enquire", "lead", cab.name);
-                      logLead(cab.name, window.location.pathname);
-                    }}
-                    className="group relative rounded-full border border-white/55 px-6 py-2.5 text-[10px] tracking-[0.3em] uppercase text-white transition hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
-                  >
-                    Enquire Now
-                  </a>
+          {loading ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6 bg-white/[0.01] animate-pulse"
+              >
+                <div className="space-y-4">
+                  <div className="h-3 w-24 bg-white/10 rounded" />
+                  <div className="h-6 w-48 bg-white/10 rounded" />
+                  <div className="h-3 w-32 bg-white/10 rounded" />
+                  <div className="space-y-2 pt-2">
+                    <div className="h-3 w-full bg-white/5 rounded" />
+                    <div className="h-3 w-5/6 bg-white/5 rounded" />
+                  </div>
+                  <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
                 </div>
               </div>
-            </motion.div>
-          ))}
+            ))
+          ) : (
+            vehicles.map((cab, i) => (
+              <motion.div
+                key={cab.slug}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.05 }}
+                className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
+              >
+                <img
+                  src={getOptimizedImageUrl(VEHICLE_IMAGES[cab.slug] || cab.image, { width: 640, quality: 75 })}
+                  alt={cab.name}
+                  loading="eager"
+                  width={640}
+                  height={440}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent" />
+
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 text-[10px] tracking-[0.22em] uppercase text-white/65">
+                    <span className="flex items-center gap-1">
+                      <Users className="h-3 w-3" /> {cab.capacity}
+                    </span>
+                    <span className="h-1 w-1 rounded-full bg-white/40" />
+                    <span className="flex items-center gap-1">
+                      <Briefcase className="h-3 w-3" /> {cab.luggage}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-2 font-display text-2xl uppercase leading-none">{cab.name}</h3>
+                  <p className="mt-1 text-[11px] tracking-widest text-brand uppercase font-semibold">{cab.type}</p>
+                  <p className="mt-3 text-xs text-white/70 leading-relaxed max-w-sm">{cab.description}</p>
+
+                  <div className="mt-6 flex items-center justify-between">
+                    <a
+                      href={waLink(waMessages.cab(cab.name))}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => {
+                        trackEvent("cab_enquire", "lead", cab.name);
+                        logLead(cab.name, window.location.pathname);
+                      }}
+                      className="group relative rounded-full border border-white/55 px-6 py-2.5 text-[10px] tracking-[0.3em] uppercase text-white transition hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                    >
+                      Enquire Now
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            ))
+          )}
         </div>
       </section>
 
