@@ -106,15 +106,7 @@ function CabsPage() {
 
   useEffect(() => {
     async function initAndFetch() {
-      // 1. One-time seed in DEV environment
-      if (import.meta.env.DEV) {
-        try {
-          const { seedVehicles } = await import("@/lib/seedVehicles");
-          await seedVehicles();
-        } catch (err) {
-          console.error("Error seeding vehicles in dev:", err);
-        }
-      }
+
 
       // 2. Fetch from Supabase
       try {
