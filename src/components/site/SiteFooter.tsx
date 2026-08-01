@@ -36,9 +36,9 @@ import { BUSINESS_INFO } from "@/lib/business";
 export function SiteFooter() {
   return (
     <footer className="relative border-t border-white/10 bg-[oklch(0.13_0.01_250)]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-10 lg:py-20">
-        <div className="grid gap-x-12 gap-y-10 lg:gap-y-16 lg:grid-cols-12">
-          <div className="lg:col-span-5">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-8 lg:py-20">
+        <div className="grid grid-cols-2 gap-x-12 gap-y-6 lg:gap-y-16 lg:grid-cols-12">
+          <div className="col-span-2 lg:col-span-5">
             <div className="scale-90 lg:scale-100 origin-left">
               <BrandLogo size="lg" loading="lazy" />
             </div>
@@ -57,9 +57,9 @@ export function SiteFooter() {
             </a>
           </div>
 
-          <div className="lg:col-span-2">
-            <div className="text-[9px] lg:text-[10px] uppercase tracking-[0.3em] text-white/70 mb-3 lg:mb-4">Explore</div>
-            <ul className="space-y-2 lg:space-y-3.5 text-xs lg:text-sm text-white/70">
+          <div className="col-span-1 lg:col-span-2">
+            <div className="text-[9px] lg:text-[10px] uppercase tracking-[0.3em] text-white/70 mb-2 lg:mb-4">Explore</div>
+            <ul className="space-y-1.5 lg:space-y-3.5 text-xs lg:text-sm text-white/70">
               <li>
                 <Link
                   to="/destinations"
@@ -111,11 +111,11 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div className="lg:col-span-2">
-            <div className="text-[9px] lg:text-[10px] uppercase tracking-[0.3em] text-white/70 mb-3 lg:mb-4">
+          <div className="col-span-1 lg:col-span-2">
+            <div className="text-[9px] lg:text-[10px] uppercase tracking-[0.3em] text-white/70 mb-2 lg:mb-4">
               Services
             </div>
-            <ul className="space-y-2 lg:space-y-3.5 text-xs lg:text-sm text-white/70">
+            <ul className="space-y-1.5 lg:space-y-3.5 text-xs lg:text-sm text-white/70">
               <li>
                 <a
                   href="https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20flight%20tickets"
@@ -143,9 +143,9 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div className="lg:col-span-3">
-            <div className="text-[9px] lg:text-[10px] uppercase tracking-[0.3em] text-white/70 mb-3 lg:mb-4">Contact</div>
-            <ul className="space-y-2.5 lg:space-y-4 text-xs lg:text-sm text-white/75">
+          <div className="col-span-2 lg:col-span-3">
+            <div className="text-[9px] lg:text-[10px] uppercase tracking-[0.3em] text-white/70 mb-2 lg:mb-4">Contact</div>
+            <ul className="space-y-1.5 lg:space-y-4 text-xs lg:text-sm text-white/75">
               <li className="flex items-start gap-3">
                 <Phone className="mt-0.5 h-3.5 w-3.5 lg:h-4 lg:w-4 shrink-0 text-brand" aria-hidden="true" />
                 <span>{BUSINESS_INFO.phoneDisplay}</span>
