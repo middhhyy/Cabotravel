@@ -63,6 +63,8 @@ export function AdminDashboard() {
   // Modal and Side Panel States
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [editedLead, setEditedLead] = useState<Lead | null>(null);
+  const [savingLeadInfo, setSavingLeadInfo] = useState(false);
 
   // Add Lead Form State
   const [addForm, setAddForm] = useState({
@@ -205,8 +207,42 @@ export function AdminDashboard() {
   useEffect(() => {
     if (selectedLead) {
       fetchLeadDetails(selectedLead.id);
+      setEditedLead(selectedLead);
+    } else {
+      setEditedLead(null);
     }
   }, [selectedLead, fetchLeadDetails]);
+
+  // Save Lead Info Handler (Name, Phone, Email, Interest)
+  const handleSaveLeadInfo = async () => {
+    if (!editedLead) return;
+    setSavingLeadInfo(true);
+    try {
+      const { error } = await supabase
+        .from("leads")
+        .update({
+          name: editedLead.name.trim(),
+          phone: editedLead.phone.trim(),
+          email: editedLead.email?.trim() || null,
+          interest: editedLead.interest?.trim() || null,
+        })
+        .eq("id", editedLead.id);
+
+      if (error) throw error;
+
+      // Update local leads list
+      setLeads((prev) =>
+        prev.map((l) => (l.id === editedLead.id ? { ...l, ...editedLead } : l))
+      );
+
+      // Sync selectedLead
+      setSelectedLead(editedLead);
+    } catch (err) {
+      console.error("Error saving lead info:", err);
+    } finally {
+      setSavingLeadInfo(false);
+    }
+  };
 
   // Add Note Handler
   const handleAddNote = async (e: React.FormEvent) => {
@@ -606,61 +642,60 @@ export function AdminDashboard() {
           {/* Side Panel Content Scrollable */}
           <div className="flex-1 overflow-y-auto p-5 space-y-6 scrollbar-none">
             {/* Info Section */}
-            <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-3">
-              <div className="flex items-start gap-2.5">
-                <User className="w-4 h-4 mt-0.5 text-white/40" />
-                <div>
-                  <div className="text-[10px] uppercase text-white/40 font-semibold tracking-wider">Name</div>
-                  <div className="text-sm font-semibold text-white mt-0.5">{selectedLead.name}</div>
+            {editedLead && (
+              <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-4">
+                <div className="space-y-1.5">
+                  <label className="block text-[10px] text-white/40 font-semibold uppercase tracking-wider">Name</label>
+                  <input
+                    type="text"
+                    value={editedLead.name || ""}
+                    onChange={(e) => setEditedLead({ ...editedLead, name: e.target.value })}
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-brand"
+                  />
                 </div>
-              </div>
 
-              <div className="flex items-start gap-2.5">
-                <Phone className="w-4 h-4 mt-0.5 text-white/40" />
-                <div>
-                  <div className="text-[10px] uppercase text-white/40 font-semibold tracking-wider">Phone</div>
-                  <div className="text-white mt-0.5">{selectedLead.phone}</div>
+                <div className="space-y-1.5">
+                  <label className="block text-[10px] text-white/40 font-semibold uppercase tracking-wider">Phone</label>
+                  <input
+                    type="text"
+                    value={editedLead.phone || ""}
+                    onChange={(e) => setEditedLead({ ...editedLead, phone: e.target.value })}
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-brand"
+                  />
                 </div>
-              </div>
 
-              <div className="flex items-start gap-2.5">
-                <Mail className="w-4 h-4 mt-0.5 text-white/40" />
-                <div>
-                  <div className="text-[10px] uppercase text-white/40 font-semibold tracking-wider">Email</div>
-                  <div className="text-white mt-0.5 break-all">{selectedLead.email || "—"}</div>
+                <div className="space-y-1.5">
+                  <label className="block text-[10px] text-white/40 font-semibold uppercase tracking-wider">Email</label>
+                  <input
+                    type="email"
+                    value={editedLead.email || ""}
+                    onChange={(e) => setEditedLead({ ...editedLead, email: e.target.value })}
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-brand"
+                  />
                 </div>
-              </div>
 
-              <div className="flex items-start gap-2.5">
-                <FileText className="w-4 h-4 mt-0.5 text-white/40" />
-                <div>
-                  <div className="text-[10px] uppercase text-white/40 font-semibold tracking-wider">Interest</div>
-                  <div className="text-white mt-0.5">{selectedLead.interest || "—"}</div>
+                <div className="space-y-1.5">
+                  <label className="block text-[10px] text-white/40 font-semibold uppercase tracking-wider">Interest</label>
+                  <input
+                    type="text"
+                    value={editedLead.interest || ""}
+                    onChange={(e) => setEditedLead({ ...editedLead, interest: e.target.value })}
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-brand"
+                  />
                 </div>
-              </div>
 
-              <div className="flex items-start gap-2.5">
-                <Globe className="w-4 h-4 mt-0.5 text-white/40" />
-                <div>
-                  <div className="text-[10px] uppercase text-white/40 font-semibold tracking-wider">Source</div>
-                  <div className="text-white mt-0.5 uppercase tracking-wider text-[10px]">
-                    {selectedLead.source}
-                  </div>
+                <div className="flex gap-2 items-center justify-between text-[10px] text-white/40 pt-1">
+                  <span className="uppercase tracking-wider">Source: {editedLead.source}</span>
+                  <button
+                    onClick={handleSaveLeadInfo}
+                    disabled={savingLeadInfo || !editedLead.name.trim() || !editedLead.phone.trim()}
+                    className="bg-brand text-black font-semibold rounded-lg px-3 py-1.5 uppercase tracking-wider hover:bg-brand/90 transition disabled:opacity-50 cursor-pointer"
+                  >
+                    {savingLeadInfo ? "Saving..." : "Save Info"}
+                  </button>
                 </div>
               </div>
-
-              <div className="flex items-start gap-2.5">
-                <Tag className="w-4 h-4 mt-0.5 text-white/40" />
-                <div>
-                  <div className="text-[10px] uppercase text-white/40 font-semibold tracking-wider">Status</div>
-                  <div className="mt-1">
-                    <span className="rounded-full px-2 py-0.5 font-bold uppercase tracking-wider bg-white/5 text-white/80 border border-white/10">
-                      {selectedLead.status}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            )}
 
             {/* Follow-up Section */}
             <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-4">
