@@ -36,11 +36,13 @@ import { BUSINESS_INFO } from "@/lib/business";
 export function SiteFooter() {
   return (
     <footer className="relative border-t border-white/10 bg-[oklch(0.13_0.01_250)]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-16 lg:py-20">
-        <div className="grid gap-x-12 gap-y-16 lg:grid-cols-12">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-10 lg:py-20">
+        <div className="grid gap-x-12 gap-y-10 lg:gap-y-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <BrandLogo size="lg" loading="lazy" />
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/80">
+            <div className="scale-90 lg:scale-100 origin-left">
+              <BrandLogo size="lg" loading="lazy" />
+            </div>
+            <p className="mt-4 lg:mt-6 max-w-sm text-xs lg:text-sm leading-relaxed text-white/80">
               A travel company crafting curated journeys across the world — from Kerala's backwaters
               to Maldivian atolls. International & Domestic tours, flights, hotels, visas and
               bespoke experiences.
@@ -49,19 +51,19 @@ export function SiteFooter() {
               href={waLink(waMessages.general)}
               target="_blank"
               rel="noreferrer"
-              className="mt-7 inline-flex items-center gap-3 rounded-full bg-brand px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="relative mt-5 lg:mt-7 inline-flex items-center gap-2.5 lg:gap-3 rounded-full bg-brand px-5 py-2.5 lg:px-6 lg:py-3 text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-y-1 after:inset-x-0 lg:after:inset-0"
             >
               <Phone className="h-3.5 w-3.5" aria-hidden="true" /> Book on WhatsApp
             </a>
           </div>
 
           <div className="lg:col-span-2">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 mb-4">Explore</div>
-            <ul className="space-y-3.5 text-sm text-white/70">
+            <div className="text-[9px] lg:text-[10px] uppercase tracking-[0.3em] text-white/70 mb-3 lg:mb-4">Explore</div>
+            <ul className="space-y-2 lg:space-y-3.5 text-xs lg:text-sm text-white/70">
               <li>
                 <Link
                   to="/destinations"
-                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   Destinations
                 </Link>
@@ -69,7 +71,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   to="/packages"
-                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   Packages
                 </Link>
@@ -77,7 +79,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   to="/cabs"
-                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   Cab Services
                 </Link>
@@ -85,7 +87,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   to="/visa"
-                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   Visa Help
                 </Link>
@@ -93,7 +95,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   to="/about"
-                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   About
                 </Link>
@@ -101,7 +103,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   to="/contact"
-                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   Contact
                 </Link>
@@ -110,16 +112,16 @@ export function SiteFooter() {
           </div>
 
           <div className="lg:col-span-2">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 mb-4">
+            <div className="text-[9px] lg:text-[10px] uppercase tracking-[0.3em] text-white/70 mb-3 lg:mb-4">
               Services
             </div>
-            <ul className="space-y-3.5 text-sm text-white/70">
+            <ul className="space-y-2 lg:space-y-3.5 text-xs lg:text-sm text-white/70">
               <li>
                 <a
                   href="https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20flight%20tickets"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-brand"
+                  className="hover:text-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   Flight Booking
                 </a>
@@ -129,7 +131,7 @@ export function SiteFooter() {
                   href="https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20hotels"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-brand"
+                  className="hover:text-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   Hotel Booking
                 </a>
@@ -142,59 +144,59 @@ export function SiteFooter() {
           </div>
 
           <div className="lg:col-span-3">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 mb-4">Contact</div>
-            <ul className="space-y-4 text-sm text-white/75">
+            <div className="text-[9px] lg:text-[10px] uppercase tracking-[0.3em] text-white/70 mb-3 lg:mb-4">Contact</div>
+            <ul className="space-y-2.5 lg:space-y-4 text-xs lg:text-sm text-white/75">
               <li className="flex items-start gap-3">
-                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden="true" />
+                <Phone className="mt-0.5 h-3.5 w-3.5 lg:h-4 lg:w-4 shrink-0 text-brand" aria-hidden="true" />
                 <span>{BUSINESS_INFO.phoneDisplay}</span>
               </li>
               <li className="flex items-start gap-3">
-                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden="true" />
+                <Mail className="mt-0.5 h-3.5 w-3.5 lg:h-4 lg:w-4 shrink-0 text-brand" aria-hidden="true" />
                 <span>{BUSINESS_INFO.email}</span>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden="true" />
+                <MapPin className="mt-0.5 h-3.5 w-3.5 lg:h-4 lg:w-4 shrink-0 text-brand" aria-hidden="true" />
                 <a
                   href={BUSINESS_INFO.maps.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-brand transition-colors"
+                  className="hover:text-brand transition-colors relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   {BUSINESS_INFO.maps.displayAddress}
                 </a>
               </li>
             </ul>
-            <div className="mt-7 flex gap-3">
+            <div className="mt-5 lg:mt-7 flex gap-2.5 lg:gap-3">
               <a
                 href={BUSINESS_INFO.socials.instagram}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram Profile"
-                className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/80 hover:bg-brand hover:border-brand hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="relative grid h-8 w-8 lg:h-9 lg:w-9 place-items-center rounded-full border border-white/15 text-white/80 hover:bg-brand hover:border-brand hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-2 lg:after:inset-0"
               >
-                <Instagram className="h-4 w-4" />
+                <Instagram className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
               </a>
               <a
                 href={BUSINESS_INFO.socials.facebook}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Facebook Page"
-                className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/80 hover:bg-brand hover:border-brand hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="relative grid h-8 w-8 lg:h-9 lg:w-9 place-items-center rounded-full border border-white/15 text-white/80 hover:bg-brand hover:border-brand hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-2 lg:after:inset-0"
               >
-                <Facebook className="h-4 w-4" />
+                <Facebook className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
               </a>
             </div>
           </div>
         </div>
 
-        <div className="mt-16 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-[11px] tracking-[0.18em] uppercase text-white/60">
+        <div className="mt-10 lg:mt-16 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-[10px] lg:text-[11px] tracking-[0.18em] uppercase text-white/60">
           <div>© {new Date().getFullYear()} Cabo Tours & Travels</div>
-          <div style={{ fontFamily: "'Lobster', cursive", fontSize: "15px" }} className="normal-case tracking-normal">
+          <div className="text-[13px] lg:text-[15px] normal-case tracking-normal" style={{ fontFamily: "'Lobster', cursive" }}>
             <a
               href="https://verdestudios.co"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors"
+              className="text-white/60 hover:text-white transition-colors relative inline-block py-1 lg:py-0 after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
             >
               Powered by Verde Studios
             </a>
