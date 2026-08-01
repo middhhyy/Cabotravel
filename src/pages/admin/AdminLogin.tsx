@@ -1,23 +1,35 @@
 import React, { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import logoFooter from "@/assets/cabo-logo-footer.webp";
+import { supabase } from "@/lib/supabase";
+import { Loader2 } from "lucide-react";
 
 export function AdminLogin() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
+    setLoading(true);
 
-    const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (password === correctPassword) {
+      if (error) throw error;
+
       localStorage.setItem("cabo-admin-auth", "true");
       navigate({ to: "/admin/dashboard" });
-    } else {
-      setErrorMsg("Incorrect password");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Invalid login credentials");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,12 +53,30 @@ export function AdminLogin() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
+          <div className="space-y-1.5">
+            <label
+              htmlFor="email"
+              className="block text-[10px] text-white/50 uppercase tracking-[0.22em] font-semibold"
+            >
+              Email Address
+            </label>
+            <input
+              id="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@example.com"
+              className="w-full rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-3.5 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-300"
+            />
+          </div>
+
+          <div className="space-y-1.5">
             <label
               htmlFor="password"
-              className="block text-[10px] text-white/50 mb-2 uppercase tracking-[0.22em] font-semibold"
+              className="block text-[10px] text-white/50 uppercase tracking-[0.22em] font-semibold"
             >
-              System Password
+              Password
             </label>
             <input
               id="password"
@@ -61,8 +91,10 @@ export function AdminLogin() {
 
           <button
             type="submit"
-            className="w-full rounded-full bg-brand px-6 py-4 text-xs font-semibold uppercase tracking-[0.22em] text-black hover:bg-brand/90 transition-colors focus:visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            disabled={loading}
+            className="w-full rounded-full bg-brand px-6 py-4 text-xs font-semibold uppercase tracking-[0.22em] text-black hover:bg-brand/90 transition-colors focus:visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
           >
+            {loading && <Loader2 className="w-4 h-4 animate-spin" />}
             Access Dashboard
           </button>
         </form>
