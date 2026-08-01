@@ -29,6 +29,9 @@ import { Route as TripIdRouteImport } from './routes/trip.$id'
 import { Route as GuestStoriesSlugRouteImport } from './routes/guest-stories.$slug'
 import { Route as DestinationsSlugRouteImport } from './routes/destinations.$slug'
 import { Route as AgencyDashboardRouteImport } from './routes/agency/dashboard'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
 
 const VisaRoute = VisaRouteImport.update({
   id: '/visa',
@@ -130,6 +133,21 @@ const AgencyDashboardRoute = AgencyDashboardRouteImport.update({
   path: '/agency/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -147,6 +165,9 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stories': typeof StoriesRoute
   '/visa': typeof VisaRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/login': typeof AdminLoginRoute
   '/agency/dashboard': typeof AgencyDashboardRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
   '/guest-stories/$slug': typeof GuestStoriesSlugRoute
@@ -169,6 +190,9 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stories': typeof StoriesRoute
   '/visa': typeof VisaRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/login': typeof AdminLoginRoute
   '/agency/dashboard': typeof AgencyDashboardRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
   '/guest-stories/$slug': typeof GuestStoriesSlugRoute
@@ -192,6 +216,9 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stories': typeof StoriesRoute
   '/visa': typeof VisaRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/login': typeof AdminLoginRoute
   '/agency/dashboard': typeof AgencyDashboardRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
   '/guest-stories/$slug': typeof GuestStoriesSlugRoute
@@ -216,6 +243,9 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/stories'
     | '/visa'
+    | '/admin/analytics'
+    | '/admin/dashboard'
+    | '/admin/login'
     | '/agency/dashboard'
     | '/destinations/$slug'
     | '/guest-stories/$slug'
@@ -238,6 +268,9 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/stories'
     | '/visa'
+    | '/admin/analytics'
+    | '/admin/dashboard'
+    | '/admin/login'
     | '/agency/dashboard'
     | '/destinations/$slug'
     | '/guest-stories/$slug'
@@ -260,6 +293,9 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/stories'
     | '/visa'
+    | '/admin/analytics'
+    | '/admin/dashboard'
+    | '/admin/login'
     | '/agency/dashboard'
     | '/destinations/$slug'
     | '/guest-stories/$slug'
@@ -283,6 +319,9 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StoriesRoute: typeof StoriesRoute
   VisaRoute: typeof VisaRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   AgencyDashboardRoute: typeof AgencyDashboardRoute
   TripIdRoute: typeof TripIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -430,6 +469,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgencyDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -473,6 +533,9 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StoriesRoute: StoriesRoute,
   VisaRoute: VisaRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminLoginRoute: AdminLoginRoute,
   AgencyDashboardRoute: AgencyDashboardRoute,
   TripIdRoute: TripIdRoute,
   AdminIndexRoute: AdminIndexRoute,

@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { waLink, waMessages, FOUNDER } from "@/lib/whatsapp";
+import { logLead } from "@/lib/logLead";
 const kashmirHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-kashmir-dallake.webp";
 import founder from "@/assets/founder.webp";
 
@@ -132,6 +133,7 @@ function AboutPage() {
               href={waLink(waMessages.general)}
               target="_blank"
               rel="noreferrer"
+              onClick={() => logLead("general", window.location.pathname)}
               className="mt-8 inline-flex rounded-full bg-brand px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white"
             >
               Talk to us
@@ -157,6 +159,7 @@ function AboutPage() {
             href={waLink(waMessages.custom)}
             target="_blank"
             rel="noreferrer"
+            onClick={() => logLead("custom", window.location.pathname)}
             className="rounded-full bg-brand px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white"
           >
             Plan on WhatsApp

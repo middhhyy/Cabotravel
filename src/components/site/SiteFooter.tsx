@@ -32,6 +32,7 @@ const Facebook = (p: { className?: string }) => (
 import { BrandLogo } from "./BrandLogo";
 import { waLink, waMessages, PHONE_DISPLAY } from "@/lib/whatsapp";
 import { BUSINESS_INFO } from "@/lib/business";
+import { logLead } from "@/lib/logLead";
 
 export function SiteFooter() {
   return (
@@ -51,6 +52,7 @@ export function SiteFooter() {
               href={waLink(waMessages.general)}
               target="_blank"
               rel="noreferrer"
+              onClick={() => logLead("general", window.location.pathname)}
               className="relative mt-5 lg:mt-7 inline-flex items-center gap-2.5 lg:gap-3 rounded-full bg-brand px-5 py-2.5 lg:px-6 lg:py-3 text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-y-1 after:inset-x-0 lg:after:inset-0"
             >
               <Phone className="h-3.5 w-3.5" aria-hidden="true" /> Book on WhatsApp
@@ -121,6 +123,7 @@ export function SiteFooter() {
                   href="https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20flight%20tickets"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => logLead("flight booking", window.location.pathname)}
                   className="hover:text-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   Flight Booking
@@ -131,6 +134,7 @@ export function SiteFooter() {
                   href="https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20hotels"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => logLead("hotel booking", window.location.pathname)}
                   className="hover:text-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
                   Hotel Booking

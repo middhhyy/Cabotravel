@@ -18,6 +18,7 @@ import kozhikodeImg from "@/assets/dest-kozhikode.webp";
 import kannurImg from "@/assets/dest-kannur.webp";
 import kasaragodImg from "@/assets/dest-kasaragod.webp";
 import { trackEvent } from "@/lib/analytics";
+import { logLead } from "@/lib/logLead";
 import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 
@@ -279,7 +280,10 @@ function KeralaPage() {
                       href={waLink(waMessages.destination(d.name))}
                       target="_blank"
                       rel="noreferrer"
-                      onClick={() => trackEvent("destination_click", "lead", d.name)}
+                      onClick={() => {
+                        trackEvent("destination_click", "lead", d.name);
+                        logLead(d.name, window.location.pathname);
+                      }}
                       className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                     >
                       Discover <ArrowRight className="h-3 w-3" />
@@ -342,7 +346,10 @@ function KeralaPage() {
                         href={waLink(waMessages.destination(d.name))}
                         target="_blank"
                         rel="noreferrer"
-                        onClick={() => trackEvent("destination_click", "lead", d.name)}
+                        onClick={() => {
+                         trackEvent("destination_click", "lead", d.name);
+                         logLead(d.name, window.location.pathname);
+                       }}
                         className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                       >
                         Discover <ArrowRight className="h-3 w-3" />
@@ -405,7 +412,10 @@ function KeralaPage() {
                       href={waLink(waMessages.destination(d.name))}
                       target="_blank"
                       rel="noreferrer"
-                      onClick={() => trackEvent("destination_click", "lead", d.name)}
+                      onClick={() => {
+                        trackEvent("destination_click", "lead", d.name);
+                        logLead(d.name, window.location.pathname);
+                      }}
                       className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                     >
                       Discover <ArrowRight className="h-3 w-3" />
@@ -473,7 +483,10 @@ function KeralaPage() {
                         href={waLink(waMessages.destination(d.name))}
                         target="_blank"
                         rel="noreferrer"
-                        onClick={() => trackEvent("destination_click", "lead", d.name)}
+                        onClick={() => {
+                         trackEvent("destination_click", "lead", d.name);
+                         logLead(d.name, window.location.pathname);
+                       }}
                         className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                       >
                         Discover <ArrowRight className="h-3 w-3" />
@@ -500,7 +513,10 @@ function KeralaPage() {
               href={waLink(waMessages.custom)}
               target="_blank"
               rel="noreferrer"
-              onClick={() => trackEvent("whatsapp_click", "engagement", "Kerala WhatsApp CTA")}
+               onClick={() => {
+                 trackEvent("whatsapp_click", "engagement", "Kerala WhatsApp CTA");
+                 logLead("custom", window.location.pathname);
+               }}
               className="inline-flex rounded-full bg-brand px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white hover:scale-[1.03] transition duration-300"
             >
               Enquire on WhatsApp
@@ -509,7 +525,10 @@ function KeralaPage() {
               href={waLink(waMessages.general)}
               target="_blank"
               rel="noreferrer"
-              onClick={() => trackEvent("whatsapp_click", "engagement", "Kerala Standard CTA")}
+               onClick={() => {
+                 trackEvent("whatsapp_click", "engagement", "Kerala Standard CTA");
+                 logLead("general", window.location.pathname);
+               }}
               className="inline-flex rounded-full border border-white/30 hover:border-white px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white hover:bg-white hover:text-black transition duration-300"
             >
               General Enquiry

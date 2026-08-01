@@ -7,6 +7,7 @@ import { destinations, getDestination } from "@/lib/destinations";
 import { packages } from "@/lib/packages";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { BUSINESS_INFO } from "@/lib/business";
+import { logLead } from "@/lib/logLead";
 import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 
@@ -189,6 +190,7 @@ function DestinationDetail() {
               href={waLink(waMessages.destination(d.name))}
               target="_blank"
               rel="noreferrer"
+              onClick={() => logLead(d.name, window.location.pathname)}
               className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white"
             >
               Enquire on WhatsApp
@@ -197,6 +199,7 @@ function DestinationDetail() {
               href={waLink(waMessages.custom)}
               target="_blank"
               rel="noreferrer"
+              onClick={() => logLead("custom", window.location.pathname)}
               className="mt-3 inline-flex w-full items-center justify-center gap-3 rounded-full border border-white/30 px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white"
             >
               Customize this trip
@@ -225,6 +228,7 @@ function DestinationDetail() {
                       href={waLink(waMessages.package(p.title))}
                       target="_blank"
                       rel="noreferrer"
+                      onClick={() => logLead(p.title, window.location.pathname)}
                       className="rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                     >
                       Enquire

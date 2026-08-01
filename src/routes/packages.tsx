@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { packages } from "@/lib/packages";
 import { destinations } from "@/lib/destinations";
 import { waLink, waMessages } from "@/lib/whatsapp";
+import { logLead } from "@/lib/logLead";
 const dubaiHero = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-dubai-skyline.webp";
 import { trackEvent } from "@/lib/analytics";
 import { getOptimizedImageUrl } from "@/lib/utils";
@@ -169,7 +170,10 @@ function PackagesPage() {
                         href={waLink(waMessages.package(p.title))}
                         target="_blank"
                         rel="noreferrer"
-                        onClick={() => trackEvent("package_click", "lead", p.title)}
+                        onClick={() => {
+                          trackEvent("package_click", "lead", p.title);
+                          logLead(p.title, window.location.pathname);
+                        }}
                         className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                       >
                         Enquire <ArrowRight className="h-3 w-3" />
@@ -191,9 +195,10 @@ function PackagesPage() {
             href={waLink(waMessages.custom)}
             target="_blank"
             rel="noreferrer"
-            onClick={() =>
-              trackEvent("whatsapp_click", "engagement", "Custom Trip Customize Button")
-            }
+            onClick={() => {
+              trackEvent("whatsapp_click", "engagement", "Custom Trip Customize Button");
+              logLead("custom", window.location.pathname);
+            }}
             className="mt-6 inline-flex rounded-full bg-brand px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white"
           >
             Customize my trip

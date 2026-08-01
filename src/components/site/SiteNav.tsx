@@ -6,6 +6,7 @@ import { waLink, waMessages } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
 import { motion, AnimatePresence } from "framer-motion";
 import { BUSINESS_INFO } from "@/lib/business";
+import { logLead } from "@/lib/logLead";
 
 const items = [
   { to: "/", label: "Home" },
@@ -138,7 +139,10 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
             href={waLink(waMessages.general)}
             target="_blank"
             rel="noreferrer"
-            onClick={() => trackEvent("whatsapp_click", "engagement", "SiteNav Desktop CTA")}
+            onClick={() => {
+              trackEvent("whatsapp_click", "engagement", "SiteNav Desktop CTA");
+              logLead("general", window.location.pathname);
+            }}
             className="hidden md:inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white shadow-[0_8px_24px_-8px_rgba(67,168,232,0.7)] transition hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             Book on WhatsApp
@@ -251,7 +255,10 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
                   href={waLink(waMessages.general)}
                   target="_blank"
                   rel="noreferrer"
-                  onClick={() => trackEvent("whatsapp_click", "engagement", "SiteNav Mobile CTA")}
+                  onClick={() => {
+                    trackEvent("whatsapp_click", "engagement", "SiteNav Mobile CTA");
+                    logLead("general", window.location.pathname);
+                  }}
                   className="mt-6 mb-8 inline-flex items-center justify-center rounded-full bg-brand px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand shrink-0"
                 >
                   Book on WhatsApp

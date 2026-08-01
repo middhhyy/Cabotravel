@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { waLink, waMessages } from "@/lib/whatsapp";
+import { logLead } from "@/lib/logLead";
 import dubai from "@/assets/dest-dubai.webp";
 
 export const Route = createFileRoute("/visa")({
@@ -148,6 +149,7 @@ function VisaPage() {
           href={waLink(waMessages.visa)}
           target="_blank"
           rel="noreferrer"
+          onClick={() => logLead("visa", window.location.pathname)}
           className="mt-7 inline-flex rounded-full bg-brand px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white"
         >
           Start visa on WhatsApp

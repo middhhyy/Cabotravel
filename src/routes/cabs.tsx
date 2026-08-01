@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { waLink, waMessages } from "@/lib/whatsapp";
+import { logLead } from "@/lib/logLead";
 const heroCabs = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-cabs.webp";
 import cabSedan from "@/assets/cab-sedan.webp";
 import cabSuv from "@/assets/cab-suv.webp";
@@ -246,7 +247,10 @@ function CabsPage() {
                     href={waLink(waMessages.cab(cab.name))}
                     target="_blank"
                     rel="noreferrer"
-                    onClick={() => trackEvent("cab_enquire", "lead", cab.name)}
+                    onClick={() => {
+                      trackEvent("cab_enquire", "lead", cab.name);
+                      logLead(cab.name, window.location.pathname);
+                    }}
                     className="group relative rounded-full border border-white/55 px-6 py-2.5 text-[10px] tracking-[0.3em] uppercase text-white transition hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                   >
                     Enquire Now
@@ -270,7 +274,10 @@ function CabsPage() {
             href={waLink(waMessages.general)}
             target="_blank"
             rel="noreferrer"
-            onClick={() => trackEvent("whatsapp_click", "engagement", "Cabs Bottom CTA")}
+            onClick={() => {
+              trackEvent("whatsapp_click", "engagement", "Cabs Bottom CTA");
+              logLead("general", window.location.pathname);
+            }}
             className="mt-7 inline-flex rounded-full bg-brand px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white hover:scale-[1.03] transition duration-300"
           >
             Custom Quote on WhatsApp

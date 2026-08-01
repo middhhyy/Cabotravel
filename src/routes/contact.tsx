@@ -9,6 +9,7 @@ import { waLink, waMessages, PHONE_DISPLAY } from "@/lib/whatsapp";
 import maldives from "@/assets/dest-maldives.webp";
 import { trackEvent } from "@/lib/analytics";
 import { BUSINESS_INFO } from "@/lib/business";
+import { logLead } from "@/lib/logLead";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -66,6 +67,7 @@ function ContactPage() {
     ]
       .filter(Boolean)
       .join("\n");
+    logLead(form.destination || "general", window.location.pathname);
     window.open(waLink(msg), "_blank");
     setSent(true);
   }
@@ -149,7 +151,10 @@ function ContactPage() {
                   href={waLink(waMessages.general)}
                   target="_blank"
                   rel="noreferrer"
-                  onClick={() => trackEvent("whatsapp_click", "engagement", "Contact Just Chat")}
+                  onClick={() => {
+                    trackEvent("whatsapp_click", "engagement", "Contact Just Chat");
+                    logLead("general", window.location.pathname);
+                  }}
                   className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white"
                 >
                   <MessageCircle className="h-3.5 w-3.5" /> Just chat
@@ -167,6 +172,7 @@ function ContactPage() {
             label="WhatsApp / Call"
             value={BUSINESS_INFO.phoneDisplay}
             href={waLink(waMessages.general)}
+            onClick={() => logLead("general", window.location.pathname)}
           />
           <InfoCard
             icon={Mail}
@@ -230,11 +236,13 @@ function InfoCard({
   label,
   value,
   href,
+  onClick,
 }: {
   icon: any;
   label: string;
   value: string;
   href?: string;
+  onClick?: () => void;
 }) {
   const inner = (
     <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-[oklch(0.2_0.01_250)] p-5">
@@ -252,6 +260,7 @@ function InfoCard({
       href={href}
       target="_blank"
       rel="noreferrer"
+      onClick={onClick}
       className="block hover:ring-1 hover:ring-brand/40 rounded-2xl transition"
     >
       {inner}

@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { waLink, waMessages } from "@/lib/whatsapp";
+import { logLead } from "@/lib/logLead";
 import { getOptimizedImageUrl } from "@/lib/utils";
 
 import dubai from "@/assets/dest-dubai.webp";
@@ -238,6 +239,7 @@ function InternationalPackagesPage() {
                       href={d.href || waLink(waMessages.destination(d.name))}
                       target="_blank"
                       rel={d.href ? "noopener noreferrer" : "noreferrer"}
+                      onClick={() => logLead(d.name, window.location.pathname)}
                       className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                     >
                       Explore <ArrowRight className="h-3 w-3" />

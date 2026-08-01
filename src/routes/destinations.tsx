@@ -8,6 +8,7 @@ import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
 import { destinations, keralaHero } from "@/lib/destinations";
 import { waLink, waMessages } from "@/lib/whatsapp";
+import { logLead } from "@/lib/logLead";
 import { getOptimizedImageUrl } from "@/lib/utils";
 
 export const Route = createFileRoute("/destinations")({
@@ -155,6 +156,7 @@ function DestinationsPage() {
                       href={d.href || waLink(waMessages.destination(d.name))}
                       target="_blank"
                       rel={d.href ? "noopener noreferrer" : "noreferrer"}
+                      onClick={() => logLead(d.name, window.location.pathname)}
                       className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                     >
                       Discover <ArrowRight className="h-3 w-3" />

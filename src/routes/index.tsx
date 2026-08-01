@@ -48,6 +48,7 @@ import { packages } from "@/lib/packages";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { waLink, waMessages } from "@/lib/whatsapp";
+import { logLead } from "@/lib/logLead";
 import { WelcomeScreen } from "@/components/site/WelcomeScreen";
 import { useWelcome } from "@/components/site/WelcomeProvider";
 import { getStories, getStoryImage, GuestStory } from "@/utils/stories";
@@ -396,6 +397,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                 href={i.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => logLead("flights", window.location.pathname)}
                 className="relative py-1 transition hover:text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
               >
                 {i.label}
@@ -524,7 +526,10 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                       href={i.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={() => setMobileMenuOpen(false)}
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        logLead("flights", window.location.pathname);
+                      }}
                       className="font-display text-2xl uppercase tracking-[0.05em] py-4 px-4 border-b border-white/5 border-l-4 border-l-transparent text-white/80 transition-all duration-200 rounded-r-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                     >
                       {i.label}
@@ -547,9 +552,10 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => {
-                    setMobileMenuOpen(false);
-                    trackEvent("whatsapp_click", "engagement", "Hero Mobile CTA");
-                  }}
+                     setMobileMenuOpen(false);
+                     trackEvent("whatsapp_click", "engagement", "Hero Mobile CTA");
+                     logLead("general", window.location.pathname);
+                   }}
                   className="mt-6 mb-8 inline-flex items-center justify-center rounded-full bg-brand px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand shrink-0"
                 >
                   Book on WhatsApp
@@ -608,7 +614,10 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
                   href={waLink(waMessages.destination(slide.label))}
                   target="_blank"
                   rel="noreferrer"
-                  onClick={() => trackEvent("discover_location", "engagement", slide.label)}
+                  onClick={() => {
+                     trackEvent("discover_location", "engagement", slide.label);
+                     logLead(slide.label, window.location.pathname);
+                   }}
                   className="group relative rounded-full border border-white/55 px-7 py-3 text-[11px] tracking-[0.3em] uppercase text-white transition hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                 >
                   Discover Location
@@ -899,6 +908,7 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
                       href={d.href || waLink(waMessages.destination(d.name))}
                       target="_blank"
                       rel={d.href ? "noopener noreferrer" : "noreferrer"}
+                      onClick={() => logLead(d.name, window.location.pathname)}
                       className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                     >
                       Explore <ArrowRight className="h-3 w-3" />
@@ -966,6 +976,7 @@ const PopularPackages = React.memo(function PopularPackages() {
                         href={waLink(waMessages.package(p.title))}
                         target="_blank"
                         rel="noreferrer"
+                        onClick={() => logLead(p.title, window.location.pathname)}
                         className="rounded-full bg-brand px-4 py-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                       >
                         Enquire
@@ -1684,6 +1695,7 @@ const BookingCta = React.memo(function BookingCta() {
             href={waLink(waMessages.custom)}
             target="_blank"
             rel="noreferrer"
+            onClick={() => logLead("custom", window.location.pathname)}
             className="inline-flex items-center gap-3 rounded-full bg-brand px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white"
           >
             Plan my trip on WhatsApp
