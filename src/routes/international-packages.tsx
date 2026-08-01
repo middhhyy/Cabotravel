@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
@@ -8,6 +9,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { logLead } from "@/lib/logLead";
 import { getOptimizedImageUrl } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
 
 import dubai from "@/assets/dest-dubai.webp";
 import nepal from "@/assets/dest-nepal.webp";
@@ -24,7 +26,23 @@ import kazakhstan from "@/assets/dest-kazakhstan.webp";
 import philippines from "@/assets/dest-philippines.webp";
 import destInternationalPackages from "@/assets/dest-international-packages.webp";
 
-const INTERNATIONAL_DESTINATIONS = [
+const INTL_IMAGES: Record<string, string> = {
+  dubai,
+  nepal,
+  bhutan,
+  "sri-lanka": sriLanka,
+  "flight-tickets": destFlightTickets,
+  "visa-tickets": destVisaTickets,
+  vietnam,
+  bali,
+  malaysia,
+  singapore,
+  azerbaijan,
+  kazakhstan,
+  philippines,
+};
+
+const FALLBACK_INTERNATIONAL_DESTINATIONS = [
   {
     slug: "dubai",
     name: "Dubai",
@@ -152,7 +170,45 @@ export const Route = createFileRoute("/international-packages")({
   component: InternationalPackagesPage,
 });
 
+type DBInternationalDestination = {
+  slug: string;
+  name: string;
+  region: string;
+  tagline: string;
+  image?: string | null;
+  href?: string | null;
+  to_path?: string | null;
+};
+
 function InternationalPackagesPage() {
+  const [destinations, setDestinations] = useState<DBInternationalDestination[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchDestinations() {
+      try {
+        const { data, error } = await supabase
+          .from("international_destinations")
+          .select("*")
+          .eq("active", true)
+          .order("sort_order", { ascending: true });
+
+        if (error) throw error;
+        if (data && data.length > 0) {
+          setDestinations(data);
+        } else {
+          setDestinations(FALLBACK_INTERNATIONAL_DESTINATIONS);
+        }
+      } catch (err) {
+        console.error("Error fetching international destinations:", err);
+        setDestinations(FALLBACK_INTERNATIONAL_DESTINATIONS);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchDestinations();
+  }, []);
+
   return (
     <main className="bg-background">
       <SiteNav transparentOnTop />
@@ -171,84 +227,108 @@ function InternationalPackagesPage() {
 
       <section className="mx-auto max-w-7xl px-6 lg:px-10 pb-24">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {INTERNATIONAL_DESTINATIONS.map((d, i) => (
-            <motion.div
-              key={d.slug}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative h-[420px] overflow-hidden rounded-[26px] ring-1 ring-white/10"
-            >
-              <img
-                src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
-                alt={d.name}
-                loading="eager"
-                width={640}
-                height={420}
-                className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-              />
-              {d.to ? (
-                <Link to={d.to} aria-label={`Explore ${d.name} holiday packages`} className="absolute inset-0 z-10 block">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                </Link>
-              ) : d.href ? (
-                <a
-                  href={d.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Enquire about ${d.name} tour on WhatsApp`}
-                  className="absolute inset-0 z-10 block"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                </a>
-              ) : (
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-              )}
-              <div className="absolute inset-x-0 bottom-0 z-20 p-6">
-                <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                  {d.to ? (
-                    <Link to={d.to} className="hover:text-brand transition duration-300">
-                      {d.region}
-                    </Link>
-                  ) : d.href ? (
-                    <a
-                      href={d.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-brand transition duration-300"
-                    >
-                      {d.region}
-                    </a>
-                  ) : (
-                    <>{d.region}</>
-                  )}
-                </div>
-                <h3 className="mt-1 font-display text-2xl uppercase text-white">{d.name}</h3>
-                <p className="mt-3 text-sm text-white/70 line-clamp-2">{d.tagline}</p>
-                <div className="mt-6 flex items-center justify-end">
-                  {d.to ? (
-                    <Link
-                      to={d.to}
-                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                    >
-                      Explore <ArrowRight className="h-3 w-3" />
-                    </Link>
-                  ) : (
-                    <a
-                      href={d.href || waLink(waMessages.destination(d.name))}
-                      target="_blank"
-                      rel={d.href ? "noopener noreferrer" : "noreferrer"}
-                      onClick={() => logLead(d.name, window.location.pathname)}
-                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                    >
-                      Explore <ArrowRight className="h-3 w-3" />
-                    </a>
-                  )}
+          {loading ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="relative h-[420px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-white/[0.01] animate-pulse flex flex-col justify-end p-6"
+              >
+                <div className="space-y-3">
+                  <div className="h-3 w-24 bg-white/10 rounded" />
+                  <div className="h-6 w-48 bg-white/10 rounded" />
+                  <div className="h-3 w-32 bg-white/10 rounded" />
+                  <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
                 </div>
               </div>
-            </motion.div>
-          ))}
+            ))
+          ) : (
+            destinations.map((d, i) => {
+              const imageAsset = INTL_IMAGES[d.slug] || d.image || null;
+              const href = d.href || null;
+              const to = d.to_path || null;
+
+              return (
+                <motion.div
+                  key={d.slug}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.7, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                  className="group relative h-[420px] overflow-hidden rounded-[26px] ring-1 ring-white/10"
+                >
+                  {imageAsset && (
+                    <img
+                      src={getOptimizedImageUrl(imageAsset, { width: 640, quality: 75 })}
+                      alt={d.name}
+                      loading="eager"
+                      width={640}
+                      height={420}
+                      className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
+                    />
+                  )}
+                  {to ? (
+                    <Link to={to} aria-label={`Explore ${d.name} holiday packages`} className="absolute inset-0 z-10 block">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                    </Link>
+                  ) : href ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Enquire about ${d.name} tour on WhatsApp`}
+                      className="absolute inset-0 z-10 block"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                    </a>
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                  )}
+                  <div className="absolute inset-x-0 bottom-0 z-20 p-6">
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
+                      {to ? (
+                        <Link to={to} className="hover:text-brand transition duration-300">
+                          {d.region}
+                        </Link>
+                      ) : href ? (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-brand transition duration-300"
+                        >
+                          {d.region}
+                        </a>
+                      ) : (
+                        <>{d.region}</>
+                      )}
+                    </div>
+                    <h3 className="mt-1 font-display text-2xl uppercase text-white">{d.name}</h3>
+                    <p className="mt-3 text-sm text-white/70 line-clamp-2">{d.tagline}</p>
+                    <div className="mt-6 flex items-center justify-end">
+                      {to ? (
+                        <Link
+                          to={to}
+                          className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                        >
+                          Explore <ArrowRight className="h-3 w-3" />
+                        </Link>
+                      ) : (
+                        <a
+                          href={href || waLink(waMessages.destination(d.name))}
+                          target="_blank"
+                          rel={href ? "noopener noreferrer" : "noreferrer"}
+                          onClick={() => logLead(d.name, window.location.pathname)}
+                          className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                        >
+                          Explore <ArrowRight className="h-3 w-3" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })
+          )}
         </div>
       </section>
 
