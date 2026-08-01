@@ -1,4 +1,5 @@
 import { cld } from "./cloudinary";
+import { supabase } from "./supabase";
 import kerala from "@/assets/dest-kerala.webp";
 import kashmir from "@/assets/dest-kashmir.webp";
 import dubai from "@/assets/dest-dubai.webp";
@@ -158,6 +159,92 @@ export const baliDetail: Destination = {
   duration: "6 nights",
   startingFrom: "₹54,500",
 };
+
+export const DEST_IMAGES: Record<string, string> = {
+  kerala: kerala,
+  kashmir: keralaCabService,
+  "domestic-packages": destDomesticPackages,
+  "international-packages": destInternationalPackages,
+  "flight-tickets": destFlightTickets,
+  "visa-tickets": destVisaTickets,
+  bali: bali,
+};
+
+export const DEST_HERO_IMAGES: Record<string, string> = {
+  kerala: keralaHero,
+  kashmir: kashmirHero,
+  "domestic-packages": dubaiHero,
+  "international-packages": destInternationalPackages,
+  "flight-tickets": destFlightTicketsHero,
+  "visa-tickets": destVisaTicketsHero,
+  bali: baliHero,
+};
+
+export async function getDestinations(): Promise<Destination[]> {
+  try {
+    const { data, error } = await supabase
+      .from("destinations")
+      .select("*")
+      .eq("active", true)
+      .order("sort_order", { ascending: true });
+
+    if (error) throw error;
+    if (!data || data.length === 0) return destinations;
+
+    return data.map((d: any) => ({
+      slug: d.slug,
+      name: d.name,
+      region: d.region,
+      country: d.country,
+      image: DEST_IMAGES[d.slug] || d.image,
+      heroImage: DEST_HERO_IMAGES[d.slug] || d.hero_image || undefined,
+      tagline: d.tagline || "",
+      description: d.description || "",
+      highlights: d.highlights || [],
+      bestTime: d.best_time || "",
+      duration: d.duration || "",
+      startingFrom: d.starting_from || "",
+      href: d.href || undefined,
+    }));
+  } catch (err) {
+    console.error("Error fetching destinations from Supabase:", err);
+    return destinations;
+  }
+}
+
+export async function getDestinationBySlug(slug: string): Promise<Destination | null> {
+  try {
+    const { data, error } = await supabase
+      .from("destinations")
+      .select("*")
+      .eq("slug", slug)
+      .eq("active", true)
+      .limit(1)
+      .single();
+
+    if (error) throw error;
+    if (!data) return getDestination(slug) || null;
+
+    return {
+      slug: data.slug,
+      name: data.name,
+      region: data.region,
+      country: data.country,
+      image: DEST_IMAGES[data.slug] || data.image,
+      heroImage: DEST_HERO_IMAGES[data.slug] || data.hero_image || undefined,
+      tagline: data.tagline || "",
+      description: data.description || "",
+      highlights: data.highlights || [],
+      bestTime: data.best_time || "",
+      duration: data.duration || "",
+      startingFrom: data.starting_from || "",
+      href: data.href || undefined,
+    };
+  } catch (err) {
+    console.error(`Error fetching destination slug ${slug}:`, err);
+    return getDestination(slug) || null;
+  }
+}
 
 export function getDestination(slug: string) {
   if (slug === "bali") return baliDetail;

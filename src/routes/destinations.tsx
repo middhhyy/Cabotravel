@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
-import { destinations, keralaHero } from "@/lib/destinations";
+import { getDestinations, keralaHero, Destination } from "@/lib/destinations";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { logLead } from "@/lib/logLead";
 import { getOptimizedImageUrl } from "@/lib/utils";
@@ -44,7 +44,19 @@ export const Route = createFileRoute("/destinations")({
 });
 
 function DestinationsPage() {
+  const [destinations, setDestinations] = useState<Destination[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"All" | "Domestic" | "International">("All");
+
+  useEffect(() => {
+    async function fetchDestinations() {
+      const data = await getDestinations();
+      setDestinations(data);
+      setLoading(false);
+    }
+    fetchDestinations();
+  }, []);
+
   const list = destinations.filter((d) => filter === "All" || d.region === filter);
 
   return (
@@ -80,92 +92,139 @@ function DestinationsPage() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {list.map((d, i) => (
-            <motion.div
-              key={d.slug}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.05 }}
-              className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10"
-            >
-              <img
-                src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
-                alt={d.name}
-                loading="eager"
-                width={640}
-                height={440}
-                className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-              />
-              {d.href ? (
-                <a
-                  href={d.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute inset-0 z-10 block"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
-                </a>
-              ) : (
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
-              )}
-              <div className="absolute inset-x-0 bottom-0 p-6">
-                <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                  {d.href ? (
-                    <a
-                      href={d.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-brand transition duration-300"
-                    >
-                      {d.region} · {d.country}
-                    </a>
-                  ) : (
-                    <>{d.region} · {d.country}</>
-                  )}
-                </div>
-                <div className="mt-1 font-display text-3xl uppercase">{d.name}</div>
-                <p className="mt-3 text-sm text-white/70">{d.tagline}</p>
-                <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
-                  <span>Best: {d.bestTime}</span>
-                  <span>{d.duration}</span>
-                </div>
-                <div className="mt-5 flex items-center justify-end">
-                  {d.slug === "kashmir" ? (
-                    <Link
-                      to="/cabs"
-                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                    >
-                      Discover <ArrowRight className="h-3 w-3" />
-                    </Link>
-                  ) : d.slug === "domestic-packages" ? (
-                    <Link
-                      to="/domestic-packages"
-                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                    >
-                      Discover <ArrowRight className="h-3 w-3" />
-                    </Link>
-                  ) : d.slug === "international-packages" ? (
-                    <Link
-                      to="/international-packages"
-                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                    >
-                      Discover <ArrowRight className="h-3 w-3" />
-                    </Link>
-                  ) : (
-                    <a
-                      href={d.href || waLink(waMessages.destination(d.name))}
-                      target="_blank"
-                      rel={d.href ? "noopener noreferrer" : "noreferrer"}
-                      onClick={() => logLead(d.name, window.location.pathname)}
-                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                    >
-                      Discover <ArrowRight className="h-3 w-3" />
-                    </a>
-                  )}
+          {loading ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-white/[0.01] animate-pulse flex flex-col justify-end p-6"
+              >
+                <div className="space-y-3">
+                  <div className="h-3 w-24 bg-white/10 rounded" />
+                  <div className="h-6 w-48 bg-white/10 rounded" />
+                  <div className="h-3 w-32 bg-white/10 rounded" />
+                  <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
                 </div>
               </div>
-            </motion.div>
-          ))}
+            ))
+          ) : (
+            list.map((d, i) => (
+              <motion.div
+                key={d.slug}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.05 }}
+                className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10"
+              >
+                <img
+                  src={getOptimizedImageUrl(d.image, { width: 640, quality: 75 })}
+                  alt={d.name}
+                  loading="eager"
+                  width={640}
+                  height={440}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
+                />
+                {d.href ? (
+                  <a
+                    href={d.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 z-10 block"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+                  </a>
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+                )}
+                <div className="absolute inset-x-0 bottom-0 p-6">
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
+                    {d.href ? (
+                      <a
+                        href={d.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-brand transition duration-300"
+                      >
+                        {d.region} · {d.country}
+                      </a>
+                    ) : (
+                      <Link
+                        to={d.slug === "kerala" ? "/kerala" : "/destinations/$slug"}
+                        params={d.slug === "kerala" ? undefined : { slug: d.slug }}
+                        className="hover:text-brand transition duration-300"
+                      >
+                        {d.region} · {d.country}
+                      </Link>
+                    )}
+                  </div>
+                  <h3 className="mt-2 font-display text-3xl uppercase leading-none text-white">
+                    {d.href ? (
+                      <a
+                        href={d.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-brand transition duration-300"
+                      >
+                        {d.name}
+                      </a>
+                    ) : (
+                      <Link
+                        to={d.slug === "kerala" ? "/kerala" : "/destinations/$slug"}
+                        params={d.slug === "kerala" ? undefined : { slug: d.slug }}
+                        className="hover:text-brand transition duration-300"
+                      >
+                        {d.name}
+                      </Link>
+                    )}
+                  </h3>
+                  <p className="mt-3 text-xs text-white/70 leading-relaxed max-w-xs">{d.tagline}</p>
+                  <div className="mt-6 flex items-center justify-between">
+                    <span className="text-[11px] tracking-widest text-brand uppercase font-semibold">
+                      From {d.startingFrom}
+                    </span>
+                    {d.slug === "kerala" ? (
+                      <Link
+                        to="/kerala"
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                      >
+                        Discover <ArrowRight className="h-3 w-3" />
+                      </Link>
+                    ) : d.slug === "kashmir" ? (
+                      <Link
+                        to="/cabs"
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                      >
+                        Discover <ArrowRight className="h-3 w-3" />
+                      </Link>
+                    ) : d.slug === "dubai" || d.slug === "domestic-packages" ? (
+                      <Link
+                        to="/domestic-packages"
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                      >
+                        Discover <ArrowRight className="h-3 w-3" />
+                      </Link>
+                    ) : d.slug === "international-packages" ? (
+                      <Link
+                        to="/international-packages"
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                      >
+                        Discover <ArrowRight className="h-3 w-3" />
+                      </Link>
+                    ) : (
+                      <a
+                        href={d.href || waLink(waMessages.destination(d.name))}
+                        target="_blank"
+                        rel={d.href ? "noopener noreferrer" : "noreferrer"}
+                        onClick={() => logLead(d.name, window.location.pathname)}
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                      >
+                        Discover <ArrowRight className="h-3 w-3" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))
+          )}
         </div>
       </section>
 

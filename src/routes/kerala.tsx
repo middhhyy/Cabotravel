@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
 import { ArrowRight, Clock } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
@@ -17,6 +19,20 @@ const varkalaImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/p
 import kozhikodeImg from "@/assets/dest-kozhikode.webp";
 import kannurImg from "@/assets/dest-kannur.webp";
 import kasaragodImg from "@/assets/dest-kasaragod.webp";
+
+const KERALA_PLACE_IMAGES: Record<string, string> = {
+  munnar: munnarImg,
+  wayanad: wayanadImg,
+  vagamon: vagamonImg,
+  alleppey: backwatersImg,
+  thekkady: thekkadyImg,
+  kovalam: kovalamImg,
+  kozhikode: kozhikodeImg,
+  kannur: kannurImg,
+  kasaragod: kasaragodImg,
+  "fort-kochi": fortKochiImg,
+  varkala: varkalaImg,
+};
 import { trackEvent } from "@/lib/analytics";
 import { logLead } from "@/lib/logLead";
 import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
@@ -177,6 +193,46 @@ const QUICK_ESCAPES = [
 ];
 
 function KeralaPage() {
+  const [places, setPlaces] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchPlaces() {
+      try {
+        const { data, error } = await supabase
+          .from("kerala_places")
+          .select("*")
+          .eq("active", true)
+          .order("sort_order", { ascending: true });
+
+        if (error) throw error;
+        setPlaces(data || []);
+      } catch (err) {
+        console.error("Error fetching Kerala places:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPlaces();
+  }, []);
+
+  const hasData = places.length > 0;
+  const mapPlace = (p: any) => ({
+    slug: p.slug,
+    name: p.name,
+    tagline: p.tagline || "",
+    travelTime: p.travel_time || "",
+    category: p.category || "",
+    image: KERALA_PLACE_IMAGES[p.slug] || p.image || "",
+    bestTime: p.best_time || "",
+    duration: p.duration || "",
+  });
+
+  const weekendGetaways = loading ? [] : (hasData ? places.filter((p) => p.category === "Weekend Getaways").map(mapPlace) : WEEKEND_GETAWAYS);
+  const familyTours = loading ? [] : (hasData ? places.filter((p) => p.category === "Family Tours").map(mapPlace) : FAMILY_TOURS);
+  const beachHolidays = loading ? [] : (hasData ? places.filter((p) => p.category === "Beach Holidays").map(mapPlace) : QUICK_ESCAPES);
+  const hiddenGems = loading ? [] : (hasData ? places.filter((p) => p.category === "Hidden Gems").map(mapPlace) : MALABAR_ESCAPES);
+
   const scrollToDestinations = () => {
     const el = document.getElementById("kerala-escapes");
     if (el) {
@@ -241,210 +297,22 @@ function KeralaPage() {
             </h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {WEEKEND_GETAWAYS.map((d, i) => (
-              <motion.div
-                key={d.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.05 }}
-                className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
-              >
-                {/* Travel Time Tag top left */}
-                <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
-                  <Clock className="h-3 w-3" /> {d.travelTime}
-                </div>
-
-                <ResponsiveImage
-                  src={d.image}
-                  alt={d.name}
-                  width={640}
-                  height={440}
-                  quality={90}
-                  className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
-
-                <div className="relative z-10 text-left">
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                    {d.category} · Domestic
-                  </div>
-                  <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
-                  <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
-                  <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
-                    <span>Best: {d.bestTime}</span>
-                    <span>{d.duration}</span>
-                  </div>
-                  <div className="mt-5 flex items-center justify-end">
-                    <a
-                      href={waLink(waMessages.destination(d.name))}
-                      target="_blank"
-                      rel="noreferrer"
-                      onClick={() => {
-                        trackEvent("destination_click", "lead", d.name);
-                        logLead(d.name, window.location.pathname);
-                      }}
-                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                    >
-                      Discover <ArrowRight className="h-3 w-3" />
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* Family & Group Tours */}
-        <section className="bg-[oklch(0.16_0.01_250)] border-y border-white/10 py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="mb-10">
-              <div className="text-[11px] tracking-[0.3em] uppercase text-brand">02 · Together</div>
-              <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
-                Family &
-                <br />
-                Group Tours.
-              </h2>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {FAMILY_TOURS.map((d, i) => (
-                <motion.div
-                  key={d.slug}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: i * 0.05 }}
-                  className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-background flex flex-col justify-end p-6"
+            {loading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-white/[0.01] animate-pulse flex flex-col justify-end p-6"
                 >
-                  {/* Travel Time Tag top left */}
-                  <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
-                    <Clock className="h-3 w-3" /> {d.travelTime}
-                  </div>
-
-                  <ResponsiveImage
-                    src={d.image}
-                    alt={d.name}
-                    width={640}
-                    height={440}
-                    quality={90}
-                    className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
-
-                  <div className="relative z-10 text-left">
-                    <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                      {d.category} · Domestic
-                    </div>
-                    <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
-                    <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
-                    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
-                      <span>Best: {d.bestTime}</span>
-                      <span>{d.duration}</span>
-                    </div>
-                    <div className="mt-5 flex items-center justify-end">
-                      <a
-                        href={waLink(waMessages.destination(d.name))}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() => {
-                         trackEvent("destination_click", "lead", d.name);
-                         logLead(d.name, window.location.pathname);
-                       }}
-                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                      >
-                        Discover <ArrowRight className="h-3 w-3" />
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* North Kerala / Malabar Escapes */}
-        <section className="mx-auto max-w-7xl px-6 lg:px-10 py-16">
-          <div className="mb-10">
-            <div className="text-[11px] tracking-[0.3em] uppercase text-brand">03 · Malabar Region</div>
-            <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
-              North Kerala &
-              <br />
-              Malabar Escapes.
-            </h2>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {MALABAR_ESCAPES.map((d, i) => (
-              <motion.div
-                key={d.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.05 }}
-                className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
-              >
-                {/* Travel Time Tag top left */}
-                <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
-                  <Clock className="h-3 w-3" /> {d.travelTime}
-                </div>
-
-                <ResponsiveImage
-                  src={d.image}
-                  alt={d.name}
-                  width={640}
-                  height={440}
-                  quality={90}
-                  className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
-
-                <div className="relative z-10 text-left">
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                    {d.category} · Domestic
-                  </div>
-                  <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
-                  <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
-                  <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
-                    <span>Best: {d.bestTime}</span>
-                    <span>{d.duration}</span>
-                  </div>
-                  <div className="mt-5 flex items-center justify-end">
-                    <a
-                      href={waLink(waMessages.destination(d.name))}
-                      target="_blank"
-                      rel="noreferrer"
-                      onClick={() => {
-                        trackEvent("destination_click", "lead", d.name);
-                        logLead(d.name, window.location.pathname);
-                      }}
-                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                    >
-                      Discover <ArrowRight className="h-3 w-3" />
-                    </a>
+                  <div className="space-y-3">
+                    <div className="h-3 w-24 bg-white/10 rounded" />
+                    <div className="h-6 w-48 bg-white/10 rounded" />
+                    <div className="h-3 w-32 bg-white/10 rounded" />
+                    <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* Quick Escapes */}
-        <section className="bg-[oklch(0.16_0.01_250)] border-y border-white/10 py-20 pb-24">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="mb-10">
-              <div className="text-[11px] tracking-[0.3em] uppercase text-brand">04 · Short Trips</div>
-              <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
-                Quick
-                <br />
-                Escapes.
-              </h2>
-            </div>
-            <div className={`grid gap-6 grid-cols-1 ${QUICK_ESCAPES.length === 1
-                ? ""
-                : QUICK_ESCAPES.length === 2
-                  ? "md:grid-cols-2"
-                  : "md:grid-cols-2 lg:grid-cols-3"
-              }`}>
-              {QUICK_ESCAPES.map((d, i) => (
+              ))
+            ) : (
+              weekendGetaways.map((d, i) => (
                 <motion.div
                   key={d.slug}
                   initial={{ opacity: 0, y: 30 }}
@@ -484,9 +352,9 @@ function KeralaPage() {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => {
-                         trackEvent("destination_click", "lead", d.name);
-                         logLead(d.name, window.location.pathname);
-                       }}
+                          trackEvent("destination_click", "lead", d.name);
+                          logLead(d.name, window.location.pathname);
+                        }}
                         className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                       >
                         Discover <ArrowRight className="h-3 w-3" />
@@ -494,7 +362,259 @@ function KeralaPage() {
                     </div>
                   </div>
                 </motion.div>
-              ))}
+              ))
+            )}
+          </div>
+        </section>
+
+        {/* Family & Group Tours */}
+        <section className="bg-[oklch(0.16_0.01_250)] border-y border-white/10 py-20">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mb-10">
+              <div className="text-[11px] tracking-[0.3em] uppercase text-brand">02 · Together</div>
+              <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
+                Family &
+                <br />
+                Group Tours.
+              </h2>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                          {loading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-white/[0.01] animate-pulse flex flex-col justify-end p-6"
+                >
+                  <div className="space-y-3">
+                    <div className="h-3 w-24 bg-white/10 rounded" />
+                    <div className="h-6 w-48 bg-white/10 rounded" />
+                    <div className="h-3 w-32 bg-white/10 rounded" />
+                    <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              familyTours.map((d, i) => (
+                <motion.div
+                  key={d.slug}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.05 }}
+                  className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-background flex flex-col justify-end p-6"
+                >
+                  {/* Travel Time Tag top left */}
+                  <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
+                    <Clock className="h-3 w-3" /> {d.travelTime}
+                  </div>
+
+                  <ResponsiveImage
+                    src={d.image}
+                    alt={d.name}
+                    width={640}
+                    height={440}
+                    quality={90}
+                    className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+
+                  <div className="relative z-10 text-left">
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
+                      {d.category} · Domestic
+                    </div>
+                    <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
+                    <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
+                    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
+                      <span>Best: {d.bestTime}</span>
+                      <span>{d.duration}</span>
+                    </div>
+                    <div className="mt-5 flex items-center justify-end">
+                      <a
+                        href={waLink(waMessages.destination(d.name))}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={() => {
+                          trackEvent("destination_click", "lead", d.name);
+                          logLead(d.name, window.location.pathname);
+                        }}
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                      >
+                        Discover <ArrowRight className="h-3 w-3" />
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+            )}
+            </div>
+          </div>
+        </section>
+
+        {/* North Kerala / Malabar Escapes */}
+        <section className="mx-auto max-w-7xl px-6 lg:px-10 py-16">
+          <div className="mb-10">
+            <div className="text-[11px] tracking-[0.3em] uppercase text-brand">03 · Malabar Region</div>
+            <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
+              North Kerala &
+              <br />
+              Malabar Escapes.
+            </h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {loading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-white/[0.01] animate-pulse flex flex-col justify-end p-6"
+                >
+                  <div className="space-y-3">
+                    <div className="h-3 w-24 bg-white/10 rounded" />
+                    <div className="h-6 w-48 bg-white/10 rounded" />
+                    <div className="h-3 w-32 bg-white/10 rounded" />
+                    <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              hiddenGems.map((d, i) => (
+                <motion.div
+                  key={d.slug}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.05 }}
+                  className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
+                >
+                  {/* Travel Time Tag top left */}
+                  <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
+                    <Clock className="h-3 w-3" /> {d.travelTime}
+                  </div>
+
+                  <ResponsiveImage
+                    src={d.image}
+                    alt={d.name}
+                    width={640}
+                    height={440}
+                    quality={90}
+                    className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+
+                  <div className="relative z-10 text-left">
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
+                      {d.category} · Domestic
+                    </div>
+                    <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
+                    <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
+                    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
+                      <span>Best: {d.bestTime}</span>
+                      <span>{d.duration}</span>
+                    </div>
+                    <div className="mt-5 flex items-center justify-end">
+                      <a
+                        href={waLink(waMessages.destination(d.name))}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={() => {
+                          trackEvent("destination_click", "lead", d.name);
+                          logLead(d.name, window.location.pathname);
+                        }}
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                      >
+                        Discover <ArrowRight className="h-3 w-3" />
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+            )}
+          </div>
+        </section>
+
+        {/* Quick Escapes */}
+        <section className="bg-[oklch(0.16_0.01_250)] border-y border-white/10 py-20 pb-24">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10">
+            <div className="mb-10">
+              <div className="text-[11px] tracking-[0.3em] uppercase text-brand">04 · Short Trips</div>
+              <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
+                Quick
+                <br />
+                Escapes.
+              </h2>
+            </div>
+            <div className={`grid gap-6 grid-cols-1 ${QUICK_ESCAPES.length === 1
+                ? ""
+                : QUICK_ESCAPES.length === 2
+                  ? "md:grid-cols-2"
+                  : "md:grid-cols-2 lg:grid-cols-3"
+              }`}>
+                          {loading ? (
+              Array.from({ length: 2 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-white/[0.01] animate-pulse flex flex-col justify-end p-6"
+                >
+                  <div className="space-y-3">
+                    <div className="h-3 w-24 bg-white/10 rounded" />
+                    <div className="h-6 w-48 bg-white/10 rounded" />
+                    <div className="h-3 w-32 bg-white/10 rounded" />
+                    <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              beachHolidays.map((d, i) => (
+                <motion.div
+                  key={d.slug}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.05 }}
+                  className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
+                >
+                  {/* Travel Time Tag top left */}
+                  <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
+                    <Clock className="h-3 w-3" /> {d.travelTime}
+                  </div>
+
+                  <ResponsiveImage
+                    src={d.image}
+                    alt={d.name}
+                    width={640}
+                    height={440}
+                    quality={90}
+                    className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+
+                  <div className="relative z-10 text-left">
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
+                      {d.category} · Domestic
+                    </div>
+                    <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
+                    <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
+                    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
+                      <span>Best: {d.bestTime}</span>
+                      <span>{d.duration}</span>
+                    </div>
+                    <div className="mt-5 flex items-center justify-end">
+                      <a
+                        href={waLink(waMessages.destination(d.name))}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={() => {
+                          trackEvent("destination_click", "lead", d.name);
+                          logLead(d.name, window.location.pathname);
+                        }}
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                      >
+                        Discover <ArrowRight className="h-3 w-3" />
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+            )}
             </div>
           </div>
         </section>

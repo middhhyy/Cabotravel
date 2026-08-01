@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabase";
+import { AdminHeader } from "@/components/admin/AdminHeader";
 import {
   Plus,
   Search,
@@ -419,32 +420,7 @@ export function AdminDashboard() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col font-sans">
       {/* 1. HEADER BAR */}
-      <header className="border-b border-white/10 px-6 py-4 flex items-center justify-between bg-black/40 backdrop-blur-md sticky top-0 z-40">
-        <div>
-          <h1 className="text-xl font-display uppercase tracking-widest text-white leading-tight">Cabo CRM</h1>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-white/50">Lead Management</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <Link
-            to="/admin/analytics"
-            className="text-xs uppercase tracking-wider text-white/70 hover:text-white transition"
-          >
-            Analytics
-          </Link>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-black hover:bg-brand/90 transition"
-          >
-            <Plus className="w-3.5 h-3.5" /> Add Lead
-          </button>
-          <button
-            onClick={handleLogout}
-            className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-4 py-2 text-[10px] font-semibold uppercase tracking-wider text-white/70 hover:text-white hover:border-white/30 transition bg-white/5"
-          >
-            <LogOut className="w-3 h-3" /> Logout
-          </button>
-        </div>
-      </header>
+      <AdminHeader activeTab="crm" onAddLead={() => setShowAddModal(true)} />
 
       <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto space-y-8">
         {/* 2. STATS ROW */}

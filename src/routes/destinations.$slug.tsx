@@ -12,7 +12,7 @@ import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 
 export const Route = createFileRoute("/destinations/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     if (params.slug === "kashmir") {
       throw redirect({
         to: "/cabs",
@@ -25,7 +25,8 @@ export const Route = createFileRoute("/destinations/$slug")({
         replace: true,
       });
     }
-    const d = getDestination(params.slug);
+    const { getDestinationBySlug } = await import("@/lib/destinations");
+    const d = await getDestinationBySlug(params.slug);
     if (!d) throw notFound();
     return d;
   },

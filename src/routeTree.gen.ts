@@ -32,6 +32,12 @@ import { Route as AgencyDashboardRouteImport } from './routes/agency/dashboard'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
+import { Route as AdminCmsVehiclesRouteImport } from './routes/admin/cms/vehicles'
+import { Route as AdminCmsStoriesRouteImport } from './routes/admin/cms/stories'
+import { Route as AdminCmsPackagesRouteImport } from './routes/admin/cms/packages'
+import { Route as AdminCmsFeedbackRouteImport } from './routes/admin/cms/feedback'
+import { Route as AdminCmsFaqsRouteImport } from './routes/admin/cms/faqs'
+import { Route as AdminCmsDestinationsRouteImport } from './routes/admin/cms/destinations'
 
 const VisaRoute = VisaRouteImport.update({
   id: '/visa',
@@ -148,6 +154,36 @@ const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
   path: '/admin/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCmsVehiclesRoute = AdminCmsVehiclesRouteImport.update({
+  id: '/admin/cms/vehicles',
+  path: '/admin/cms/vehicles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCmsStoriesRoute = AdminCmsStoriesRouteImport.update({
+  id: '/admin/cms/stories',
+  path: '/admin/cms/stories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCmsPackagesRoute = AdminCmsPackagesRouteImport.update({
+  id: '/admin/cms/packages',
+  path: '/admin/cms/packages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCmsFeedbackRoute = AdminCmsFeedbackRouteImport.update({
+  id: '/admin/cms/feedback',
+  path: '/admin/cms/feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCmsFaqsRoute = AdminCmsFaqsRouteImport.update({
+  id: '/admin/cms/faqs',
+  path: '/admin/cms/faqs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCmsDestinationsRoute = AdminCmsDestinationsRouteImport.update({
+  id: '/admin/cms/destinations',
+  path: '/admin/cms/destinations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -173,6 +209,12 @@ export interface FileRoutesByFullPath {
   '/guest-stories/$slug': typeof GuestStoriesSlugRoute
   '/trip/$id': typeof TripIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/cms/destinations': typeof AdminCmsDestinationsRoute
+  '/admin/cms/faqs': typeof AdminCmsFaqsRoute
+  '/admin/cms/feedback': typeof AdminCmsFeedbackRoute
+  '/admin/cms/packages': typeof AdminCmsPackagesRoute
+  '/admin/cms/stories': typeof AdminCmsStoriesRoute
+  '/admin/cms/vehicles': typeof AdminCmsVehiclesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -198,6 +240,12 @@ export interface FileRoutesByTo {
   '/guest-stories/$slug': typeof GuestStoriesSlugRoute
   '/trip/$id': typeof TripIdRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/cms/destinations': typeof AdminCmsDestinationsRoute
+  '/admin/cms/faqs': typeof AdminCmsFaqsRoute
+  '/admin/cms/feedback': typeof AdminCmsFeedbackRoute
+  '/admin/cms/packages': typeof AdminCmsPackagesRoute
+  '/admin/cms/stories': typeof AdminCmsStoriesRoute
+  '/admin/cms/vehicles': typeof AdminCmsVehiclesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -224,6 +272,12 @@ export interface FileRoutesById {
   '/guest-stories/$slug': typeof GuestStoriesSlugRoute
   '/trip/$id': typeof TripIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/cms/destinations': typeof AdminCmsDestinationsRoute
+  '/admin/cms/faqs': typeof AdminCmsFaqsRoute
+  '/admin/cms/feedback': typeof AdminCmsFeedbackRoute
+  '/admin/cms/packages': typeof AdminCmsPackagesRoute
+  '/admin/cms/stories': typeof AdminCmsStoriesRoute
+  '/admin/cms/vehicles': typeof AdminCmsVehiclesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,6 +305,12 @@ export interface FileRouteTypes {
     | '/guest-stories/$slug'
     | '/trip/$id'
     | '/admin/'
+    | '/admin/cms/destinations'
+    | '/admin/cms/faqs'
+    | '/admin/cms/feedback'
+    | '/admin/cms/packages'
+    | '/admin/cms/stories'
+    | '/admin/cms/vehicles'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -276,6 +336,12 @@ export interface FileRouteTypes {
     | '/guest-stories/$slug'
     | '/trip/$id'
     | '/admin'
+    | '/admin/cms/destinations'
+    | '/admin/cms/faqs'
+    | '/admin/cms/feedback'
+    | '/admin/cms/packages'
+    | '/admin/cms/stories'
+    | '/admin/cms/vehicles'
   id:
     | '__root__'
     | '/'
@@ -301,6 +367,12 @@ export interface FileRouteTypes {
     | '/guest-stories/$slug'
     | '/trip/$id'
     | '/admin/'
+    | '/admin/cms/destinations'
+    | '/admin/cms/faqs'
+    | '/admin/cms/feedback'
+    | '/admin/cms/packages'
+    | '/admin/cms/stories'
+    | '/admin/cms/vehicles'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -325,6 +397,12 @@ export interface RootRouteChildren {
   AgencyDashboardRoute: typeof AgencyDashboardRoute
   TripIdRoute: typeof TripIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminCmsDestinationsRoute: typeof AdminCmsDestinationsRoute
+  AdminCmsFaqsRoute: typeof AdminCmsFaqsRoute
+  AdminCmsFeedbackRoute: typeof AdminCmsFeedbackRoute
+  AdminCmsPackagesRoute: typeof AdminCmsPackagesRoute
+  AdminCmsStoriesRoute: typeof AdminCmsStoriesRoute
+  AdminCmsVehiclesRoute: typeof AdminCmsVehiclesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -490,6 +568,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/cms/vehicles': {
+      id: '/admin/cms/vehicles'
+      path: '/admin/cms/vehicles'
+      fullPath: '/admin/cms/vehicles'
+      preLoaderRoute: typeof AdminCmsVehiclesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/cms/stories': {
+      id: '/admin/cms/stories'
+      path: '/admin/cms/stories'
+      fullPath: '/admin/cms/stories'
+      preLoaderRoute: typeof AdminCmsStoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/cms/packages': {
+      id: '/admin/cms/packages'
+      path: '/admin/cms/packages'
+      fullPath: '/admin/cms/packages'
+      preLoaderRoute: typeof AdminCmsPackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/cms/feedback': {
+      id: '/admin/cms/feedback'
+      path: '/admin/cms/feedback'
+      fullPath: '/admin/cms/feedback'
+      preLoaderRoute: typeof AdminCmsFeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/cms/faqs': {
+      id: '/admin/cms/faqs'
+      path: '/admin/cms/faqs'
+      fullPath: '/admin/cms/faqs'
+      preLoaderRoute: typeof AdminCmsFaqsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/cms/destinations': {
+      id: '/admin/cms/destinations'
+      path: '/admin/cms/destinations'
+      fullPath: '/admin/cms/destinations'
+      preLoaderRoute: typeof AdminCmsDestinationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -539,6 +659,12 @@ const rootRouteChildren: RootRouteChildren = {
   AgencyDashboardRoute: AgencyDashboardRoute,
   TripIdRoute: TripIdRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminCmsDestinationsRoute: AdminCmsDestinationsRoute,
+  AdminCmsFaqsRoute: AdminCmsFaqsRoute,
+  AdminCmsFeedbackRoute: AdminCmsFeedbackRoute,
+  AdminCmsPackagesRoute: AdminCmsPackagesRoute,
+  AdminCmsStoriesRoute: AdminCmsStoriesRoute,
+  AdminCmsVehiclesRoute: AdminCmsVehiclesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

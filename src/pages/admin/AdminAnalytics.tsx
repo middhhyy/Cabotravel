@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabase";
+import { AdminHeader } from "@/components/admin/AdminHeader";
 import {
   ArrowLeft,
   Loader2,
@@ -179,20 +180,7 @@ export function AdminAnalytics() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col font-sans">
       {/* 1. HEADER */}
-      <header className="border-b border-white/10 px-6 py-4 flex items-center justify-between bg-black/40 backdrop-blur-md sticky top-0 z-45">
-        <div className="flex items-center gap-4">
-          <Link
-            to="/admin/dashboard"
-            className="p-2 hover:bg-white/5 rounded-full border border-white/10 text-white/70 hover:text-white transition"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
-          <div>
-            <h1 className="text-xl font-display uppercase tracking-widest text-white leading-tight">Analytics</h1>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-white/50">Cabo CRM Performance</p>
-          </div>
-        </div>
-      </header>
+      <AdminHeader activeTab="analytics" />
 
       <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto space-y-8">
         {/* 2. OVERVIEW CARDS */}
