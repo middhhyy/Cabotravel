@@ -1,4 +1,5 @@
 import { destinations } from "./destinations";
+import { supabase } from "./supabase";
 import backwatersImg from "@/assets/pkg-kerala-backwaters.webp";
 import munnarImg from "@/assets/pkg-munnar-hills.webp";
 import kovalamImg from "@/assets/pkg-kovalam-beach.webp";
@@ -32,7 +33,19 @@ export type Pkg = {
   image?: string;
 };
 
-export const packages: Pkg[] = [
+const PKG_IMAGES: Record<string, string> = {
+  "kerala-backwaters-escape": backwatersImg,
+  "munnar-hills-retreat": munnarImg,
+  "kovalam-beach-getaway": kovalamImg,
+  "trivandrum-heritage-experience": trivandrumImg,
+  "thekkady-wildlife-adventure": thekkadyImg,
+  "ayurveda-wellness-retreat": ayurvedaImg,
+  "wayanad-romantic-escape": wayanadImg,
+  "vagamon-adventure-trails": vagamonImg,
+  "fort-kochi-heritage-walk": fortKochiImg,
+};
+
+export const PACKAGES_FALLBACK: Pkg[] = [
   {
     slug: "kerala-backwaters-escape",
     title: "Kerala Backwaters Escape",
@@ -436,10 +449,42 @@ export const packages: Pkg[] = [
   },
 ];
 
+export async function getPackages(): Promise<Pkg[]> {
+  try {
+    const { data, error } = await supabase
+      .from("packages")
+      .select("*")
+      .eq("active", true)
+      .order("sort_order", { ascending: true });
+
+    if (error) throw error;
+    if (!data || data.length === 0) return PACKAGES_FALLBACK;
+
+    return data.map((row: any) => ({
+      slug: row.slug,
+      title: row.title,
+      destinationSlug: row.destination_slug,
+      category: row.category,
+      nights: row.nights,
+      days: row.days,
+      price: row.price,
+      priceValue: row.price_value,
+      inclusions: row.inclusions || [],
+      itinerary: row.itinerary || [],
+      image: PKG_IMAGES[row.slug] || row.image || undefined,
+    }));
+  } catch (err) {
+    console.error("Error fetching packages:", err);
+    return PACKAGES_FALLBACK;
+  }
+}
+
 export function getPackage(slug: string) {
-  return packages.find((p) => p.slug === slug);
+  return PACKAGES_FALLBACK.find((p) => p.slug === slug);
 }
 
 export function destinationFor(pkg: Pkg) {
   return destinations.find((d) => d.slug === pkg.destinationSlug)!;
 }
+
+export const packages = PACKAGES_FALLBACK;

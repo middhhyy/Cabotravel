@@ -22,6 +22,7 @@ import {
   Quote,
   X,
 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import kerala from "@/assets/dest-kerala.webp";
 import kashmir from "@/assets/dest-kashmir.webp";
 import dubai from "@/assets/dest-dubai.webp";
@@ -1744,6 +1745,33 @@ const FAQ_CONTENT_TRANSITION = { duration: 0.35, ease: [0.04, 0.62, 0.23, 0.98] 
 
 const FAQSection = React.memo(function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
+
+  useEffect(() => {
+    async function fetchFaqs() {
+      try {
+        const { data, error } = await supabase
+          .from("faqs")
+          .select("*")
+          .eq("active", true)
+          .order("sort_order", { ascending: true });
+
+        if (error) throw error;
+        if (data && data.length > 0) {
+          setFaqs(data.map((item: any) => ({
+            question: item.question,
+            answer: item.answer,
+          })));
+        } else {
+          setFaqs(FAQ_ITEMS.map(item => ({ question: item.q, answer: item.a })));
+        }
+      } catch (err) {
+        console.error("Error fetching FAQs:", err);
+        setFaqs(FAQ_ITEMS.map(item => ({ question: item.q, answer: item.a })));
+      }
+    }
+    fetchFaqs();
+  }, []);
 
   const toggle = (i: number) => {
     setOpenIndex(openIndex === i ? null : i);
@@ -1759,7 +1787,7 @@ const FAQSection = React.memo(function FAQSection() {
           </h2>
         </div>
         <div className="space-y-4">
-          {FAQ_ITEMS.map((item, idx) => {
+          {faqs.map((item, idx) => {
             const isOpen = openIndex === idx;
             return (
               <div
@@ -1780,7 +1808,7 @@ const FAQSection = React.memo(function FAQSection() {
                   id={`faq-question-${idx}`}
                 >
                   <span className="font-display uppercase tracking-[0.05em] text-sm sm:text-base">
-                    {item.q}
+                    {item.question}
                   </span>
                   <motion.span
                     animate={{ rotate: isOpen ? 180 : 0 }}
@@ -1802,7 +1830,7 @@ const FAQSection = React.memo(function FAQSection() {
                       transition={FAQ_CONTENT_TRANSITION}
                     >
                       <div className="px-6 pb-6 text-sm sm:text-[14px] leading-relaxed text-white/70 border-t border-white/5 pt-4">
-                        {item.a}
+                        {item.answer}
                       </div>
                     </motion.div>
                   )}

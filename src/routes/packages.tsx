@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { ArrowRight, Search, Sparkles } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
-import { packages } from "@/lib/packages";
+import { getPackages, Pkg } from "@/lib/packages";
 import { destinations } from "@/lib/destinations";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { logLead } from "@/lib/logLead";
@@ -61,6 +61,17 @@ export const Route = createFileRoute("/packages")({
 function PackagesPage() {
   const [cat, setCat] = useState<(typeof CATEGORIES)[number]>("All");
   const [q, setQ] = useState("");
+  const [packages, setPackages] = useState<Pkg[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchPackages() {
+      const data = await getPackages();
+      setPackages(data);
+      setLoading(false);
+    }
+    fetchPackages();
+  }, []);
 
   const list = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -69,7 +80,7 @@ function PackagesPage() {
       const okQ = !s || p.title.toLowerCase().includes(s) || p.destinationSlug.includes(s);
       return okCat && okQ;
     });
-  }, [cat, q]);
+  }, [cat, q, packages]);
 
   return (
     <main className="bg-background">
@@ -124,7 +135,23 @@ function PackagesPage() {
           ))}
         </div>
 
-        {list.length === 0 ? (
+        {loading ? (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="relative h-[420px] overflow-hidden rounded-[22px] bg-white/[0.01] ring-1 ring-white/10 animate-pulse flex flex-col justify-end p-6"
+              >
+                <div className="space-y-3">
+                  <div className="h-3 w-24 bg-white/10 rounded" />
+                  <div className="h-6 w-48 bg-white/10 rounded" />
+                  <div className="h-3 w-32 bg-white/10 rounded" />
+                  <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : list.length === 0 ? (
           <div className="rounded-3xl border border-white/10 p-12 text-center text-white/60">
             No packages match. Try a different filter.
           </div>
