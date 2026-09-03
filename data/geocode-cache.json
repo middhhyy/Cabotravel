@@ -789,5 +789,38 @@
       "waze": "https://waze.com/ul?ll=11.5698682,75.58841819999999&navigate=yes"
     },
     "lastVerified": "2026-07-04T11:56:14.037Z"
+  },
+  "Vadakara Fish Market|Vadakara, ": {
+    "address": "FIsh Market Vadakara, Vadakara - Villappalli Road, Vadakara, Kozhikode, Kerala, 670109, India",
+    "latitude": 11.5991339,
+    "longitude": 75.5875228,
+    "verified": true,
+    "source": "osm",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=11.5991339,75.5875228",
+      "apple": "https://maps.apple.com/?q=11.5991339,75.5875228",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5991339&mlon=75.5875228#map=17/11.5991339/75.5875228"
+    },
+    "lastVerified": "2026-08-01T16:46:26.598Z"
+  },
+  "Kolavi Palam Beach (Sunset Point)|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-08-01T16:46:37.733Z"
+  },
+  "Peruvannamuzhi Dam and Wildlife Sanctuary|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-08-01T16:46:39.174Z"
+  },
+  "Sargaalaya Arts & Crafts Village|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-08-01T16:46:40.755Z"
+  },
+  "Moorikkara Beach|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-08-01T16:46:42.532Z"
   }
 }
