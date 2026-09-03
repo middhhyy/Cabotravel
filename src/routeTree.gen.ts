@@ -22,12 +22,14 @@ import { Route as DomesticPackagesRouteImport } from './routes/domestic-packages
 import { Route as DestinationsRouteImport } from './routes/destinations'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CabsRouteImport } from './routes/cabs'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as TripIdRouteImport } from './routes/trip.$id'
 import { Route as GuestStoriesSlugRouteImport } from './routes/guest-stories.$slug'
 import { Route as DestinationsSlugRouteImport } from './routes/destinations.$slug'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AgencyDashboardRouteImport } from './routes/agency/dashboard'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
@@ -38,6 +40,7 @@ import { Route as AdminCmsPackagesRouteImport } from './routes/admin/cms/package
 import { Route as AdminCmsFeedbackRouteImport } from './routes/admin/cms/feedback'
 import { Route as AdminCmsFaqsRouteImport } from './routes/admin/cms/faqs'
 import { Route as AdminCmsDestinationsRouteImport } from './routes/admin/cms/destinations'
+import { Route as AdminCmsBlogRouteImport } from './routes/admin/cms/blog'
 
 const VisaRoute = VisaRouteImport.update({
   id: '/visa',
@@ -104,6 +107,11 @@ const CabsRoute = CabsRouteImport.update({
   path: '/cabs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -133,6 +141,11 @@ const DestinationsSlugRoute = DestinationsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => DestinationsRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
 } as any)
 const AgencyDashboardRoute = AgencyDashboardRouteImport.update({
   id: '/agency/dashboard',
@@ -184,10 +197,16 @@ const AdminCmsDestinationsRoute = AdminCmsDestinationsRouteImport.update({
   path: '/admin/cms/destinations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCmsBlogRoute = AdminCmsBlogRouteImport.update({
+  id: '/admin/cms/blog',
+  path: '/admin/cms/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/blog': typeof BlogRouteWithChildren
   '/cabs': typeof CabsRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRouteWithChildren
@@ -205,10 +224,12 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
   '/agency/dashboard': typeof AgencyDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
   '/guest-stories/$slug': typeof GuestStoriesSlugRoute
   '/trip/$id': typeof TripIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/cms/blog': typeof AdminCmsBlogRoute
   '/admin/cms/destinations': typeof AdminCmsDestinationsRoute
   '/admin/cms/faqs': typeof AdminCmsFaqsRoute
   '/admin/cms/feedback': typeof AdminCmsFeedbackRoute
@@ -219,6 +240,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/blog': typeof BlogRouteWithChildren
   '/cabs': typeof CabsRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRouteWithChildren
@@ -236,10 +258,12 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
   '/agency/dashboard': typeof AgencyDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
   '/guest-stories/$slug': typeof GuestStoriesSlugRoute
   '/trip/$id': typeof TripIdRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/cms/blog': typeof AdminCmsBlogRoute
   '/admin/cms/destinations': typeof AdminCmsDestinationsRoute
   '/admin/cms/faqs': typeof AdminCmsFaqsRoute
   '/admin/cms/feedback': typeof AdminCmsFeedbackRoute
@@ -251,6 +275,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/blog': typeof BlogRouteWithChildren
   '/cabs': typeof CabsRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRouteWithChildren
@@ -268,10 +293,12 @@ export interface FileRoutesById {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
   '/agency/dashboard': typeof AgencyDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/destinations/$slug': typeof DestinationsSlugRoute
   '/guest-stories/$slug': typeof GuestStoriesSlugRoute
   '/trip/$id': typeof TripIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/cms/blog': typeof AdminCmsBlogRoute
   '/admin/cms/destinations': typeof AdminCmsDestinationsRoute
   '/admin/cms/faqs': typeof AdminCmsFaqsRoute
   '/admin/cms/feedback': typeof AdminCmsFeedbackRoute
@@ -284,6 +311,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/blog'
     | '/cabs'
     | '/contact'
     | '/destinations'
@@ -301,10 +329,12 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/login'
     | '/agency/dashboard'
+    | '/blog/$slug'
     | '/destinations/$slug'
     | '/guest-stories/$slug'
     | '/trip/$id'
     | '/admin/'
+    | '/admin/cms/blog'
     | '/admin/cms/destinations'
     | '/admin/cms/faqs'
     | '/admin/cms/feedback'
@@ -315,6 +345,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/blog'
     | '/cabs'
     | '/contact'
     | '/destinations'
@@ -332,10 +363,12 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/login'
     | '/agency/dashboard'
+    | '/blog/$slug'
     | '/destinations/$slug'
     | '/guest-stories/$slug'
     | '/trip/$id'
     | '/admin'
+    | '/admin/cms/blog'
     | '/admin/cms/destinations'
     | '/admin/cms/faqs'
     | '/admin/cms/feedback'
@@ -346,6 +379,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/blog'
     | '/cabs'
     | '/contact'
     | '/destinations'
@@ -363,10 +397,12 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/login'
     | '/agency/dashboard'
+    | '/blog/$slug'
     | '/destinations/$slug'
     | '/guest-stories/$slug'
     | '/trip/$id'
     | '/admin/'
+    | '/admin/cms/blog'
     | '/admin/cms/destinations'
     | '/admin/cms/faqs'
     | '/admin/cms/feedback'
@@ -378,6 +414,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  BlogRoute: typeof BlogRouteWithChildren
   CabsRoute: typeof CabsRoute
   ContactRoute: typeof ContactRoute
   DestinationsRoute: typeof DestinationsRouteWithChildren
@@ -397,6 +434,7 @@ export interface RootRouteChildren {
   AgencyDashboardRoute: typeof AgencyDashboardRoute
   TripIdRoute: typeof TripIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminCmsBlogRoute: typeof AdminCmsBlogRoute
   AdminCmsDestinationsRoute: typeof AdminCmsDestinationsRoute
   AdminCmsFaqsRoute: typeof AdminCmsFaqsRoute
   AdminCmsFeedbackRoute: typeof AdminCmsFeedbackRoute
@@ -498,6 +536,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CabsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -539,6 +584,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/destinations/$slug'
       preLoaderRoute: typeof DestinationsSlugRouteImport
       parentRoute: typeof DestinationsRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/agency/dashboard': {
       id: '/agency/dashboard'
@@ -610,8 +662,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCmsDestinationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/cms/blog': {
+      id: '/admin/cms/blog'
+      path: '/admin/cms/blog'
+      fullPath: '/admin/cms/blog'
+      preLoaderRoute: typeof AdminCmsBlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface DestinationsRouteChildren {
   DestinationsSlugRoute: typeof DestinationsSlugRoute
@@ -640,6 +709,7 @@ const GuestStoriesRouteWithChildren = GuestStoriesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  BlogRoute: BlogRouteWithChildren,
   CabsRoute: CabsRoute,
   ContactRoute: ContactRoute,
   DestinationsRoute: DestinationsRouteWithChildren,
@@ -659,6 +729,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgencyDashboardRoute: AgencyDashboardRoute,
   TripIdRoute: TripIdRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminCmsBlogRoute: AdminCmsBlogRoute,
   AdminCmsDestinationsRoute: AdminCmsDestinationsRoute,
   AdminCmsFaqsRoute: AdminCmsFaqsRoute,
   AdminCmsFeedbackRoute: AdminCmsFeedbackRoute,

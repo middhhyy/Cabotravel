@@ -29,6 +29,11 @@ const Facebook = (p: { className?: string }) => (
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
   </svg>
 );
+const GoogleReview = (p: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={p.className}>
+    <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+  </svg>
+);
 import { BrandLogo } from "./BrandLogo";
 import { waLink, waMessages, PHONE_DISPLAY } from "@/lib/whatsapp";
 import { BUSINESS_INFO } from "@/lib/business";
@@ -40,10 +45,8 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10 py-8 lg:py-20">
         <div className="grid grid-cols-2 gap-x-12 gap-y-6 lg:gap-y-16 lg:grid-cols-12">
           <div className="col-span-2 lg:col-span-5">
-            <div className="scale-90 lg:scale-100 origin-left">
-              <BrandLogo size="lg" loading="lazy" />
-            </div>
-            <p className="mt-4 lg:mt-6 max-w-sm text-xs lg:text-sm leading-relaxed text-white/80">
+            <BrandLogo size="lg" loading="lazy" />
+            <p className="mt-3.5 max-w-sm text-xs lg:text-sm leading-relaxed text-white/80">
               A travel company crafting curated journeys across the world — from Kerala's backwaters
               to Maldivian atolls. International & Domestic tours, flights, hotels, visas and
               bespoke experiences.
@@ -53,7 +56,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               onClick={() => logLead("general", window.location.pathname)}
-              className="relative mt-5 lg:mt-7 inline-flex items-center gap-2.5 lg:gap-3 rounded-full bg-brand px-5 py-2.5 lg:px-6 lg:py-3 text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-y-1 after:inset-x-0 lg:after:inset-0"
+              className="relative mt-4 inline-flex items-center gap-2.5 lg:gap-3 rounded-full bg-brand px-5 py-2.5 lg:px-6 lg:py-3 text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.22em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-y-1 after:inset-x-0 lg:after:inset-0"
             >
               <Phone className="h-3.5 w-3.5" aria-hidden="true" /> Book on WhatsApp
             </a>
@@ -104,6 +107,14 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
+                  to="/blog"
+                  className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
+                >
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/contact"
                   className="hover:text-brand rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand relative block py-1 lg:py-0 lg:inline after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
                 >
@@ -149,14 +160,33 @@ export function SiteFooter() {
 
           <div className="col-span-2 lg:col-span-3">
             <div className="text-[9px] lg:text-[10px] uppercase tracking-[0.3em] text-white/70 mb-2 lg:mb-4">Contact</div>
-            <ul className="space-y-1.5 lg:space-y-4 text-xs lg:text-sm text-white/75">
+            <ul className="space-y-2 lg:space-y-3.5 text-xs lg:text-sm text-white/75">
               <li className="flex items-start gap-3">
                 <Phone className="mt-0.5 h-3.5 w-3.5 lg:h-4 lg:w-4 shrink-0 text-brand" aria-hidden="true" />
-                <span>{BUSINESS_INFO.phoneDisplay}</span>
+                <div className="flex flex-col space-y-1">
+                  {BUSINESS_INFO.phones?.map((p) => (
+                    <a
+                      key={p.number}
+                      href={`tel:${p.tel}`}
+                      className="hover:text-brand transition-colors relative block py-0.5 after:absolute after:-inset-y-1 after:inset-x-0"
+                    >
+                      {p.number}
+                    </a>
+                  )) || (
+                    <a href={`tel:${BUSINESS_INFO.phone}`} className="hover:text-brand transition-colors">
+                      {BUSINESS_INFO.phoneDisplay}
+                    </a>
+                  )}
+                </div>
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="mt-0.5 h-3.5 w-3.5 lg:h-4 lg:w-4 shrink-0 text-brand" aria-hidden="true" />
-                <span>{BUSINESS_INFO.email}</span>
+                <a
+                  href={`mailto:${BUSINESS_INFO.email}`}
+                  className="hover:text-brand transition-colors relative block py-0.5 after:absolute after:-inset-y-1 after:inset-x-0"
+                >
+                  {BUSINESS_INFO.email}
+                </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-3.5 w-3.5 lg:h-4 lg:w-4 shrink-0 text-brand" aria-hidden="true" />
@@ -170,7 +200,7 @@ export function SiteFooter() {
                 </a>
               </li>
             </ul>
-            <div className="mt-5 lg:mt-7 flex gap-2.5 lg:gap-3">
+            <div className="mt-4 lg:mt-6 flex gap-2.5 lg:gap-3 items-center">
               <a
                 href={BUSINESS_INFO.socials.instagram}
                 target="_blank"
@@ -188,6 +218,16 @@ export function SiteFooter() {
                 className="relative grid h-8 w-8 lg:h-9 lg:w-9 place-items-center rounded-full border border-white/15 text-white/80 hover:bg-brand hover:border-brand hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-2 lg:after:inset-0"
               >
                 <Facebook className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
+              </a>
+              <a
+                href={BUSINESS_INFO.maps.reviewUrl || BUSINESS_INFO.maps.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Google Review"
+                title="Review us on Google"
+                className="relative grid h-8 w-8 lg:h-9 lg:w-9 place-items-center rounded-full border border-white/15 text-white/80 hover:bg-brand hover:border-brand hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-2 lg:after:inset-0"
+              >
+                <GoogleReview className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
               </a>
             </div>
           </div>

@@ -22,6 +22,7 @@ export function AdminHeader({ activeTab, onAddLead }: { activeTab: string; onAdd
     { name: "FAQs", path: "/admin/cms/faqs", id: "faqs" },
     { name: "Stories", path: "/admin/cms/stories", id: "stories" },
     { name: "Feedback", path: "/admin/cms/feedback", id: "feedback" },
+    { name: "Blog", path: "/admin/cms/blog", id: "blog" },
   ];
 
   return (

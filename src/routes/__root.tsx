@@ -311,7 +311,6 @@ function RootShell({ children }: { children: ReactNode }) {
 
 import { GoogleAnalytics } from "@/components/site/GoogleAnalytics";
 import { BreadcrumbsJsonLd } from "@/components/site/BreadcrumbsJsonLd";
-import { WelcomeProvider } from "@/components/site/WelcomeProvider";
 
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
   constructor(props: { children: React.ReactNode }) {
@@ -426,9 +425,7 @@ function RootComponent() {
         <GoogleAnalytics />
         <BreadcrumbsJsonLd />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <WelcomeProvider>
-          <Outlet />
-        </WelcomeProvider>
+        <Outlet />
         <DebugPanel />
       </QueryClientProvider>
     </ErrorBoundary>

@@ -1,67 +1,49 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, MapPin, Clock } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
-import { PageHeader } from "@/components/site/PageHeader";
-import { waLink, waMessages } from "@/lib/whatsapp";
-const munnarImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-munnar-tea-gardens.webp";
-const wayanadImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-wayanad.webp";
-const vagamonImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-vagamon.webp";
-const backwatersImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-alleppey-backwaters.webp";
-const thekkadyImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-thekkady.webp";
-const kovalamImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-kovalam-beach.webp";
-const fortKochiImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-fort-kochi.webp";
-const varkalaImg = "https://skzdfvoxoymuczcplwhl.supabase.co/storage/v1/object/public/feedback-photos/site-assets/hero-varkala.webp";
-import kozhikodeImg from "@/assets/dest-kozhikode.webp";
-import kannurImg from "@/assets/dest-kannur.webp";
-import kasaragodImg from "@/assets/dest-kasaragod.webp";
-
-const KERALA_PLACE_IMAGES: Record<string, string> = {
-  munnar: munnarImg,
-  wayanad: wayanadImg,
-  vagamon: vagamonImg,
-  alleppey: backwatersImg,
-  thekkady: thekkadyImg,
-  kovalam: kovalamImg,
-  kozhikode: kozhikodeImg,
-  kannur: kannurImg,
-  kasaragod: kasaragodImg,
-  "fort-kochi": fortKochiImg,
-  varkala: varkalaImg,
-};
+import { waLink } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
 import { logLead } from "@/lib/logLead";
-import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
+
+import munnarImg from "@/assets/pkg-munnar-hills.webp";
+import backwatersImg from "@/assets/pkg-kerala-backwaters.webp";
+import thekkadyImg from "@/assets/pkg-thekkady-wildlife.webp";
+import kovalamImg from "@/assets/pkg-kovalam-beach.webp";
+import fortKochiImg from "@/assets/pkg-fort-kochi-culture.webp";
+import vagamonImg from "@/assets/pkg-vagamon-adventure.webp";
+import kannurImg from "@/assets/dest-kannur.webp";
+import TheyyamImg from "@/assets/pkg-theyyam-experience.jpg";
+import tamilNaduImg from "@/assets/dest-tamil-nadu.webp";
+import trivandrumImg from "@/assets/pkg-trivandrum-heritage.webp";
 
 export const Route = createFileRoute("/kerala")({
   head: () => ({
     meta: [
-      { title: "Kerala Weekend Getaways & Staycations | Cabo Tours" },
+      { title: "Kerala Tour Packages | Cabo Tours & Travels" },
       {
         name: "description",
         content:
-          "Book customized Kerala holiday tours, weekend getaways, staycations, and luxury resort stays in Munnar, Wayanad, Varkala, and Alleppey with Cabo Tours.",
+          "Plan your perfect Kerala holiday with carefully designed tour packages covering misty hill stations, serene backwaters, cultural experiences, beaches, and South Indian destinations.",
       },
-      { property: "og:title", content: "Kerala Weekend Getaways & Staycations | Cabo Tours" },
+      { property: "og:title", content: "Kerala Tour Packages | Cabo Tours & Travels" },
       {
         property: "og:description",
         content:
-          "Book customized Kerala holiday tours, weekend getaways, staycations, and luxury resort stays in Munnar, Wayanad, Varkala, and Alleppey.",
+          "Plan your perfect Kerala holiday with carefully designed tour packages covering misty hill stations, serene backwaters, cultural experiences, beaches, and South Indian destinations.",
       },
       { property: "og:url", content: "https://www.cabotourskerala.in/kerala" },
       { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Kerala Weekend Getaways & Staycations | Cabo Tours" },
+      { name: "twitter:title", content: "Kerala Tour Packages | Cabo Tours & Travels" },
       {
         name: "twitter:description",
         content:
-          "Book customized Kerala holiday tours, weekend getaways, staycations, and luxury resort stays with Cabo Tours.",
+          "Plan your perfect Kerala holiday with carefully designed tour packages covering misty hill stations, serene backwaters, cultural experiences, beaches, and South Indian destinations.",
       },
       { name: "twitter:image", content: "https://www.cabotourskerala.in/social-preview.png" },
     ],
@@ -70,171 +52,102 @@ export const Route = createFileRoute("/kerala")({
   component: KeralaPage,
 });
 
-const WEEKEND_GETAWAYS = [
+type KeralaPackageItem = {
+  id: string;
+  title: string;
+  duration: string;
+  pickupDrop?: string;
+  route?: string;
+  description?: string;
+  price?: string;
+  image: string;
+};
+
+const KERALA_PACKAGES: KeralaPackageItem[] = [
   {
-    slug: "munnar",
-    name: "Munnar",
-    tagline: "Walk through cloud-kissed tea estates.",
-    travelTime: "2.5 hrs from Kochi",
-    category: "Misty Hills",
+    id: "explore-munnar",
+    title: "Explore Munnar",
+    duration: "2 Nights / 3 Days",
+    pickupDrop: "Cochin",
+    price: "Starting from ₹7,500/-",
     image: munnarImg,
-    bestTime: "Sep – Mar",
-    duration: "2 – 3 nights",
   },
   {
-    slug: "wayanad",
-    name: "Wayanad",
-    tagline: "Unwind in luxury treehouses and forest villas.",
-    travelTime: "3 hrs from Calicut",
-    category: "Forest Escapes",
-    image: wayanadImg,
-    bestTime: "Oct – May",
-    duration: "2 – 3 nights",
-  },
-  {
-    slug: "vagamon",
-    name: "Vagamon",
-    tagline: "Cool breeze, pine forests, and rolling green hills.",
-    travelTime: "2 hrs from Kottayam",
-    category: "Meadows & Pines",
-    image: vagamonImg,
-    bestTime: "Sep – May",
-    duration: "2 nights",
-  },
-];
-
-const FAMILY_TOURS = [
-  {
-    slug: "alleppey",
-    name: "Alleppey Houseboats",
-    tagline: "Traditional teakwood houseboats and serene canal cruises.",
-    travelTime: "1.5 hrs from Kochi",
-    category: "Backwaters",
+    id: "kerala-highlights-getaway",
+    title: "Kerala Highlights Getaway",
+    duration: "3 Nights / 4 Days",
+    route: "Cochin → Munnar → Alleppey → Cochin",
+    price: "Starting from ₹9,999/- per person",
     image: backwatersImg,
-    bestTime: "Sep – Mar",
-    duration: "1 – 2 nights",
   },
   {
-    slug: "thekkady",
-    name: "Thekkady",
-    tagline: "Boating in Periyar and trekking through spice gardens.",
-    travelTime: "3.5 hrs from Madurai",
-    category: "Spice & Wild",
+    id: "kerala-nature-backwaters-escape",
+    title: "Kerala Nature & Backwaters Escape",
+    duration: "4 Nights / 5 Days",
+    route: "Cochin → Munnar → Thekkady → Alleppey → Cochin",
+    price: "Starting from ₹11,999/- per person",
     image: thekkadyImg,
-    bestTime: "Oct – Mar",
-    duration: "2 nights",
   },
   {
-    slug: "kovalam",
-    name: "Kovalam Beach",
-    tagline: "Golden sands and sunset views under the lighthouse.",
-    travelTime: "3 hrs from Kollam",
-    category: "Beaches",
-    image: kovalamImg,
-    bestTime: "Sep – Mar",
-    duration: "2 – 3 nights",
-  },
-];
-
-const MALABAR_ESCAPES = [
-  {
-    slug: "kozhikode",
-    name: "Kozhikode",
-    tagline: "Walk historic beach streets and relish Malabar biryani.",
-    travelTime: "1 hr from Kannur",
-    category: "Malabar Shore",
-    image: kozhikodeImg,
-    bestTime: "Sep – Mar",
-    duration: "1 – 2 nights",
-  },
-  {
-    slug: "kannur",
-    name: "Kannur",
-    tagline: "Drive on Muzhappilangad shore and explore old forts.",
-    travelTime: "45 min from Kannur town",
-    category: "Forts & Drive-ins",
-    image: kannurImg,
-    bestTime: "Oct – Mar",
-    duration: "2 nights",
-  },
-  {
-    slug: "kasaragod",
-    name: "Kasaragod",
-    tagline: "Explore massive Bekal Fort and green hills of Ranipuram.",
-    travelTime: "1.5 hrs from Mangalore",
-    category: "Bekal & Hills",
-    image: kasaragodImg,
-    bestTime: "Oct – Mar",
-    duration: "2 nights",
-  },
-];
-
-const QUICK_ESCAPES = [
-  {
-    slug: "fort-kochi",
-    name: "Fort Kochi",
-    tagline: "Colonial streets, Chinese nets, and cozy cafes.",
-    travelTime: "0.5 hrs from Kochi",
-    category: "Heritage & Art",
+    id: "kerala-grand-explorer",
+    title: "Kerala Grand Explorer",
+    duration: "5 Nights / 6 Days",
+    route: "Cochin → Munnar → Thekkady → Alleppey → Trivandrum",
+    price: "Starting from ₹16,999/-",
     image: fortKochiImg,
-    bestTime: "Oct – Mar",
-    duration: "1 night",
   },
   {
-    slug: "varkala",
-    name: "Varkala Cliffs",
-    tagline: "Stunning red cliffs overlooking the Arabian Sea.",
-    travelTime: "1 hr from Trivandrum",
-    category: "Cliffside Beach",
-    image: varkalaImg,
-    bestTime: "Oct – Mar",
-    duration: "1 – 2 nights",
+    id: "kerala-ultimate-escape",
+    title: "Kerala Ultimate Escape",
+    duration: "6 Nights / 7 Days",
+    route: "Cochin → Munnar → Thekkady → Alleppey → Varkala → Kovalam",
+    price: "Starting from ₹18,999/-",
+    image: kovalamImg,
+  },
+  {
+    id: "kerala-grand-discovery",
+    title: "Kerala Grand Discovery",
+    duration: "7 Nights / 8 Days",
+    route: "Cochin → Munnar → Thekkady → Alleppey → Varkala → Trivandrum → Kanyakumari",
+    price: "Starting from ₹21,999/-",
+    image: vagamonImg,
+  },
+  {
+    id: "kerala-tamil-nadu-grand-escape",
+    title: "Kerala & Tamil Nadu Grand Escape",
+    duration: "8 Nights / 9 Days",
+    route: "Cochin → Munnar → Thekkady → Alleppey → Varkala → Trivandrum → Kanyakumari → Madurai",
+    price: "Starting from ₹24,999/-",
+    image: tamilNaduImg,
+  },
+  {
+    id: "south-india-explorer",
+    title: "South India Explorer",
+    duration: "9 Nights / 10 Days",
+    route: "Cochin → Munnar → Thekkady → Alleppey → Varkala → Trivandrum → Kanyakumari → Madurai → Rameswaram",
+    price: "Starting from ₹26,999/-",
+    image: trivandrumImg,
+  },
+  {
+    id: "south-india-temple-coastal-escape",
+    title: "South India Temple & Coastal Escape",
+    duration: "4 Nights / 5 Days",
+    route: "Trivandrum → Kanyakumari → Rameswaram → Madurai",
+    price: "Starting from ₹12,999/-",
+    image: tamilNaduImg,
+  },
+  {
+    id: "kannur-theyyam-experience",
+    title: "Kannur Theyyam Experience",
+    duration: "2 Days / 1 Night",
+    route: "Kannur → Theyyam Experience → Local Sightseeing → Departure",
+    image: TheyyamImg,
   },
 ];
 
 function KeralaPage() {
-  const [places, setPlaces] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchPlaces() {
-      try {
-        const { data, error } = await supabase
-          .from("kerala_places")
-          .select("*")
-          .eq("active", true)
-          .order("sort_order", { ascending: true });
-
-        if (error) throw error;
-        setPlaces(data || []);
-      } catch (err) {
-        console.error("Error fetching Kerala places:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchPlaces();
-  }, []);
-
-  const hasData = places.length > 0;
-  const mapPlace = (p: any) => ({
-    slug: p.slug,
-    name: p.name,
-    tagline: p.tagline || "",
-    travelTime: p.travel_time || "",
-    category: p.category || "",
-    image: KERALA_PLACE_IMAGES[p.slug] || p.image || "",
-    bestTime: p.best_time || "",
-    duration: p.duration || "",
-  });
-
-  const weekendGetaways = loading ? [] : (hasData ? places.filter((p) => p.category === "Weekend Getaways").map(mapPlace) : WEEKEND_GETAWAYS);
-  const familyTours = loading ? [] : (hasData ? places.filter((p) => p.category === "Family Tours").map(mapPlace) : FAMILY_TOURS);
-  const beachHolidays = loading ? [] : (hasData ? places.filter((p) => p.category === "Beach Holidays").map(mapPlace) : QUICK_ESCAPES);
-  const hiddenGems = loading ? [] : (hasData ? places.filter((p) => p.category === "Hidden Gems").map(mapPlace) : MALABAR_ESCAPES);
-
-  const scrollToDestinations = () => {
-    const el = document.getElementById("kerala-escapes");
+  const scrollToPackages = () => {
+    const el = document.getElementById("kerala-packages");
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
     }
@@ -270,11 +183,11 @@ function KeralaPage() {
             GOD'S OWN COUNTRY.
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/80">
-            Plan your perfect Kerala holiday tours. Misty tea estates, serene houseboat getaways, and cliffside sunsets are all accessible with our reliable taxi rentals in Calicut and beyond.
+            Plan your perfect Kerala holiday with carefully designed tour packages covering misty hill stations, serene backwaters, cultural experiences, beaches, and South Indian destinations.
           </p>
           <div className="mt-10 flex items-center justify-center gap-4">
             <button
-              onClick={scrollToDestinations}
+              onClick={scrollToPackages}
               className="group relative rounded-full border border-white/55 px-8 py-3.5 text-[11px] tracking-[0.3em] uppercase text-white transition hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             >
               Discover Location
@@ -283,339 +196,91 @@ function KeralaPage() {
         </div>
       </section>
 
-      {/* Grid sections wrapper */}
-      <div id="kerala-escapes" className="scroll-mt-20">
-
-        {/* Weekend Getaways */}
-        <section className="mx-auto max-w-7xl px-6 lg:px-10 py-16">
-          <div className="mb-10">
-            <div className="text-[11px] tracking-[0.3em] uppercase text-brand">01 · Roadtrips</div>
-            <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
-              Weekend
-              <br />
-              Getaways.
+      {/* Main Packages Section */}
+      <div id="kerala-packages" className="scroll-mt-20">
+        <section className="mx-auto max-w-7xl px-6 lg:px-10 py-16 lg:py-20">
+          <div className="mb-10 lg:mb-12">
+            <div className="text-[11px] tracking-[0.3em] uppercase text-brand">01 · CURATED JOURNEYS</div>
+            <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95] text-white">
+              KERALA TOUR PACKAGES.
             </h2>
           </div>
+
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {loading ? (
-              Array.from({ length: 3 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-white/[0.01] animate-pulse flex flex-col justify-end p-6"
-                >
-                  <div className="space-y-3">
-                    <div className="h-3 w-24 bg-white/10 rounded" />
-                    <div className="h-6 w-48 bg-white/10 rounded" />
-                    <div className="h-3 w-32 bg-white/10 rounded" />
-                    <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
+            {KERALA_PACKAGES.map((pkg, i) => (
+              <motion.div
+                key={pkg.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: (i % 3) * 0.05 }}
+                className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-background"
+              >
+                {/* Full-bleed background image */}
+                <ResponsiveImage
+                  src={pkg.image}
+                  alt={pkg.title}
+                  width={640}
+                  height={440}
+                  quality={90}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
+                />
+
+                {/* Dark gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-transparent" />
+
+                {/* Single Bottom-Anchored Content Overlay */}
+                <div className="absolute left-6 right-6 bottom-6 z-10 text-left flex flex-col">
+                  {/* Title: Compact 2-line max font */}
+                  <h3 className="font-display text-[22px] sm:text-[24px] uppercase leading-none text-white mb-2.5 line-clamp-2">
+                    {pkg.title}
+                  </h3>
+
+                  {/* Duration Pill */}
+                  <div className="mb-2.5">
+                    <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur border border-white/15 px-3 py-1 text-[10px] font-semibold tracking-wider text-brand uppercase">
+                      <Clock className="h-3 w-3 shrink-0" />
+                      <span>{pkg.duration}</span>
+                    </div>
+                  </div>
+
+                  {/* Route / Pickup */}
+                  <div className="mb-2.5">
+                    {pkg.pickupDrop ? (
+                      <div className="text-xs text-white/80 flex items-start gap-1.5 leading-snug">
+                        <MapPin className="h-3.5 w-3.5 text-brand shrink-0 mt-0.5" />
+                        <span className="line-clamp-2">Pickup & Drop: {pkg.pickupDrop}</span>
+                      </div>
+                    ) : pkg.route ? (
+                      <div className="text-xs text-white/80 flex items-start gap-1.5 leading-snug">
+                        <MapPin className="h-3.5 w-3.5 text-brand shrink-0 mt-0.5" />
+                        <span className="line-clamp-2">Route: {pkg.route}</span>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  {/* Action Row */}
+                  <div className="pt-2.5 border-t border-white/10 flex items-center justify-between gap-2">
+                    <div className="text-xs font-semibold text-brand tracking-wide">
+                      {pkg.price ? pkg.price : ""}
+                    </div>
+
+                    <a
+                      href={waLink(`Hi Cabo Tours, I'm interested in the ${pkg.title}.`)}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => {
+                        trackEvent("package_click", "lead", pkg.title);
+                        logLead(pkg.title, window.location.pathname);
+                      }}
+                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white hover:bg-brand/90 transition-colors shrink-0 ml-auto"
+                    >
+                      Discover <ArrowRight className="h-3 w-3" />
+                    </a>
                   </div>
                 </div>
-              ))
-            ) : (
-              weekendGetaways.map((d, i) => (
-                <motion.div
-                  key={d.slug}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: i * 0.05 }}
-                  className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
-                >
-                  {/* Travel Time Tag top left */}
-                  <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
-                    <Clock className="h-3 w-3" /> {d.travelTime}
-                  </div>
-
-                  <ResponsiveImage
-                    src={d.image}
-                    alt={d.name}
-                    width={640}
-                    height={440}
-                    quality={90}
-                    className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
-
-                  <div className="relative z-10 text-left">
-                    <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                      {d.category} · Domestic
-                    </div>
-                    <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
-                    <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
-                    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
-                      <span>Best: {d.bestTime}</span>
-                      <span>{d.duration}</span>
-                    </div>
-                    <div className="mt-5 flex items-center justify-end">
-                      <a
-                        href={waLink(waMessages.destination(d.name))}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() => {
-                          trackEvent("destination_click", "lead", d.name);
-                          logLead(d.name, window.location.pathname);
-                        }}
-                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                      >
-                        Discover <ArrowRight className="h-3 w-3" />
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))
-            )}
-          </div>
-        </section>
-
-        {/* Family & Group Tours */}
-        <section className="bg-[oklch(0.16_0.01_250)] border-y border-white/10 py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="mb-10">
-              <div className="text-[11px] tracking-[0.3em] uppercase text-brand">02 · Together</div>
-              <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
-                Family &
-                <br />
-                Group Tours.
-              </h2>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                          {loading ? (
-              Array.from({ length: 3 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-white/[0.01] animate-pulse flex flex-col justify-end p-6"
-                >
-                  <div className="space-y-3">
-                    <div className="h-3 w-24 bg-white/10 rounded" />
-                    <div className="h-6 w-48 bg-white/10 rounded" />
-                    <div className="h-3 w-32 bg-white/10 rounded" />
-                    <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
-                  </div>
-                </div>
-              ))
-            ) : (
-              familyTours.map((d, i) => (
-                <motion.div
-                  key={d.slug}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: i * 0.05 }}
-                  className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-background flex flex-col justify-end p-6"
-                >
-                  {/* Travel Time Tag top left */}
-                  <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
-                    <Clock className="h-3 w-3" /> {d.travelTime}
-                  </div>
-
-                  <ResponsiveImage
-                    src={d.image}
-                    alt={d.name}
-                    width={640}
-                    height={440}
-                    quality={90}
-                    className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
-
-                  <div className="relative z-10 text-left">
-                    <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                      {d.category} · Domestic
-                    </div>
-                    <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
-                    <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
-                    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
-                      <span>Best: {d.bestTime}</span>
-                      <span>{d.duration}</span>
-                    </div>
-                    <div className="mt-5 flex items-center justify-end">
-                      <a
-                        href={waLink(waMessages.destination(d.name))}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() => {
-                          trackEvent("destination_click", "lead", d.name);
-                          logLead(d.name, window.location.pathname);
-                        }}
-                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                      >
-                        Discover <ArrowRight className="h-3 w-3" />
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))
-            )}
-            </div>
-          </div>
-        </section>
-
-        {/* North Kerala / Malabar Escapes */}
-        <section className="mx-auto max-w-7xl px-6 lg:px-10 py-16">
-          <div className="mb-10">
-            <div className="text-[11px] tracking-[0.3em] uppercase text-brand">03 · Malabar Region</div>
-            <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
-              North Kerala &
-              <br />
-              Malabar Escapes.
-            </h2>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {loading ? (
-              Array.from({ length: 3 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-white/[0.01] animate-pulse flex flex-col justify-end p-6"
-                >
-                  <div className="space-y-3">
-                    <div className="h-3 w-24 bg-white/10 rounded" />
-                    <div className="h-6 w-48 bg-white/10 rounded" />
-                    <div className="h-3 w-32 bg-white/10 rounded" />
-                    <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
-                  </div>
-                </div>
-              ))
-            ) : (
-              hiddenGems.map((d, i) => (
-                <motion.div
-                  key={d.slug}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: i * 0.05 }}
-                  className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
-                >
-                  {/* Travel Time Tag top left */}
-                  <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
-                    <Clock className="h-3 w-3" /> {d.travelTime}
-                  </div>
-
-                  <ResponsiveImage
-                    src={d.image}
-                    alt={d.name}
-                    width={640}
-                    height={440}
-                    quality={90}
-                    className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
-
-                  <div className="relative z-10 text-left">
-                    <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                      {d.category} · Domestic
-                    </div>
-                    <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
-                    <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
-                    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
-                      <span>Best: {d.bestTime}</span>
-                      <span>{d.duration}</span>
-                    </div>
-                    <div className="mt-5 flex items-center justify-end">
-                      <a
-                        href={waLink(waMessages.destination(d.name))}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() => {
-                          trackEvent("destination_click", "lead", d.name);
-                          logLead(d.name, window.location.pathname);
-                        }}
-                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                      >
-                        Discover <ArrowRight className="h-3 w-3" />
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))
-            )}
-          </div>
-        </section>
-
-        {/* Quick Escapes */}
-        <section className="bg-[oklch(0.16_0.01_250)] border-y border-white/10 py-20 pb-24">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <div className="mb-10">
-              <div className="text-[11px] tracking-[0.3em] uppercase text-brand">04 · Short Trips</div>
-              <h2 className="mt-3 font-display text-4xl uppercase leading-[0.95]">
-                Quick
-                <br />
-                Escapes.
-              </h2>
-            </div>
-            <div className={`grid gap-6 grid-cols-1 ${QUICK_ESCAPES.length === 1
-                ? ""
-                : QUICK_ESCAPES.length === 2
-                  ? "md:grid-cols-2"
-                  : "md:grid-cols-2 lg:grid-cols-3"
-              }`}>
-                          {loading ? (
-              Array.from({ length: 2 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 bg-white/[0.01] animate-pulse flex flex-col justify-end p-6"
-                >
-                  <div className="space-y-3">
-                    <div className="h-3 w-24 bg-white/10 rounded" />
-                    <div className="h-6 w-48 bg-white/10 rounded" />
-                    <div className="h-3 w-32 bg-white/10 rounded" />
-                    <div className="h-10 w-28 bg-white/10 rounded-full mt-4" />
-                  </div>
-                </div>
-              ))
-            ) : (
-              beachHolidays.map((d, i) => (
-                <motion.div
-                  key={d.slug}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: i * 0.05 }}
-                  className="group relative h-[440px] overflow-hidden rounded-[26px] ring-1 ring-white/10 flex flex-col justify-end p-6"
-                >
-                  {/* Travel Time Tag top left */}
-                  <div className="absolute top-4 left-4 z-10 rounded-full bg-black/60 backdrop-blur border border-white/10 px-3 py-1 text-[9px] font-semibold tracking-wider text-brand uppercase flex items-center gap-1.5">
-                    <Clock className="h-3 w-3" /> {d.travelTime}
-                  </div>
-
-                  <ResponsiveImage
-                    src={d.image}
-                    alt={d.name}
-                    width={640}
-                    height={440}
-                    quality={90}
-                    className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
-
-                  <div className="relative z-10 text-left">
-                    <div className="text-[10px] tracking-[0.3em] uppercase text-white/70">
-                      {d.category} · Domestic
-                    </div>
-                    <div className="mt-1 font-display text-3xl uppercase leading-none text-white">{d.name}</div>
-                    <p className="mt-3 text-sm text-white/70 leading-normal">{d.tagline}</p>
-                    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-white/50">
-                      <span>Best: {d.bestTime}</span>
-                      <span>{d.duration}</span>
-                    </div>
-                    <div className="mt-5 flex items-center justify-end">
-                      <a
-                        href={waLink(waMessages.destination(d.name))}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() => {
-                          trackEvent("destination_click", "lead", d.name);
-                          logLead(d.name, window.location.pathname);
-                        }}
-                        className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                      >
-                        Discover <ArrowRight className="h-3 w-3" />
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))
-            )}
-            </div>
+              </motion.div>
+            ))}
           </div>
         </section>
       </div>
@@ -624,31 +289,33 @@ function KeralaPage() {
       <section className="bg-[oklch(0.16_0.01_250)] border-t border-white/10 py-20 text-center">
         <div className="mx-auto max-w-3xl px-6">
           <div className="text-[11px] tracking-[0.3em] uppercase text-brand mb-4">Plan Your Trip</div>
-          <h2 className="font-display text-4xl uppercase leading-[0.95]">Ready to escape the daily grind?</h2>
+          <h2 className="font-display text-4xl uppercase leading-[0.95] text-white">
+            Ready to experience Kerala?
+          </h2>
           <p className="mx-auto mt-4 max-w-xl text-white/65">
-            Plan your custom Kerala getaway with local travel advisors. No hidden charges, just perfect weekend itineraries.
+            Plan your custom Kerala getaway with local travel advisors. No hidden charges, just perfect itineraries tailored for you.
           </p>
           <div className="mt-8 flex flex-wrap gap-4 justify-center">
             <a
-              href={waLink(waMessages.custom)}
+              href={waLink("Hello Cabo Tours & Travels, I would like help planning a custom Kerala tour package.")}
               target="_blank"
               rel="noreferrer"
-               onClick={() => {
-                 trackEvent("whatsapp_click", "engagement", "Kerala WhatsApp CTA");
-                 logLead("custom", window.location.pathname);
-               }}
+              onClick={() => {
+                trackEvent("whatsapp_click", "engagement", "Kerala WhatsApp CTA");
+                logLead("custom", window.location.pathname);
+              }}
               className="inline-flex rounded-full bg-brand px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white hover:scale-[1.03] transition duration-300"
             >
               Enquire on WhatsApp
             </a>
             <a
-              href={waLink(waMessages.general)}
+              href={waLink("Hello Cabo Tours & Travels, I would like more information about your Kerala packages.")}
               target="_blank"
               rel="noreferrer"
-               onClick={() => {
-                 trackEvent("whatsapp_click", "engagement", "Kerala Standard CTA");
-                 logLead("general", window.location.pathname);
-               }}
+              onClick={() => {
+                trackEvent("whatsapp_click", "engagement", "Kerala Standard CTA");
+                logLead("general", window.location.pathname);
+              }}
               className="inline-flex rounded-full border border-white/30 hover:border-white px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white hover:bg-white hover:text-black transition duration-300"
             >
               General Enquiry

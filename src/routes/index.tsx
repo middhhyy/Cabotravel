@@ -50,14 +50,13 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { logLead } from "@/lib/logLead";
-import { WelcomeScreen } from "@/components/site/WelcomeScreen";
-import { useWelcome } from "@/components/site/WelcomeProvider";
 import { getStories, getStoryImage, GuestStory } from "@/utils/stories";
 import { trackEvent } from "@/lib/analytics";
 import { getLikesStateServerFn, toggleLikeServerFn } from "@/services/testimonials/functions";
 import { getOptimizedImageUrl, getSupabaseSrcSet } from "@/lib/utils";
 import { ShareJourneyModal } from "@/components/stories/ShareJourneyModal";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
+import { EnquiryModal } from "@/components/site/EnquiryModal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -174,12 +173,12 @@ const heroNavItems = [
   },
   { to: "/cabs", label: "CAB SERVICES" },
   { to: "/visa", label: "VISA" },
+  { to: "/blog", label: "BLOG" },
   { to: "/contact", label: "CONTACT" },
+  { enquiry: true, label: "ENQUIRE NOW" },
 ];
 
 function Home() {
-  const { welcomeDone, setWelcomeDone } = useWelcome();
-
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -195,13 +194,12 @@ function Home() {
 
   return (
     <>
-      <WelcomeScreen show={!welcomeDone} onComplete={() => setWelcomeDone(true)} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <main className="bg-background text-foreground">
-        <Hero welcomeDone={welcomeDone} />
+        <Hero welcomeDone={true} />
         <ServicesStrip />
         <FeaturedDestinations />
         <PopularPackages />
@@ -255,6 +253,7 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
   const go = useCallback((dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length), []);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
   const lastActiveElement = useRef<HTMLElement | null>(null);
   const isLockedRef = useRef<boolean>(false);
   const drawerRef = useRef<HTMLDivElement | null>(null);
@@ -392,7 +391,19 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
           aria-label="Hero navigation"
         >
           {heroNavItems.map((i, k) =>
-            "href" in i ? (
+            "enquiry" in i ? (
+              <button
+                key={k}
+                type="button"
+                onClick={() => {
+                  trackEvent("enquiry_modal_open", "engagement", "Hero Nav Button");
+                  setEnquiryModalOpen(true);
+                }}
+                className="relative py-1 transition hover:text-white rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand uppercase"
+              >
+                {i.label}
+              </button>
+            ) : "href" in i ? (
               <a
                 key={k}
                 href={i.href}
@@ -521,7 +532,19 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
               </div>
               <nav className="flex flex-col gap-4 p-6 flex-1 overflow-y-auto scrollbar-none" aria-label="Mobile Navigation">
                 {heroNavItems.map((i, k) =>
-                  "href" in i ? (
+                  "enquiry" in i ? (
+                    <button
+                      key={k}
+                      type="button"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setEnquiryModalOpen(true);
+                      }}
+                      className="font-display text-2xl uppercase tracking-[0.05em] py-4 px-4 border-b border-white/5 border-l-4 border-l-transparent text-white/80 transition-all duration-200 rounded-r-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                    >
+                      {i.label}
+                    </button>
+                  ) : "href" in i ? (
                     <a
                       key={k}
                       href={i.href}
@@ -575,6 +598,11 @@ function Hero({ welcomeDone }: { welcomeDone: boolean }) {
           </>
         )}
       </AnimatePresence>
+
+      <EnquiryModal
+        isOpen={enquiryModalOpen}
+        onClose={() => setEnquiryModalOpen(false)}
+      />
 
       <div className="relative z-10 grid h-full grid-cols-1 lg:grid-cols-12 items-end lg:items-center px-6 md:px-10 lg:px-14 pb-36 lg:pb-0 pt-28">
         <div className="lg:col-span-6 max-w-xl">
