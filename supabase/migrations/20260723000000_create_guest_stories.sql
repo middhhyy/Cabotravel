@@ -10,7 +10,7 @@ create table if not exists public.guest_stories (
   destination text not null,
   story text not null check (char_length(story) >= 1 and char_length(story) <= 1000),
   rating integer not null check (rating >= 1 and rating <= 5),
-  trip_date date not null,
+  trip_date date not null default current_date,
   created_at timestamptz not null default now(),
   status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
   slug text not null unique,
@@ -42,6 +42,15 @@ create index if not exists idx_guest_story_images_story on public.guest_story_im
 alter table public.guest_stories enable row level security;
 alter table public.guest_story_images enable row level security;
 
+-- Drop existing policies if they exist to prevent errors
+drop policy if exists "Allow public read approved stories" on public.guest_stories;
+drop policy if exists "Allow public insert stories" on public.guest_stories;
+drop policy if exists "Allow admin full access stories" on public.guest_stories;
+
+drop policy if exists "Allow public read story images" on public.guest_story_images;
+drop policy if exists "Allow public insert story images" on public.guest_story_images;
+drop policy if exists "Allow admin full access story images" on public.guest_story_images;
+
 -- Policies for guest_stories
 create policy "Allow public read approved stories"
 on public.guest_stories for select
@@ -53,7 +62,6 @@ with check (true);
 
 create policy "Allow admin full access stories"
 on public.guest_stories for all
-to authenticated
 using (true)
 with check (true);
 
@@ -68,7 +76,6 @@ with check (true);
 
 create policy "Allow admin full access story images"
 on public.guest_story_images for all
-to authenticated
 using (true)
 with check (true);
 
@@ -78,6 +85,11 @@ with check (true);
 insert into storage.buckets (id, name, public)
 values ('guest-stories', 'guest-stories', true)
 on conflict (id) do nothing;
+
+-- Drop existing storage policies if they exist to prevent errors
+drop policy if exists "Allow public read storage objects" on storage.objects;
+drop policy if exists "Allow public insert storage objects" on storage.objects;
+drop policy if exists "Allow admin delete storage objects" on storage.objects;
 
 -- Storage Security Policies
 create policy "Allow public read storage objects"
@@ -90,5 +102,4 @@ with check (bucket_id = 'guest-stories');
 
 create policy "Allow admin delete storage objects"
 on storage.objects for delete
-to authenticated
 using (bucket_id = 'guest-stories');

@@ -16,15 +16,18 @@ import {
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
-import { getBlogPostBySlug, BlogPost } from "@/lib/blog";
+import { getBlogPostBySlug, BlogPost, blogKeys } from "@/lib/blog";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { logLead } from "@/lib/logLead";
 import { toast } from "sonner";
 import { trackEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/blog/$slug")({
-  loader: async ({ params }) => {
-    const post = await getBlogPostBySlug(params.slug);
+  loader: async ({ context, params }) => {
+    const post = await context.queryClient.fetchQuery({
+      queryKey: blogKeys.detail(params.slug),
+      queryFn: () => getBlogPostBySlug(params.slug),
+    });
     if (!post) {
       throw notFound();
     }

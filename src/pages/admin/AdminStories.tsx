@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Trash2, Check, X, Eye, Loader2 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { storyKeys } from "@/utils/stories";
 
 interface GuestStory {
   id: string;
@@ -12,9 +14,11 @@ interface GuestStory {
   status: "pending" | "approved" | "rejected";
   created_at: string;
   likes: number;
+  slug?: string;
 }
 
 export function AdminStories() {
+  const queryClient = useQueryClient();
   const [stories, setStories] = useState<GuestStory[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedStory, setSelectedStory] = useState<GuestStory | null>(null);
@@ -22,6 +26,13 @@ export function AdminStories() {
   useEffect(() => {
     fetchStories();
   }, []);
+
+  async function invalidateStoryQueries(slugOrId?: string) {
+    await queryClient.invalidateQueries({ queryKey: storyKeys.all });
+    if (slugOrId) {
+      queryClient.removeQueries({ queryKey: storyKeys.detail(slugOrId) });
+    }
+  }
 
   async function fetchStories() {
     setLoading(true);
@@ -41,6 +52,7 @@ export function AdminStories() {
   }
 
   async function handleStatusChange(id: string, status: "approved" | "rejected") {
+    const targetStory = stories.find((s) => s.id === id);
     try {
       const { error } = await supabase
         .from("guest_stories")
@@ -52,6 +64,7 @@ export function AdminStories() {
       if (selectedStory && selectedStory.id === id) {
         setSelectedStory({ ...selectedStory, status });
       }
+      await invalidateStoryQueries(targetStory?.slug || id);
     } catch (err) {
       console.error("Error updating story status:", err);
     }
@@ -59,6 +72,7 @@ export function AdminStories() {
 
   async function handleDelete(id: string) {
     if (!window.confirm("Are you sure you want to delete this story?")) return;
+    const targetStory = stories.find((s) => s.id === id);
     try {
       const { error } = await supabase
         .from("guest_stories")
@@ -70,6 +84,7 @@ export function AdminStories() {
       if (selectedStory && selectedStory.id === id) {
         setSelectedStory(null);
       }
+      await invalidateStoryQueries(targetStory?.slug || id);
     } catch (err) {
       console.error("Error deleting guest story:", err);
     }

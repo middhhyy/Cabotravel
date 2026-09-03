@@ -9,6 +9,9 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { supabase } from "@/lib/supabase";
 import { getOptimizedImageUrl } from "@/lib/utils";
 
+import { storyKeys, fetchApprovedGuestStories } from "@/utils/stories";
+import { useQuery } from "@tanstack/react-query";
+
 export const Route = createFileRoute("/guest-stories")({
   head: () => ({
     meta: [
@@ -45,8 +48,10 @@ interface GuestStoryData {
 }
 
 function GuestStoriesPage() {
-  const [stories, setStories] = useState<GuestStoryData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: stories = [], isLoading: loading } = useQuery({
+    queryKey: storyKeys.lists(),
+    queryFn: fetchApprovedGuestStories,
+  });
 
   // Filter States
   const [search, setSearch] = useState("");
@@ -56,33 +61,6 @@ function GuestStoriesPage() {
 
   // Pagination state
   const [visibleCount, setVisibleCount] = useState(6);
-
-  useEffect(() => {
-    const fetchStories = async () => {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from("guest_stories")
-          .select(`
-            *,
-            guest_story_images (
-              image_url
-            )
-          `)
-          .eq("status", "approved")
-          .order("created_at", { ascending: false });
-
-        if (error) throw error;
-        setStories(data || []);
-      } catch (err) {
-        console.error("Error fetching guest stories:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStories();
-  }, []);
 
   // Unique list of destinations for dropdown filter
   const destinationsList = useMemo(() => {

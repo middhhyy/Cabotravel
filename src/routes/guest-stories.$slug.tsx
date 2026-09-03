@@ -11,30 +11,18 @@ import { getOptimizedImageUrl } from "@/lib/utils";
 import { toast } from "sonner";
 import { trackEvent } from "@/lib/analytics";
 
-export const Route = createFileRoute("/guest-stories/$slug")({
-  loader: async ({ params }) => {
-    try {
-      const { data, error } = await supabase
-        .from("guest_stories")
-        .select(`
-          *,
-          guest_story_images (
-            id,
-            image_url,
-            storage_path
-          )
-        `)
-        .eq("slug", params.slug)
-        .eq("status", "approved")
-        .single();
+import { storyKeys, fetchGuestStoryBySlug } from "@/utils/stories";
 
-      if (error || !data) {
-        throw notFound();
-      }
-      return data;
-    } catch {
+export const Route = createFileRoute("/guest-stories/$slug")({
+  loader: async ({ context, params }) => {
+    const data = await context.queryClient.fetchQuery({
+      queryKey: storyKeys.detail(params.slug),
+      queryFn: () => fetchGuestStoryBySlug(params.slug),
+    });
+    if (!data) {
       throw notFound();
     }
+    return data;
   },
   head: ({ loaderData }) => ({
     meta: [

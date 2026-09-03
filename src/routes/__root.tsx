@@ -372,7 +372,15 @@ function DebugPanel() {
     // Add global pointerdown listener to check element under pointer
     const handlePointerDown = (e: PointerEvent) => {
       const el = document.elementFromPoint(e.clientX, e.clientY);
-      const tag = el ? `${el.tagName.toLowerCase()}${el.className ? '.' + el.className.split(' ').filter(Boolean).slice(0, 3).join('.') : ''}` : 'null';
+      let classStr = "";
+      if (el) {
+        if (typeof el.className === "string") {
+          classStr = el.className;
+        } else if (el.getAttribute) {
+          classStr = el.getAttribute("class") || "";
+        }
+      }
+      const tag = el ? `${el.tagName.toLowerCase()}${classStr ? '.' + classStr.split(' ').filter(Boolean).slice(0, 3).join('.') : ''}` : 'null';
       (window as any).__addNavLog?.(`[NAV] Element under pointer: ${tag}`);
     };
     document.addEventListener("pointerdown", handlePointerDown);
@@ -416,17 +424,29 @@ function DebugPanel() {
   );
 }
 
+import { useGuestStoriesRealtime } from "@/hooks/useGuestStoriesRealtime";
+
+function RootContent() {
+  useGuestStoriesRealtime();
+
+  return (
+    <>
+      <GoogleAnalytics />
+      <BreadcrumbsJsonLd />
+      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <Outlet />
+      <DebugPanel />
+    </>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <GoogleAnalytics />
-        <BreadcrumbsJsonLd />
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-        <DebugPanel />
+        <RootContent />
       </QueryClientProvider>
     </ErrorBoundary>
   );

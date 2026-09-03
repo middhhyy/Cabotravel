@@ -116,32 +116,114 @@ const DEFAULT_STORIES: GuestStory[] = [
   },
 ];
 
-export const getStories = (): GuestStory[] => {
-  if (typeof window === "undefined") return DEFAULT_STORIES;
+export const storyKeys = {
+  all: ["stories"] as const,
+  lists: () => [...storyKeys.all, "list"] as const,
+  list: (filter?: string) => [...storyKeys.lists(), { filter }] as const,
+  details: () => [...storyKeys.all, "detail"] as const,
+  detail: (slugOrId: string) => [...storyKeys.details(), slugOrId] as const,
+};
+
+export async function seedInitialGuestStoriesIfEmpty(): Promise<any[]> {
+  const { supabase } = await import("@/lib/supabase");
   try {
-    const stored = localStorage.getItem("cabo_guest_stories");
-    if (!stored) {
-      try {
-        localStorage.setItem("cabo_guest_stories", JSON.stringify(DEFAULT_STORIES));
-      } catch {
-        // ignore
-      }
-      return DEFAULT_STORIES;
+    const { data: existing, error: checkErr } = await supabase
+      .from("guest_stories")
+      .select("id")
+      .limit(1);
+
+    if (checkErr) {
+      console.warn("Table guest_stories not ready:", checkErr.message);
+      return [];
     }
-    return JSON.parse(stored);
-  } catch (e) {
-    return DEFAULT_STORIES;
+
+    if (existing && existing.length > 0) {
+      return [];
+    }
+
+    const payloadToInsert = DEFAULT_STORIES.map((s) => ({
+      name: s.name,
+      username: s.username,
+      destination: s.destination,
+      story: s.caption,
+      rating: 5,
+      status: "approved",
+      slug: s.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      likes: parseInt(s.likes) || 0,
+    }));
+
+    const { data, error } = await supabase
+      .from("guest_stories")
+      .upsert(payloadToInsert, { onConflict: "slug", ignoreDuplicates: true })
+      .select();
+
+    if (error || !data) {
+      console.warn("Seeding guest_stories encountered an issue:", error?.message);
+      return [];
+    }
+    return data;
+  } catch (err) {
+    console.error("Error seeding guest_stories:", err);
+    return [];
   }
+}
+
+export async function fetchApprovedGuestStories() {
+  const { supabase } = await import("@/lib/supabase");
+  let { data, error } = await supabase
+    .from("guest_stories")
+    .select(`
+      *,
+      guest_story_images (
+        image_url
+      )
+    `)
+    .eq("status", "approved")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching approved guest stories:", error);
+    return [];
+  }
+
+  if (!data || data.length === 0) {
+    const seeded = await seedInitialGuestStoriesIfEmpty();
+    if (seeded && seeded.length > 0) {
+      return seeded;
+    }
+  }
+
+  return data || [];
+}
+
+export async function fetchGuestStoryBySlug(slug: string) {
+  const { supabase } = await import("@/lib/supabase");
+  const { data, error } = await supabase
+    .from("guest_stories")
+    .select(`
+      *,
+      guest_story_images (
+        id,
+        image_url,
+        storage_path
+      )
+    `)
+    .eq("slug", slug)
+    .eq("status", "approved")
+    .single();
+
+  if (error || !data) {
+    return null;
+  }
+  return data;
+}
+
+export const getStories = (): GuestStory[] => {
+  return DEFAULT_STORIES;
 };
 
 export const saveStories = (stories: GuestStory[]) => {
-  if (typeof window !== "undefined") {
-    try {
-      localStorage.setItem("cabo_guest_stories", JSON.stringify(stories));
-    } catch {
-      // ignore
-    }
-  }
+  // No-op to prevent using localStorage as source of truth
 };
 
 export const getStoryImage = (img: string): string => {

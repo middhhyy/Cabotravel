@@ -233,19 +233,21 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-10 lg:mt-16 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-[10px] lg:text-[11px] tracking-[0.18em] uppercase text-white/60">
+        <div className="mt-10 lg:mt-16 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6 text-[10px] lg:text-[11px] tracking-[0.18em] uppercase text-white/60">
           <div>© {new Date().getFullYear()} Cabo Tours & Travels</div>
-          <div className="text-[13px] lg:text-[15px] normal-case tracking-normal" style={{ fontFamily: "'Lobster', cursive" }}>
+          <div className="flex items-center gap-1.5 text-[9px] lg:text-[10px] tracking-[0.2em] text-white/40">
+            <span>A DIGITAL EXPERIENCE BY</span>
             <a
               href="https://verdestudios.co"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors relative inline-block py-1 lg:py-0 after:absolute after:-inset-y-2.5 after:inset-x-0 lg:after:inset-0"
+              className="group inline-flex items-center gap-1 text-white/80 hover:text-white transition-colors font-medium tracking-[0.22em]"
             >
-              Powered by Verde Studios
+              <span className="text-white font-semibold">VERDE LABS</span>
+              <span className="inline-block transition-transform duration-300 group-hover:translate-x-0.5">→</span>
             </a>
           </div>
-          <div>Crafted journeys. Honest pricing. Real humans.</div>
+          <div className="hidden sm:block">Crafted journeys. Honest pricing. Real humans.</div>
         </div>
       </div>
     </footer>

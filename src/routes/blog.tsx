@@ -5,7 +5,8 @@ import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
-import { BlogPost, BLOG_CATEGORIES, getBlogPosts } from "@/lib/blog";
+import { BlogPost, BLOG_CATEGORIES, getBlogPosts, blogKeys } from "@/lib/blog";
+import { useQuery } from "@tanstack/react-query";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { logLead } from "@/lib/logLead";
 import { trackEvent } from "@/lib/analytics";
@@ -45,20 +46,12 @@ export const Route = createFileRoute("/blog")({
 });
 
 function BlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: posts = [], isLoading: loading } = useQuery({
+    queryKey: blogKeys.lists(),
+    queryFn: getBlogPosts,
+  });
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
-
-  useEffect(() => {
-    async function loadPosts() {
-      setLoading(true);
-      const data = await getBlogPosts();
-      setPosts(data);
-      setLoading(false);
-    }
-    loadPosts();
-  }, []);
 
   const filteredPosts = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();

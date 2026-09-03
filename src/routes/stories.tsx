@@ -6,10 +6,68 @@ import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { PageHeader } from "@/components/site/PageHeader";
-import { getStories, getStoryImage, GuestStory } from "@/utils/stories";
+import { storyKeys, getStories, getStoryImage, GuestStory } from "@/utils/stories";
 import { getLikesStateServerFn, toggleLikeServerFn } from "@/services/testimonials/functions";
-import { trackEvent } from "@/lib/analytics";
-import { getOptimizedImageUrl } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+
+async function fetchCombinedStories(): Promise<GuestStory[]> {
+  const loadedStories = getStories();
+  const { supabase } = await import("@/lib/supabase");
+
+  try {
+    const { data: dbStoriesData } = await supabase
+      .from("guest_stories")
+      .select("*")
+      .eq("status", "approved")
+      .order("created_at", { ascending: false });
+
+    const { data: feedbackData } = await supabase
+      .from("feedback")
+      .select("*")
+      .eq("status", "approved")
+      .order("created_at", { ascending: false });
+
+    const mappedGuestStories: GuestStory[] = (dbStoriesData || []).map((item: any) => ({
+      id: item.id,
+      name: item.name,
+      username: item.username || `@user_${item.name.toLowerCase().replace(/\s+/g, "")}`,
+      platform: "Verified Guest",
+      time: new Date(item.created_at).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      }),
+      caption: item.story,
+      img: item.destination || "Kerala",
+      likes: String(item.likes || 0),
+      comments: "0",
+      destination: item.destination || "Cabo Trip",
+      height: "h-[350px]"
+    }));
+
+    const mappedFeedbackStories: GuestStory[] = (feedbackData || []).map((item: any) => ({
+      id: item.id,
+      name: item.name,
+      username: `@user_${item.name.toLowerCase().replace(/\s+/g, "")}`,
+      platform: "Verified Guest",
+      time: new Date(item.created_at).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      }),
+      caption: item.message,
+      img: item.image_url || "Kerala",
+      likes: "0",
+      comments: "0",
+      destination: item.rating ? `⭐ ${item.rating} Rating` : "Cabo Trip",
+      height: "h-[350px]"
+    }));
+
+    return [...mappedGuestStories, ...mappedFeedbackStories];
+  } catch {
+    return [];
+  }
+}
 
 export const Route = createFileRoute("/stories")({
   head: () => ({
@@ -44,7 +102,10 @@ export const Route = createFileRoute("/stories")({
 });
 
 function StoriesPage() {
-  const [stories, setStories] = useState<GuestStory[]>([]);
+  const { data: stories = [] } = useQuery({
+    queryKey: storyKeys.lists(),
+    queryFn: fetchCombinedStories,
+  });
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [likesCounts, setLikesCounts] = useState<Record<string, number>>({});
 
@@ -63,53 +124,13 @@ function StoriesPage() {
   };
 
   useEffect(() => {
-    const loadedStories = getStories();
-
-    // Fetch approved feedback from Supabase
-    import("@/lib/supabase").then(async ({ supabase }) => {
-      try {
-        const { data, error } = await supabase
-          .from("feedback")
-          .select("*")
-          .eq("status", "approved")
-          .order("created_at", { ascending: false });
-
-        if (!error && data) {
-          const dbStories: GuestStory[] = data.map((item: any) => ({
-            id: item.id,
-            name: item.name,
-            username: `@user_${item.name.toLowerCase().replace(/\s+/g, "")}`,
-            platform: "Verified Guest",
-            time: new Date(item.created_at).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric"
-            }),
-            caption: item.message,
-            img: item.image_url || "Kerala", // Fallback to preset if null
-            likes: "0",
-            comments: "0",
-            destination: item.rating ? `⭐ ${item.rating} Rating` : "Cabo Trip",
-            height: "h-[350px]"
-          }));
-          setStories([...dbStories, ...loadedStories]);
-        } else {
-          setStories(loadedStories);
-        }
-      } catch {
-        setStories(loadedStories);
-      }
-    }).catch(() => {
-      setStories(loadedStories);
-    });
-
     const sessionId = getOrCreateSessionId();
-    if (sessionId) {
+    if (sessionId && stories.length > 0) {
       getLikesStateServerFn({ data: sessionId })
         .then(({ likedIds, dbCounts }) => {
           setLikedIds(new Set(likedIds));
           const updatedCounts: Record<string, number> = {};
-          loadedStories.forEach((s) => {
+          stories.forEach((s) => {
             const base = parseInt(s.likes) || 0;
             const extra = dbCounts[s.id] || 0;
             updatedCounts[s.id] = base + extra;
@@ -117,14 +138,8 @@ function StoriesPage() {
           setLikesCounts(updatedCounts);
         })
         .catch((err) => console.error("Error loading likes state:", err));
-    } else {
-      const localCounts: Record<string, number> = {};
-      loadedStories.forEach((s) => {
-        localCounts[s.id] = parseInt(s.likes) || 0;
-      });
-      setLikesCounts(localCounts);
     }
-  }, []);
+  }, [stories]);
 
   const handleLikeToggle = async (storyId: string) => {
     const sessionId = getOrCreateSessionId();

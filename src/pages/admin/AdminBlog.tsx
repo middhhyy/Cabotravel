@@ -23,9 +23,11 @@ import {
   BLOG_CATEGORIES,
   INITIAL_BLOG_POSTS,
   seedInitialBlogPostsIfEmpty,
+  blogKeys,
 } from "@/lib/blog";
 import { toast } from "sonner";
 import { Link } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 
 function isValidUuid(id?: string): boolean {
   if (!id) return false;
@@ -33,6 +35,7 @@ function isValidUuid(id?: string): boolean {
 }
 
 export function AdminBlog() {
+  const queryClient = useQueryClient();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -48,6 +51,13 @@ export function AdminBlog() {
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  async function invalidateBlogQueries(slug?: string) {
+    await queryClient.invalidateQueries({ queryKey: blogKeys.all });
+    if (slug) {
+      queryClient.removeQueries({ queryKey: blogKeys.detail(slug) });
+    }
+  }
 
   async function fetchPosts() {
     setLoading(true);
@@ -120,6 +130,7 @@ export function AdminBlog() {
             : p,
         ),
       );
+      await invalidateBlogQueries(post.slug);
     } catch (err: unknown) {
       console.error("Error updating published status:", err);
       // Update local state if running offline/fallback
@@ -131,11 +142,14 @@ export function AdminBlog() {
         ),
       );
       toast.success(newStatus ? "Article published (local)" : "Article set to draft (local)");
+      await invalidateBlogQueries(post.slug);
     }
   }
 
   async function handleDelete(id: string) {
     if (!window.confirm("Are you sure you want to delete this article? This action cannot be undone.")) return;
+
+    const postToDelete = posts.find((p) => p.id === id);
 
     try {
       if (isValidUuid(id)) {
@@ -144,10 +158,12 @@ export function AdminBlog() {
       }
       toast.success("Article deleted successfully");
       setPosts((prev) => prev.filter((p) => p.id !== id));
+      await invalidateBlogQueries(postToDelete?.slug);
     } catch (err: unknown) {
       console.error("Error deleting post:", err);
       setPosts((prev) => prev.filter((p) => p.id !== id));
       toast.success("Article deleted");
+      await invalidateBlogQueries(postToDelete?.slug);
     }
   }
 
@@ -286,6 +302,7 @@ export function AdminBlog() {
 
       setShowModal(false);
       fetchPosts();
+      await invalidateBlogQueries(currentPost.slug);
     } catch (err: unknown) {
       console.error("Error saving blog post:", err);
       // If table is not yet migrated in Supabase remote, handle state locally so admin UI works seamlessly
@@ -303,6 +320,7 @@ export function AdminBlog() {
       }
       setShowModal(false);
       toast.success("Article saved");
+      await invalidateBlogQueries(currentPost.slug);
     } finally {
       setSaving(false);
     }

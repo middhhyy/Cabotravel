@@ -267,6 +267,14 @@ export function formatDbRowToBlogPost(row: BlogPostDbRow): BlogPost {
   };
 }
 
+export const blogKeys = {
+  all: ["blog"] as const,
+  lists: () => [...blogKeys.all, "list"] as const,
+  list: (category?: string) => [...blogKeys.lists(), { category }] as const,
+  details: () => [...blogKeys.all, "detail"] as const,
+  detail: (slug: string) => [...blogKeys.details(), slug] as const,
+};
+
 export async function seedInitialBlogPostsIfEmpty(): Promise<BlogPost[]> {
   try {
     const { data: existing, error: checkErr } = await supabase
@@ -291,7 +299,7 @@ export async function seedInitialBlogPostsIfEmpty(): Promise<BlogPost[]> {
 
     const { data, error } = await supabase
       .from("blog_posts")
-      .insert(payloadToInsert)
+      .upsert(payloadToInsert, { onConflict: "slug", ignoreDuplicates: true })
       .select();
 
     if (error || !data) {
