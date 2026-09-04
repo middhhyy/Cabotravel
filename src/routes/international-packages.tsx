@@ -72,22 +72,6 @@ const FALLBACK_INTERNATIONAL_DESTINATIONS = [
     image: sriLanka,
   },
   {
-    slug: "flight-tickets",
-    name: "Flight Tickets",
-    region: "BOOK NOW · FLIGHTS",
-    tagline: "Best Fares, Anywhere",
-    image: destFlightTickets,
-    href: "https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20booking%20flight%20tickets",
-  },
-  {
-    slug: "visa-tickets",
-    name: "Visa & Tickets",
-    region: "ASSISTANCE · VISA & TICKETS",
-    tagline: "Hassle-Free Documentation",
-    image: destVisaTickets,
-    href: "https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20visa%20and%20ticket%20assistance",
-  },
-  {
     slug: "vietnam",
     name: "Vietnam",
     region: "INTERNATIONAL · VIETNAM",
@@ -195,7 +179,10 @@ function InternationalPackagesPage() {
 
         if (error) throw error;
         if (data && data.length > 0) {
-          setDestinations(data);
+          const filtered = data.filter(
+            (d: any) => d.slug !== "flight-tickets" && d.slug !== "visa-tickets"
+          );
+          setDestinations(filtered);
         } else {
           setDestinations(FALLBACK_INTERNATIONAL_DESTINATIONS);
         }

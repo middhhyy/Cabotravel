@@ -123,18 +123,18 @@ export const destinations: Destination[] = [
   },
   {
     slug: "visa-tickets",
-    name: "Visa & Tickets",
+    name: "VISA",
     region: "Assistance",
-    country: "Visa & Tickets",
+    country: "VISA",
     image: destVisaTickets,
     heroImage: destVisaTicketsHero,
     tagline: "Hassle-Free Documentation",
-    description: "End-to-end visa assistance and flight ticketing support for worldwide travel.",
+    description: "End-to-end visa assistance and documentation support for worldwide travel.",
     highlights: [],
     bestTime: "Year Round",
     duration: "Assistance",
     startingFrom: "Documentation",
-    href: "https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20visa%20and%20ticket%20assistance",
+    href: "https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20visa%20assistance",
   },
 ];
 
@@ -188,10 +188,11 @@ export async function getDestinations(): Promise<Destination[]> {
       .eq("active", true)
       .order("sort_order", { ascending: true });
 
-    if (error) throw error;
-    if (!data || data.length === 0) return destinations;
+    const serviceSlugs = ["flight-tickets", "visa-tickets"];
+    const validDestinations = data ? data.filter((d: any) => !serviceSlugs.includes(d.slug)) : [];
+    if (validDestinations.length === 0) return destinations.filter((d) => !serviceSlugs.includes(d.slug));
 
-    return data.map((d: any) => ({
+    return validDestinations.map((d: any) => ({
       slug: d.slug,
       name: d.name,
       region: d.region,

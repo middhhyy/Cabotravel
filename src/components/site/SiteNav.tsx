@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, MessageCircle } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
 import { waLink, waMessages } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
@@ -170,9 +170,10 @@ export function SiteNav({ transparentOnTop = false }: { transparentOnTop?: boole
                 trackEvent("whatsapp_click", "engagement", "SiteNav Desktop CTA");
                 logLead("general", window.location.pathname);
               }}
-              className="hidden md:inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white shadow-[0_8px_24px_-8px_rgba(67,168,232,0.7)] transition hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-brand px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white shadow-sm transition hover:bg-brand/90 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              Book on WhatsApp
+              <MessageCircle className="h-3.5 w-3.5 fill-current shrink-0" aria-hidden="true" />
+              <span>Book via WhatsApp</span>
             </a>
 
             <button

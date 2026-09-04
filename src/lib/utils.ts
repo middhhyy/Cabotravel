@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function getOptimizedImageUrl(
   url: string,
-  options?: { width?: number; height?: number; quality?: number; format?: string }
+  options?: { width?: number; height?: number; quality?: number; format?: string; mode?: "cover" | "contain" }
 ): string {
   if (!url || !url.includes("supabase.co/storage/v1/object/public/")) {
     return url;
@@ -21,6 +21,7 @@ export function getOptimizedImageUrl(
   if (options?.width) params.push(`width=${options.width}`);
   if (options?.height) params.push(`height=${options.height}`);
   if (options?.quality) params.push(`quality=${options.quality}`);
+  params.push(`resize=${options?.mode || "contain"}`);
   params.push(`format=${options?.format || "webp"}`);
 
   transformedUrl += `?${params.join("&")}`;

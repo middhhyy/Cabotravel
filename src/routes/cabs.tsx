@@ -32,13 +32,13 @@ export const Route = createFileRoute("/cabs")({
       {
         name: "description",
         content:
-          "Rent reliable cabs & tourist taxis in Calicut & Kerala. Book premium sedans, SUVs, or luxury tempo travellers at transparent, cheap rates with Cabo Tours.",
+          "Rent reliable cabs & tourist taxis across Kerala. Book premium sedans, SUVs, or luxury tempo travellers at transparent rates with Cabo Tours.",
       },
       { property: "og:title", content: "Kerala Cab Services & Rentals | Cabo Tours & Travels" },
       {
         property: "og:description",
         content:
-          "Rent reliable cabs & tourist taxis in Calicut & Kerala. Book premium sedans, SUVs, or luxury tempo travellers with Cabo Tours & Travels.",
+          "Rent reliable cabs & tourist taxis across Kerala. Book premium sedans, SUVs, or luxury tempo travellers with Cabo Tours & Travels.",
       },
       { property: "og:url", content: "https://www.cabotourskerala.in/cabs" },
       { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },

@@ -14,27 +14,27 @@ import { logLead } from "@/lib/logLead";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Us | Cabo Tours & Travels — Calicut Travel Agent" },
+      { title: "Contact Us | Cabo Tours & Travels — Kerala Travel Desk" },
       {
         name: "description",
         content:
-          "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or WhatsApp us at +91 77364 06630 to start customizing your custom trip packages today!",
+          "Get in touch with Cabo Tours & Travels in Kaloor, Ernakulam, Kerala. Call or WhatsApp us at +91 77364 06630 to start customizing your custom trip packages today!",
       },
-      { property: "og:title", content: "Contact Us | Cabo Tours & Travels — Calicut Travel Agent" },
+      { property: "og:title", content: "Contact Us | Cabo Tours & Travels — Kerala Travel Desk" },
       {
         property: "og:description",
         content:
-          "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or WhatsApp us to customize your trip.",
+          "Get in touch with Cabo Tours & Travels in Kaloor, Ernakulam, Kerala. Call or WhatsApp us to customize your trip.",
       },
       { property: "og:url", content: "https://www.cabotourskerala.in/contact" },
       { property: "og:image", content: "https://www.cabotourskerala.in/social-preview.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Contact Us | Cabo Tours & Travels — Calicut Travel Agent" },
+      { name: "twitter:title", content: "Contact Us | Cabo Tours & Travels — Kerala Travel Desk" },
       {
         name: "twitter:description",
         content:
-          "Get in touch with Cabo Tours & Travels in Calicut, Kerala. Call or WhatsApp us to customize your trip.",
+          "Get in touch with Cabo Tours & Travels in Kaloor, Ernakulam, Kerala. Call or WhatsApp us to customize your trip.",
       },
       { name: "twitter:image", content: "https://www.cabotourskerala.in/social-preview.png" },
     ],
@@ -43,8 +43,15 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
+import { supabase } from "@/lib/supabase";
+import { Loader2 } from "lucide-react";
+
 function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [lastLeadId, setLastLeadId] = useState<string | null>(null);
+
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -54,22 +61,86 @@ function ContactPage() {
     notes: "",
   });
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    trackEvent("contact_form_submit", "lead", form.destination || "General");
-    const msg = [
-      `Hello Cabo Tours & Travels — trip inquiry from ${form.name || "a guest"}.`,
-      form.destination && `Destination: ${form.destination}`,
-      form.dates && `Dates: ${form.dates}`,
-      form.travellers && `Travellers: ${form.travellers}`,
-      form.phone && `Phone: ${form.phone}`,
-      form.notes && `Notes: ${form.notes}`,
+    setErrorMsg("");
+
+    if (!form.name.trim() || !form.phone.trim()) {
+      setErrorMsg("Please provide your name and phone number.");
+      return;
+    }
+
+    setSubmitting(true);
+    const nowIso = new Date().toISOString();
+
+    const formattedInterest = [
+      form.destination && `Destination: ${form.destination.trim()}`,
+      form.dates && `Dates: ${form.dates.trim()}`,
+      form.travellers && `Travellers: ${form.travellers.trim()}`,
+      form.notes && `Notes: ${form.notes.trim()}`,
     ]
       .filter(Boolean)
-      .join("\n");
-    logLead(form.destination || "general", window.location.pathname);
-    window.open(waLink(msg), "_blank");
-    setSent(true);
+      .join(" | ") || "General Inquiry";
+
+    try {
+      let leadId = lastLeadId;
+
+      if (leadId) {
+        // Prevent duplicate: Update existing lead session
+        const { error } = await supabase
+          .from("leads")
+          .update({
+            name: form.name.trim(),
+            phone: form.phone.trim(),
+            interest: formattedInterest,
+            status: "new",
+            source: "WhatsApp Contact Form [WhatsApp Clicked ✓]",
+            notes: `WhatsApp Clicked at ${new Date().toLocaleString()}`,
+          })
+          .eq("id", leadId);
+
+        if (error) throw error;
+      } else {
+        // Create new inquiry record in Supabase CRM
+        const { data, error } = await supabase
+          .from("leads")
+          .insert({
+            name: form.name.trim(),
+            phone: form.phone.trim(),
+            interest: formattedInterest,
+            source: "WhatsApp Contact Form [WhatsApp Clicked ✓]",
+            status: "new",
+            notes: `WhatsApp Clicked at ${new Date().toLocaleString()}`,
+          })
+          .select("id");
+
+        if (error) throw error;
+        if (data && data.length > 0) {
+          setLastLeadId(data[0].id);
+        }
+      }
+
+      trackEvent("contact_form_submit", "lead", form.destination || "General");
+
+      const msg = [
+        `Hello Cabo Tours & Travels — trip inquiry from ${form.name.trim()}.`,
+        form.destination && `Destination: ${form.destination.trim()}`,
+        form.dates && `Dates: ${form.dates.trim()}`,
+        form.travellers && `Travellers: ${form.travellers.trim()}`,
+        form.phone && `Phone: ${form.phone.trim()}`,
+        form.notes && `Notes: ${form.notes.trim()}`,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      window.open(waLink(msg), "_blank");
+      setSent(true);
+    } catch (err: any) {
+      console.error("Error saving lead inquiry:", err);
+      setErrorMsg("Unable to save inquiry. Please check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -143,9 +214,18 @@ function ContactPage() {
               <div className="sm:col-span-2 flex flex-wrap items-center gap-3 mt-2">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white"
+                  disabled={submitting}
+                  className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white disabled:opacity-50"
                 >
-                  <Send className="h-3.5 w-3.5" /> Send on WhatsApp
+                  {submitting ? (
+                    <>
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" /> Saving...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-3.5 w-3.5" /> Send on WhatsApp
+                    </>
+                  )}
                 </button>
                 <a
                   href={waLink(waMessages.general)}
@@ -159,8 +239,13 @@ function ContactPage() {
                 >
                   <MessageCircle className="h-3.5 w-3.5" /> Just chat
                 </a>
-                {sent && <span className="text-xs text-brand">Opened WhatsApp ✓</span>}
+                {sent && <span className="text-xs text-brand font-medium">Opened WhatsApp ✓</span>}
               </div>
+              {errorMsg && (
+                <div className="sm:col-span-2 text-xs text-red-400 font-medium pt-1">
+                  {errorMsg}
+                </div>
+              )}
             </form>
           </div>
         </div>
@@ -181,14 +266,27 @@ function ContactPage() {
             href={`mailto:${BUSINESS_INFO.email}`}
           />
           <InfoCard icon={MapPin} label="Founder" value={BUSINESS_INFO.founder} />
-          <InfoCard icon={MapPin} label="Based in" value={BUSINESS_INFO.maps.displayAddress} />
-          <div className="overflow-hidden rounded-[22px] ring-1 ring-white/10 h-64">
+          <InfoCard
+            icon={MapPin}
+            label="Office Location"
+            value={BUSINESS_INFO.maps.displayAddress}
+            href={BUSINESS_INFO.maps.url}
+          />
+          <div className="overflow-hidden rounded-[22px] ring-1 ring-white/10 h-64 relative group">
             <iframe
               title="Cabo Tours map"
               src={BUSINESS_INFO.maps.embedUrl}
               className="h-full w-full"
               loading="eager"
             />
+            <a
+              href={BUSINESS_INFO.maps.url}
+              target="_blank"
+              rel="noreferrer"
+              className="absolute bottom-3 right-3 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white shadow-lg hover:scale-105 transition"
+            >
+              Get Directions ↗
+            </a>
           </div>
         </aside>
       </section>

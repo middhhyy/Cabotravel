@@ -201,6 +201,9 @@ function GuestStoryDetail() {
                     })}
                     alt={`Trip photo ${activeImageIndex + 1}`}
                     className="w-full h-full object-cover transition-all duration-300"
+                    onError={(e) => {
+                      (e.target as HTMLElement).parentElement?.classList.add("hidden");
+                    }}
                   />
                   
                   {/* Gallery Arrows if more than 1 image */}

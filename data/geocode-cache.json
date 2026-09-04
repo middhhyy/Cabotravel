@@ -822,5 +822,56 @@
     "verified": false,
     "source": "osm",
     "lastVerified": "2026-08-01T16:46:42.532Z"
+  },
+  "Arrival at Vadakara|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-09-04T20:19:12.579Z"
+  },
+  "Vadakara Market|Vadakara, ": {
+    "address": "FIsh Market Vadakara, Vadakara - Villappalli Road, Vadakara, Kozhikode, Kerala, 670109, India",
+    "latitude": 11.5991339,
+    "longitude": 75.5875228,
+    "verified": true,
+    "source": "osm",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=11.5991339,75.5875228",
+      "apple": "https://maps.apple.com/?q=11.5991339,75.5875228",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5991339&mlon=75.5875228#map=17/11.5991339/75.5875228"
+    },
+    "lastVerified": "2026-09-04T20:19:02.541Z"
+  },
+  "Sargaalaya Arts & Crafts Village, Iringal|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-09-04T20:19:09.374Z"
+  },
+  "Sandbanks Beach|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-09-04T20:19:11.318Z"
+  },
+  "Vadakara Town|Vadakara, ": {
+    "address": "Vadakara, Kozhikode, Kerala, 670109, India",
+    "latitude": 11.5985451,
+    "longitude": 75.5897432,
+    "verified": true,
+    "source": "osm",
+    "navigationUrls": {
+      "google": "https://www.google.com/maps/search/?api=1&query=11.5985451,75.5897432",
+      "apple": "https://maps.apple.com/?q=11.5985451,75.5897432",
+      "osm": "https://www.openstreetmap.org/?mlat=11.5985451&mlon=75.5897432#map=17/11.5985451/75.5897432"
+    },
+    "lastVerified": "2026-09-04T20:19:09.104Z"
+  },
+  "Thikkodi Lighthouse|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-09-04T20:19:15.006Z"
+  }
+}  "Kappad Beach|Vadakara, ": {
+    "verified": false,
+    "source": "osm",
+    "lastVerified": "2026-09-04T20:19:14.984Z"
   }
 }

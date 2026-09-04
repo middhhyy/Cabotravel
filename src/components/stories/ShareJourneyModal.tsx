@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { trackEvent } from "@/lib/analytics";
+import { ImageCropModal } from "./ImageCropModal";
 
 const Instagram = (p: { className?: string }) => (
   <svg
@@ -61,9 +62,11 @@ export function ShareJourneyModal({ isOpen, onClose }: ShareJourneyModalProps) {
   const [story, setStory] = useState("");
   const [hoverRating, setHoverRating] = useState<number | null>(null);
 
-  // Images state
+  // Images state & crop queue
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
+  const [croppingFile, setCroppingFile] = useState<{ file: File; src: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Popular destinations options
@@ -88,7 +91,6 @@ export function ShareJourneyModal({ isOpen, onClose }: ShareJourneyModalProps) {
     }
 
     const validFiles: File[] = [];
-    const validPreviews: string[] = [];
 
     files.forEach((file) => {
       // Format validation
@@ -105,11 +107,64 @@ export function ShareJourneyModal({ isOpen, onClose }: ShareJourneyModalProps) {
       }
 
       validFiles.push(file);
-      validPreviews.push(URL.createObjectURL(file));
     });
 
-    setSelectedFiles((prev) => [...prev, ...validFiles]);
-    setPreviews((prev) => [...prev, ...validPreviews]);
+    if (validFiles.length > 0) {
+      // Start cropping sequence with first valid file
+      const firstFile = validFiles[0];
+      const remainingFiles = validFiles.slice(1);
+      
+      setPendingFiles(remainingFiles);
+      setCroppingFile({ file: firstFile, src: URL.createObjectURL(firstFile) });
+    }
+
+    // Reset file input element so re-selecting same file triggers change
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleCropComplete = (croppedBlob: Blob, croppedPreviewUrl: string) => {
+    if (!croppingFile) return;
+
+    // Create a new File from croppedBlob
+    const croppedFile = new File(
+      [croppedBlob],
+      croppingFile.file.name.replace(/\.[^/.]+$/, "") + "-cropped.jpg",
+      { type: "image/jpeg" }
+    );
+
+    // Revoke temp object URL of raw uncropped image
+    URL.revokeObjectURL(croppingFile.src);
+
+    setSelectedFiles((prev) => [...prev, croppedFile]);
+    setPreviews((prev) => [...prev, croppedPreviewUrl]);
+
+    // Check if more files are waiting in queue to be cropped
+    if (pendingFiles.length > 0) {
+      const nextFile = pendingFiles[0];
+      const nextRemaining = pendingFiles.slice(1);
+      setPendingFiles(nextRemaining);
+      setCroppingFile({ file: nextFile, src: URL.createObjectURL(nextFile) });
+    } else {
+      setCroppingFile(null);
+    }
+  };
+
+  const handleCancelCrop = () => {
+    if (croppingFile) {
+      URL.revokeObjectURL(croppingFile.src);
+    }
+    
+    // Process next in queue if any, or finish
+    if (pendingFiles.length > 0) {
+      const nextFile = pendingFiles[0];
+      const nextRemaining = pendingFiles.slice(1);
+      setPendingFiles(nextRemaining);
+      setCroppingFile({ file: nextFile, src: URL.createObjectURL(nextFile) });
+    } else {
+      setCroppingFile(null);
+    }
   };
 
   const removeFile = (index: number) => {
@@ -159,7 +214,7 @@ export function ShareJourneyModal({ isOpen, onClose }: ShareJourneyModalProps) {
               }
             },
             "image/jpeg",
-            0.8
+            0.85
           );
         };
         img.onerror = (err) => reject(err);
@@ -280,260 +335,278 @@ export function ShareJourneyModal({ isOpen, onClose }: ShareJourneyModalProps) {
     setSelectedFiles([]);
     previews.forEach((p) => URL.revokeObjectURL(p));
     setPreviews([]);
+    setPendingFiles([]);
+    if (croppingFile) {
+      URL.revokeObjectURL(croppingFile.src);
+      setCroppingFile(null);
+    }
     setSubmitted(false);
     onClose();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent className="max-w-lg w-[95vw] bg-neutral-900 border border-white/10 rounded-[28px] text-white p-6 overflow-y-auto max-h-[90vh] scrollbar-thin scrollbar-thumb-white/10">
-        <DialogHeader className="mb-4">
-          <DialogTitle className="font-display text-xl uppercase tracking-wider text-white">
-            {submitted ? "Submission Received" : "Share Your Journey"}
-          </DialogTitle>
-          <DialogDescription className="text-white/60 text-xs mt-1">
-            {submitted
-              ? "Your review helps fellow travelers plan their dream holidays."
-              : "Tell us about your holiday! Only approved stories will appear publicly on the website."}
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      <Dialog open={isOpen && !croppingFile} onOpenChange={(open) => !open && handleClose()}>
+        <DialogContent className="max-w-lg w-[95vw] bg-neutral-900 border border-white/10 rounded-[28px] text-white p-6 overflow-y-auto max-h-[90vh] scrollbar-thin scrollbar-thumb-white/10">
+          <DialogHeader className="mb-4">
+            <DialogTitle className="font-display text-xl uppercase tracking-wider text-white">
+              {submitted ? "Submission Received" : "Share Your Journey"}
+            </DialogTitle>
+            <DialogDescription className="text-white/60 text-xs mt-1">
+              {submitted
+                ? "Your review helps fellow travelers plan their dream holidays."
+                : "Tell us about your holiday! Only approved stories will appear publicly on the website."}
+            </DialogDescription>
+          </DialogHeader>
 
-        {submitted ? (
-          <div className="flex flex-col items-center text-center py-8 space-y-4">
-            <CheckCircle2 className="w-16 h-16 text-brand animate-bounce" />
-            <h3 className="text-lg font-semibold text-white">Thank you!</h3>
-            <p className="text-white/70 text-xs leading-relaxed max-w-sm">
-              Your travel story has been submitted successfully and is currently **Pending Review**. It will become visible publicly once our moderators approve it.
-            </p>
-            <Button
-              onClick={handleClose}
-              className="mt-6 px-8 py-3 bg-brand text-white rounded-full text-xs font-semibold uppercase tracking-[0.2em]"
-            >
-              Close Window
-            </Button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Name */}
-            <div className="space-y-1.5">
-              <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold flex items-center gap-1.5">
-                <User className="w-3.5 h-3.5" /> Full Name <span className="text-brand">*</span>
-              </Label>
-              <Input
-                placeholder="Jane Doe"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="bg-black/40 border-white/10 text-white placeholder:text-white/30 rounded-xl px-4 py-3"
-              />
-            </div>
-
-            {/* Username & Country */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold flex items-center gap-1.5">
-                  <Instagram className="w-3.5 h-3.5" /> Instagram handle
-                </Label>
-                <Input
-                  placeholder="janedoe"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="bg-black/40 border-white/10 text-white placeholder:text-white/30 rounded-xl px-4 py-3"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold flex items-center gap-1.5">
-                  <Globe className="w-3.5 h-3.5" /> Country
-                </Label>
-                <Input
-                  placeholder="India"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className="bg-black/40 border-white/10 text-white placeholder:text-white/30 rounded-xl px-4 py-3"
-                />
-              </div>
-            </div>
-
-            {/* Destination Select */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5" /> Destination <span className="text-brand">*</span>
-                </Label>
-                <select
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  required
-                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-brand focus:outline-none"
-                >
-                  <option value="" disabled className="text-neutral-500 bg-neutral-900">
-                    Select trip location...
-                  </option>
-                  {destinationOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value} className="bg-neutral-900">
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5" /> Date of Trip <span className="text-brand">*</span>
-                </Label>
-                <Input
-                  type="date"
-                  required
-                  value={tripDate}
-                  onChange={(e) => setTripDate(e.target.value)}
-                  className="bg-black/40 border-white/10 text-white rounded-xl px-4 py-3 appearance-none [color-scheme:dark]"
-                />
-              </div>
-            </div>
-
-            {/* Custom Destination (if other selected) */}
-            {destination === "other" && (
-              <div className="space-y-1.5">
-                <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold">
-                  Specify Destination <span className="text-brand">*</span>
-                </Label>
-                <Input
-                  placeholder="e.g. Paris, France"
-                  required
-                  value={customDestination}
-                  onChange={(e) => setCustomDestination(e.target.value)}
-                  className="bg-black/40 border-white/10 text-white placeholder:text-white/30 rounded-xl px-4 py-3"
-                />
-              </div>
-            )}
-
-            {/* Star Rating */}
-            <div className="space-y-1.5">
-              <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold">
-                Rating
-              </Label>
-              <div className="flex items-center gap-1.5 mt-1">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    type="button"
-                    onClick={() => setRating(star)}
-                    onMouseEnter={() => setHoverRating(star)}
-                    onMouseLeave={() => setHoverRating(null)}
-                    className="p-1 -m-1 focus:outline-none"
-                    aria-label={`Rate ${star} star`}
-                  >
-                    <Star
-                      className={`w-6 h-6 transition-colors duration-200 ${
-                        star <= (hoverRating ?? rating)
-                          ? "fill-accent text-accent"
-                          : "text-white/20 fill-none"
-                      }`}
-                    />
-                  </button>
-                ))}
-                <span className="text-xs text-white/50 ml-2 font-medium">
-                  {rating === 5 ? "Excellent" : rating === 4 ? "Very Good" : rating === 3 ? "Good" : rating === 2 ? "Fair" : "Poor"}
-                </span>
-              </div>
-            </div>
-
-            {/* Story Textarea */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center">
-                <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold">
-                  Your Travel Story <span className="text-brand">*</span>
-                </Label>
-                <span className={`text-[10px] ${story.length > 1000 ? "text-red-400" : "text-white/40"}`}>
-                  {story.length}/1000 characters
-                </span>
-              </div>
-              <Textarea
-                placeholder="Write about your journey, local hospitality, the food, planning experience, and favorite sights..."
-                required
-                value={story}
-                onChange={(e) => setStory(e.target.value)}
-                rows={4}
-                className="bg-black/40 border-white/10 text-white placeholder:text-white/30 rounded-xl px-4 py-3 resize-none text-xs leading-relaxed"
-              />
-            </div>
-
-            {/* Image Upload Area */}
-            <div className="space-y-1.5">
-              <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold">
-                Upload Images (1-5 images, max 5MB each)
-              </Label>
-              
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="border border-dashed border-white/10 hover:border-brand/40 bg-black/20 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer transition duration-300 group"
+          {submitted ? (
+            <div className="flex flex-col items-center text-center py-8 space-y-4">
+              <CheckCircle2 className="w-16 h-16 text-brand animate-bounce" />
+              <h3 className="text-lg font-semibold text-white">Thank you!</h3>
+              <p className="text-white/70 text-xs leading-relaxed max-w-sm">
+                Your travel story has been submitted successfully and is currently **Pending Review**. It will become visible publicly once our moderators approve it.
+              </p>
+              <Button
+                onClick={handleClose}
+                className="mt-6 px-8 py-3 bg-brand text-white rounded-full text-xs font-semibold uppercase tracking-[0.2em]"
               >
-                <Upload className="w-6 h-6 text-white/40 group-hover:text-brand transition mb-2" />
-                <span className="text-xs text-white/70 group-hover:text-white transition">
-                  Click to select photos
-                </span>
-                <span className="text-[10px] text-white/40 mt-1 uppercase tracking-wider">
-                  JPG, PNG, or WEBP only
-                </span>
-                <input
-                  type="file"
-                  multiple
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  accept="image/jpeg,image/png,image/webp"
-                  className="hidden"
+                Close Window
+              </Button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Name */}
+              <div className="space-y-1.5">
+                <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5" /> Full Name <span className="text-brand">*</span>
+                </Label>
+                <Input
+                  placeholder="Jane Doe"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="bg-black/40 border-white/10 text-white placeholder:text-white/30 rounded-xl px-4 py-3"
                 />
               </div>
 
-              {/* Upload Previews */}
-              {previews.length > 0 && (
-                <div className="grid grid-cols-5 gap-2 mt-3">
-                  {previews.map((preview, i) => (
-                    <div
-                      key={preview}
-                      className="relative aspect-square bg-black/40 rounded-xl border border-white/10 overflow-hidden"
-                    >
-                      <img src={preview} alt="Preview" className="w-full h-full object-cover" />
-                      <button
-                        type="button"
-                        onClick={() => removeFile(i)}
-                        className="absolute top-1 right-1 p-0.5 bg-black/70 hover:bg-black text-white rounded-full border border-white/10 transition"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </div>
-                  ))}
+              {/* Username & Country */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold flex items-center gap-1.5">
+                    <Instagram className="w-3.5 h-3.5" /> Instagram handle
+                  </Label>
+                  <Input
+                    placeholder="janedoe"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="bg-black/40 border-white/10 text-white placeholder:text-white/30 rounded-xl px-4 py-3"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold flex items-center gap-1.5">
+                    <Globe className="w-3.5 h-3.5" /> Country
+                  </Label>
+                  <Input
+                    placeholder="India"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="bg-black/40 border-white/10 text-white placeholder:text-white/30 rounded-xl px-4 py-3"
+                  />
+                </div>
+              </div>
+
+              {/* Destination Select */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5" /> Destination <span className="text-brand">*</span>
+                  </Label>
+                  <select
+                    value={destination}
+                    onChange={(e) => setDestination(e.target.value)}
+                    required
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-brand focus:outline-none"
+                  >
+                    <option value="" disabled className="text-neutral-500 bg-neutral-900">
+                      Select trip location...
+                    </option>
+                    {destinationOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value} className="bg-neutral-900">
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5" /> Date of Trip <span className="text-brand">*</span>
+                  </Label>
+                  <Input
+                    type="date"
+                    required
+                    value={tripDate}
+                    onChange={(e) => setTripDate(e.target.value)}
+                    className="bg-black/40 border-white/10 text-white rounded-xl px-4 py-3 appearance-none [color-scheme:dark]"
+                  />
+                </div>
+              </div>
+
+              {/* Custom Destination (if other selected) */}
+              {destination === "other" && (
+                <div className="space-y-1.5">
+                  <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold">
+                    Specify Destination <span className="text-brand">*</span>
+                  </Label>
+                  <Input
+                    placeholder="e.g. Paris, France"
+                    required
+                    value={customDestination}
+                    onChange={(e) => setCustomDestination(e.target.value)}
+                    className="bg-black/40 border-white/10 text-white placeholder:text-white/30 rounded-xl px-4 py-3"
+                  />
                 </div>
               )}
-            </div>
 
-            {/* Action Buttons */}
-            <div className="flex gap-4 pt-4 border-t border-white/10 mt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleClose}
-                className="flex-1 border-white/10 text-white/80 hover:text-white rounded-full uppercase tracking-wider text-xs py-3"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={loading}
-                className="flex-1 bg-brand hover:bg-brand/90 text-white font-semibold rounded-full uppercase tracking-wider text-xs py-3 shadow-lg shadow-brand/10"
-              >
-                {loading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" /> Submitting...
+              {/* Star Rating */}
+              <div className="space-y-1.5">
+                <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold">
+                  Rating
+                </Label>
+                <div className="flex items-center gap-1.5 mt-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setRating(star)}
+                      onMouseEnter={() => setHoverRating(star)}
+                      onMouseLeave={() => setHoverRating(null)}
+                      className="p-1 -m-1 focus:outline-none"
+                      aria-label={`Rate ${star} star`}
+                    >
+                      <Star
+                        className={`w-6 h-6 transition-colors duration-200 ${
+                          star <= (hoverRating ?? rating)
+                            ? "fill-accent text-accent"
+                            : "text-white/20 fill-none"
+                        }`}
+                      />
+                    </button>
+                  ))}
+                  <span className="text-xs text-white/50 ml-2 font-medium">
+                    {rating === 5 ? "Excellent" : rating === 4 ? "Very Good" : rating === 3 ? "Good" : rating === 2 ? "Fair" : "Poor"}
                   </span>
-                ) : (
-                  "Submit Review"
+                </div>
+              </div>
+
+              {/* Story Textarea */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between items-center">
+                  <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold">
+                    Your Travel Story <span className="text-brand">*</span>
+                  </Label>
+                  <span className={`text-[10px] ${story.length > 1000 ? "text-red-400" : "text-white/40"}`}>
+                    {story.length}/1000 characters
+                  </span>
+                </div>
+                <Textarea
+                  placeholder="Write about your journey, local hospitality, the food, planning experience, and favorite sights..."
+                  required
+                  value={story}
+                  onChange={(e) => setStory(e.target.value)}
+                  rows={4}
+                  className="bg-black/40 border-white/10 text-white placeholder:text-white/30 rounded-xl px-4 py-3 resize-none text-xs leading-relaxed"
+                />
+              </div>
+
+              {/* Image Upload Area */}
+              <div className="space-y-1.5">
+                <Label className="text-[11px] uppercase tracking-wider text-white/50 font-semibold">
+                  Upload Images (1-5 images, max 5MB each)
+                </Label>
+                
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border border-dashed border-white/10 hover:border-brand/40 bg-black/20 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer transition duration-300 group"
+                >
+                  <Upload className="w-6 h-6 text-white/40 group-hover:text-brand transition mb-2" />
+                  <span className="text-xs text-white/70 group-hover:text-white transition">
+                    Click to select photos
+                  </span>
+                  <span className="text-[10px] text-white/40 mt-1 uppercase tracking-wider">
+                    JPG, PNG, or WEBP only • Auto 4:3 Crop Preview
+                  </span>
+                  <input
+                    type="file"
+                    multiple
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    accept="image/jpeg,image/png,image/webp"
+                    className="hidden"
+                  />
+                </div>
+
+                {/* Upload Previews */}
+                {previews.length > 0 && (
+                  <div className="grid grid-cols-5 gap-2 mt-3">
+                    {previews.map((preview, i) => (
+                      <div
+                        key={preview}
+                        className="relative aspect-[4/3] bg-black/40 rounded-xl border border-white/10 overflow-hidden"
+                      >
+                        <img src={preview} alt="Cropped preview" className="w-full h-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => removeFile(i)}
+                          className="absolute top-1 right-1 p-0.5 bg-black/70 hover:bg-black text-white rounded-full border border-white/10 transition"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 )}
-              </Button>
-            </div>
-          </form>
-        )}
-      </DialogContent>
-    </Dialog>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-4 pt-4 border-t border-white/10 mt-6">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleClose}
+                  className="flex-1 border-white/10 text-white/80 hover:text-white rounded-full uppercase tracking-wider text-xs py-3"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="flex-1 bg-brand hover:bg-brand/90 text-white font-semibold rounded-full uppercase tracking-wider text-xs py-3 shadow-lg shadow-brand/10"
+                >
+                  {loading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" /> Submitting...
+                    </span>
+                  ) : (
+                    "Submit Review"
+                  )}
+                </Button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Image Crop Modal */}
+      {croppingFile && (
+        <ImageCropModal
+          isOpen={true}
+          imageSrc={croppingFile.src}
+          fileName={croppingFile.file.name}
+          onClose={handleCancelCrop}
+          onCropComplete={handleCropComplete}
+        />
+      )}
+    </>
   );
 }

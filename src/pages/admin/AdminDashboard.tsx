@@ -26,6 +26,9 @@ interface Lead {
   source: string;
   interest: string;
   status: string;
+  channel?: string;
+  whatsapp_clicked?: boolean;
+  whatsapp_clicked_at?: string;
   created_at: string;
 }
 
@@ -510,8 +513,9 @@ export function AdminDashboard() {
                 <tr className="border-b border-white/10 bg-white/[0.02] text-white/50 font-semibold uppercase tracking-wider text-[10px]">
                   <th className="py-4 px-5">Name</th>
                   <th className="py-4 px-5">Phone</th>
-                  <th className="py-4 px-5">Interest</th>
-                  <th className="py-4 px-5">Source</th>
+                  <th className="py-4 px-5">Interest / Notes</th>
+                  <th className="py-4 px-5">Channel / Source</th>
+                  <th className="py-4 px-5">WhatsApp</th>
                   <th className="py-4 px-5">Status</th>
                   <th className="py-4 px-5">Date</th>
                   <th className="py-4 px-5 text-right">Actions</th>
@@ -520,7 +524,7 @@ export function AdminDashboard() {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={7} className="py-12 text-center text-white/40 uppercase tracking-wider">
+                    <td colSpan={8} className="py-12 text-center text-white/40 uppercase tracking-wider">
                       <div className="flex items-center justify-center gap-2">
                         <Loader2 className="w-4 h-4 animate-spin text-brand" />
                         Fetching records...
@@ -529,7 +533,7 @@ export function AdminDashboard() {
                   </tr>
                 ) : filteredLeads.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="py-12 text-center text-white/40 uppercase tracking-wider">
+                    <td colSpan={8} className="py-12 text-center text-white/40 uppercase tracking-wider">
                       No matching leads found
                     </td>
                   </tr>
@@ -545,6 +549,8 @@ export function AdminDashboard() {
                       badgeColor = "bg-white/10 text-white/60 border border-white/5";
                     }
 
+                    const isWa = lead.channel === "WhatsApp" || lead.whatsapp_clicked || lead.source?.toLowerCase().includes("whatsapp");
+
                     return (
                       <tr
                         key={lead.id}
@@ -552,9 +558,19 @@ export function AdminDashboard() {
                       >
                         <td className="py-4 px-5 font-medium text-white">{lead.name}</td>
                         <td className="py-4 px-5 text-white/70">{lead.phone}</td>
-                        <td className="py-4 px-5 text-white/70">{lead.interest || "—"}</td>
-                        <td className="py-4 px-5 text-white/70 uppercase tracking-wider text-[10px]">
-                          {lead.source}
+                        <td className="py-4 px-5 text-white/70 max-w-[180px] truncate">{lead.interest || "—"}</td>
+                        <td className="py-4 px-5 text-white/70 tracking-wider text-[10px]">
+                          <div className="font-semibold text-white/90">{lead.channel || (isWa ? "WhatsApp" : "Web")}</div>
+                          <div className="text-white/40 text-[9px] truncate max-w-[120px]">{lead.source}</div>
+                        </td>
+                        <td className="py-4 px-5">
+                          {isWa ? (
+                            <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                              WhatsApp Clicked ✓
+                            </span>
+                          ) : (
+                            <span className="text-white/30 text-[10px]">—</span>
+                          )}
                         </td>
                         <td className="py-4 px-5">
                           <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${badgeColor}`}>
@@ -651,7 +667,7 @@ export function AdminDashboard() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block text-[10px] text-white/40 font-semibold uppercase tracking-wider">Interest</label>
+                  <label className="block text-[10px] text-white/40 font-semibold uppercase tracking-wider">Interest / Details</label>
                   <input
                     type="text"
                     value={editedLead.interest || ""}
@@ -660,8 +676,27 @@ export function AdminDashboard() {
                   />
                 </div>
 
+                <div className="border-t border-white/10 pt-3 space-y-1.5 text-[11px]">
+                  <div className="flex items-center justify-between text-white/70">
+                    <span>Channel:</span>
+                    <span className="font-semibold text-brand">{editedLead.channel || "WhatsApp"}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-white/70">
+                    <span>WhatsApp Clicked:</span>
+                    <span className="font-semibold text-emerald-400">
+                      {editedLead.whatsapp_clicked || editedLead.channel === "WhatsApp" ? "Clicked ✓" : "No"}
+                    </span>
+                  </div>
+                  {editedLead.whatsapp_clicked_at && (
+                    <div className="flex items-center justify-between text-white/50 text-[10px]">
+                      <span>Click Time:</span>
+                      <span>{new Date(editedLead.whatsapp_clicked_at).toLocaleString()}</span>
+                    </div>
+                  )}
+                </div>
+
                 <div className="flex gap-2 items-center justify-between text-[10px] text-white/40 pt-1">
-                  <span className="uppercase tracking-wider">Source: {editedLead.source}</span>
+                  <span className="uppercase tracking-wider truncate max-w-[150px]">Source: {editedLead.source}</span>
                   <button
                     onClick={handleSaveLeadInfo}
                     disabled={savingLeadInfo || !editedLead.name.trim() || !editedLead.phone.trim()}

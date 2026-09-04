@@ -10,10 +10,10 @@ export const BUSINESS_INFO = {
   email: "Cabotourskerala@gmail.com",
   founder: "Amal & Meera",
   address: {
-    streetAddress: "Calicut",
-    addressLocality: "Calicut",
+    streetAddress: "Chakkalakkal Building 66/1150, Suite No - S3, Kalabhavan Road, Near Kochi Town Hall, Kaloor",
+    addressLocality: "Ernakulam",
     addressRegion: "Kerala",
-    postalCode: "673001",
+    postalCode: "682018",
     addressCountry: "IN",
   },
   openingHours: {
@@ -24,14 +24,17 @@ export const BUSINESS_INFO = {
   socials: {
     instagram: "https://instagram.com/cabotours_/",
     facebook: "https://www.facebook.com/share/18ub9v1emB/?mibextid=wwXIfr ",
+    youtube: "https://youtube.com/@cabotoursandtravelskerala?si=nVMvrkFbgzWHqE6r",
   },
   maps: {
     embedUrl:
-      "https://www.openstreetmap.org/export/embed.html?bbox=75.74%2C11.22%2C75.86%2C11.30&layer=mapnik&marker=11.2588%2C75.7804",
-    displayAddress: "Kochi, Kerala, India",
-    url: "https://maps.google.com/?q=11.2588,75.7804",
+      "https://www.openstreetmap.org/export/embed.html?bbox=76.2870%2C9.9880%2C76.2970%2C9.9980&layer=mapnik&marker=9.9926%2C76.2921",
+    displayAddress:
+      "Chakkalakkal Building 66/1150, Suite No - S3, Kalabhavan Road, Near Kochi Town Hall, Kaloor, Ernakulam, Kerala - 682018, India",
+    shortAddress: "Kaloor, Ernakulam, Kerala 682018",
+    url: "https://maps.app.goo.gl/uUbX9azXidotMG6v5",
     reviewUrl: "https://maps.app.goo.gl/uUbX9azXidotMG6v5",
-    latitude: 11.2588,
-    longitude: 75.7804,
+    latitude: 9.9926,
+    longitude: 76.2921,
   },
 };

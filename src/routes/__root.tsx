@@ -440,13 +440,17 @@ function RootContent() {
   );
 }
 
+import { CookieConsentProvider } from "@/components/site/CookieConsent";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <RootContent />
+        <CookieConsentProvider>
+          <RootContent />
+        </CookieConsentProvider>
       </QueryClientProvider>
     </ErrorBoundary>
   );

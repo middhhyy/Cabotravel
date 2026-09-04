@@ -17,8 +17,9 @@ import fortKochiImg from "@/assets/pkg-fort-kochi-culture.webp";
 import vagamonImg from "@/assets/pkg-vagamon-adventure.webp";
 import kannurImg from "@/assets/dest-kannur.webp";
 import TheyyamImg from "@/assets/pkg-theyyam-experience.jpg";
-import tamilNaduImg from "@/assets/dest-tamil-nadu.webp";
-import trivandrumImg from "@/assets/pkg-trivandrum-heritage.webp";
+import keralaTnEscapeImg from "@/assets/pkg-kerala-tn-grand-escape.jpg";
+import southIndiaExplorerImg from "@/assets/pkg-south-india-explorer.jpg";
+import southIndiaTempleCoastalImg from "@/assets/pkg-south-india-temple-coastal.jpg";
 
 export const Route = createFileRoute("/kerala")({
   head: () => ({
@@ -118,7 +119,7 @@ const KERALA_PACKAGES: KeralaPackageItem[] = [
     duration: "8 Nights / 9 Days",
     route: "Cochin → Munnar → Thekkady → Alleppey → Varkala → Trivandrum → Kanyakumari → Madurai",
     price: "Starting from ₹24,999/-",
-    image: tamilNaduImg,
+    image: keralaTnEscapeImg,
   },
   {
     id: "south-india-explorer",
@@ -126,7 +127,7 @@ const KERALA_PACKAGES: KeralaPackageItem[] = [
     duration: "9 Nights / 10 Days",
     route: "Cochin → Munnar → Thekkady → Alleppey → Varkala → Trivandrum → Kanyakumari → Madurai → Rameswaram",
     price: "Starting from ₹26,999/-",
-    image: trivandrumImg,
+    image: southIndiaExplorerImg,
   },
   {
     id: "south-india-temple-coastal-escape",
@@ -134,7 +135,7 @@ const KERALA_PACKAGES: KeralaPackageItem[] = [
     duration: "4 Nights / 5 Days",
     route: "Trivandrum → Kanyakumari → Rameswaram → Madurai",
     price: "Starting from ₹12,999/-",
-    image: tamilNaduImg,
+    image: southIndiaTempleCoastalImg,
   },
   {
     id: "kannur-theyyam-experience",

@@ -34,10 +34,29 @@ const GoogleReview = (p: { className?: string }) => (
     <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
   </svg>
 );
+const YouTube = (p: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={p.className}>
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+  </svg>
+);
 import { BrandLogo } from "./BrandLogo";
 import { waLink, waMessages, PHONE_DISPLAY } from "@/lib/whatsapp";
 import { BUSINESS_INFO } from "@/lib/business";
 import { logLead } from "@/lib/logLead";
+import { useCookieConsent } from "./CookieConsent";
+
+function FooterCookiePreferencesButton() {
+  const { openPreferencesModal } = useCookieConsent();
+  return (
+    <button
+      type="button"
+      onClick={openPreferencesModal}
+      className="text-white/60 hover:text-brand transition-colors uppercase tracking-[0.2em]"
+    >
+      Cookie Preferences
+    </button>
+  );
+}
 
 export function SiteFooter() {
   return (
@@ -229,13 +248,25 @@ export function SiteFooter() {
               >
                 <GoogleReview className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
               </a>
+              <a
+                href={BUSINESS_INFO.socials.youtube}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="YouTube Channel"
+                title="YouTube Channel"
+                className="relative grid h-8 w-8 lg:h-9 lg:w-9 place-items-center rounded-full border border-white/15 text-white/80 hover:bg-brand hover:border-brand hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-2 lg:after:inset-0"
+              >
+                <YouTube className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
+              </a>
             </div>
           </div>
         </div>
 
         <div className="mt-10 lg:mt-16 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6 text-[10px] lg:text-[11px] tracking-[0.18em] uppercase text-white/60">
           <div>© {new Date().getFullYear()} Cabo Tours & Travels</div>
-          <div className="flex items-center gap-1.5 text-[9px] lg:text-[10px] tracking-[0.2em] text-white/40">
+          <div className="flex items-center gap-4 text-[9px] lg:text-[10px] tracking-[0.2em] text-white/40">
+            <FooterCookiePreferencesButton />
+            <span>•</span>
             <span>A DIGITAL EXPERIENCE BY</span>
             <a
               href="https://verdestudios.co"

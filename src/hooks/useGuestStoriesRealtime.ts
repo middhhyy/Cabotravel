@@ -7,8 +7,10 @@ export function useGuestStoriesRealtime() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const channel = supabase
-      .channel("guest-stories-realtime")
+    const channelName = `guest-stories-${Math.random().toString(36).substring(2, 9)}`;
+    const channel = supabase.channel(channelName);
+
+    channel
       .on(
         "postgres_changes",
         {

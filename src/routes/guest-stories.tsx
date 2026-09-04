@@ -10,6 +10,7 @@ import { supabase } from "@/lib/supabase";
 import { getOptimizedImageUrl } from "@/lib/utils";
 
 import { storyKeys, fetchApprovedGuestStories } from "@/utils/stories";
+import { useGuestStoriesRealtime } from "@/hooks/useGuestStoriesRealtime";
 import { useQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/guest-stories")({
@@ -284,6 +285,9 @@ function GuestStoriesPage() {
                           alt={story.destination}
                           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                           loading="lazy"
+                          onError={(e) => {
+                            (e.target as HTMLElement).parentElement?.classList.add("hidden");
+                          }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
                       </div>

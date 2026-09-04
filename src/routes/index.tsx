@@ -1372,7 +1372,7 @@ const Experiences = React.memo(function Experiences() {
                     <p className="text-xs text-white/70 leading-relaxed mb-4">{story.caption}</p>
                     <div className="relative flex-1 rounded-[14px] overflow-hidden border border-white/5 min-h-[140px]">
                       <ProgressiveImage
-                        src={getStoryImage(story.img)}
+                        src={story.img.startsWith("http") || story.img.startsWith("/") ? story.img : getStoryImage(story.img)}
                         alt={story.destination}
                         className="absolute inset-0 w-full h-full object-cover"
                       />
@@ -1411,9 +1411,19 @@ const Experiences = React.memo(function Experiences() {
                         <span>{story.comments}</span>
                       </span>
                     </div>
-                    <div className="inline-flex items-center gap-1 text-[9px] tracking-wider uppercase text-brand font-semibold">
-                      📍 {story.destination}
-                    </div>
+                    {story.slug ? (
+                      <Link
+                        to="/guest-stories/$slug"
+                        params={{ slug: story.slug }}
+                        className="inline-flex items-center gap-1 text-[9px] tracking-wider uppercase text-brand font-semibold hover:text-white transition"
+                      >
+                        📍 {story.destination} • Read Story →
+                      </Link>
+                    ) : (
+                      <div className="inline-flex items-center gap-1 text-[9px] tracking-wider uppercase text-brand font-semibold">
+                        📍 {story.destination}
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -1421,7 +1431,7 @@ const Experiences = React.memo(function Experiences() {
 
             {/* Mobile/Tablet Vertical Stack (screens < 1024px) */}
             <div className="lg:hidden flex flex-col gap-6 w-full mt-4">
-              {stories.slice(0, 3).map((story, i) => (
+              {stories.slice(0, 4).map((story, i) => (
                 <div
                   key={`featured-mobile-${story.id || story.username}`}
                   className="flex flex-col bg-white/[0.02] border border-white/5 rounded-[24px] p-5 shadow-sm hover:bg-white/[0.04] transition-colors focus-within:ring-2 focus-within:ring-brand outline-none"
