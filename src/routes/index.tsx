@@ -1590,24 +1590,38 @@ const Testimonials = React.memo(function Testimonials() {
           </a>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {testimonials.map((t) => (
-            <div
-              key={t.name}
-              className="rounded-[22px] bg-[oklch(0.2_0.01_250)] p-6 md:p-8 ring-1 ring-white/10 relative"
-            >
-              <Quote className="h-6 w-6 md:h-7 md:w-7 text-brand mb-3 md:mb-4" />
-              <p className="text-sm md:text-[15px] leading-normal md:leading-relaxed text-white/85">"{t.quote}"</p>
-              <div className="mt-4 md:mt-6 flex items-center gap-1 text-accent">
-                {Array.from({ length: t.stars }).map((_, i) => (
-                  <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                ))}
+        {/* Continuous Horizontal Sliding Marquee */}
+        <div className="relative w-full overflow-hidden py-4 group">
+          <div className="flex gap-6 w-max animate-[marquee_35s_linear_infinite] group-hover:[animation-play-state:paused]">
+            {[...testimonials, ...testimonials].map((t, idx) => (
+              <div
+                key={`${t.name}-${idx}`}
+                className="shrink-0 w-[85vw] sm:w-[380px] lg:w-[420px] rounded-[22px] bg-[oklch(0.2_0.01_250)] p-6 md:p-8 ring-1 ring-white/10 flex flex-col justify-between"
+              >
+                <div>
+                  <Quote className="h-6 w-6 md:h-7 md:w-7 text-brand mb-3 md:mb-4" />
+                  <p className="text-sm md:text-[15px] leading-normal md:leading-relaxed text-white/85">"{t.quote}"</p>
+                </div>
+                <div className="mt-6">
+                  <div className="flex items-center gap-1 text-accent">
+                    {Array.from({ length: t.stars }).map((_, i) => (
+                      <Star key={i} className="h-3.5 w-3.5 fill-current" />
+                    ))}
+                  </div>
+                  <div className="mt-2 md:mt-3 font-display uppercase text-sm">{t.name}</div>
+                  <div className="text-[10px] tracking-[0.22em] uppercase text-white/70">{t.location}</div>
+                </div>
               </div>
-              <div className="mt-2 md:mt-3 font-display uppercase text-sm">{t.name}</div>
-              <div className="text-[10px] tracking-[0.22em] uppercase text-white/70">{t.location}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
+        <style>{`
+          @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
+        `}</style>
 
         <div className="flex justify-center mt-12">
           <a
