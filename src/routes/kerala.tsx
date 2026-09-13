@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Clock } from "lucide-react";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
+import { EnquiryModal } from "@/components/site/EnquiryModal";
 import { waLink } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
 import { logLead } from "@/lib/logLead";
@@ -147,6 +149,9 @@ const KERALA_PACKAGES: KeralaPackageItem[] = [
 ];
 
 function KeralaPage() {
+  const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState("Kerala Tour Package");
+
   const scrollToPackages = () => {
     const el = document.getElementById("kerala-packages");
     if (el) {
@@ -186,12 +191,21 @@ function KeralaPage() {
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/80">
             Plan your perfect Kerala holiday with carefully designed tour packages covering misty hill stations, serene backwaters, cultural experiences, beaches, and South Indian destinations.
           </p>
-          <div className="mt-10 flex items-center justify-center gap-4">
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={scrollToPackages}
-              className="group relative rounded-full border border-white/55 px-8 py-3.5 text-[11px] tracking-[0.3em] uppercase text-white transition hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+              className="w-full sm:w-auto group relative rounded-full border border-white/55 px-8 py-3.5 text-[11px] tracking-[0.3em] uppercase text-white transition hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             >
               Discover Location
+            </button>
+            <button
+              onClick={() => {
+                setSelectedService("Kerala Tour Package");
+                setEnquiryModalOpen(true);
+              }}
+              className="w-full sm:w-auto rounded-full bg-brand px-8 py-3.5 text-[11px] font-semibold tracking-[0.3em] uppercase text-white hover:bg-brand/90 hover:scale-[1.02] transition-all duration-300 shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            >
+              Enquire Now
             </button>
           </div>
         </div>
@@ -327,6 +341,15 @@ function KeralaPage() {
 
       <SiteFooter />
       <WhatsAppFab />
+
+      <EnquiryModal
+        isOpen={enquiryModalOpen}
+        onClose={() => setEnquiryModalOpen(false)}
+        defaultService={selectedService}
+        sourcePage="Kerala Page"
+        title="PLAN YOUR KERALA ESCAPE"
+        subtitle="Tell us your travel requirements and our team will get back to you with custom Kerala itineraries."
+      />
     </main>
   );
 }

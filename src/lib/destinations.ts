@@ -123,18 +123,17 @@ export const destinations: Destination[] = [
   },
   {
     slug: "visa-tickets",
-    name: "VISA",
-    region: "Assistance",
-    country: "VISA",
+    name: "VISA SERVICES",
+    region: "VISA SERVICES",
+    country: "ASSISTANCE",
     image: destVisaTickets,
     heroImage: destVisaTicketsHero,
-    tagline: "Hassle-Free Documentation",
-    description: "End-to-end visa assistance and documentation support for worldwide travel.",
+    tagline: "Professional Visa Assistance",
+    description: "End-to-end visa assistance, documentation support, and VISA SERVICES processing.",
     highlights: [],
     bestTime: "Year Round",
     duration: "Assistance",
     startingFrom: "Documentation",
-    href: "https://wa.me/917736406630?text=Hi%2C%20I%27m%20interested%20in%20visa%20assistance",
   },
 ];
 

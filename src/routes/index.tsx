@@ -858,6 +858,10 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
                 <Link to="/international-packages" aria-label="Explore International travel packages" className="absolute inset-0 z-10 block">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 </Link>
+              ) : d.slug === "visa-tickets" ? (
+                <Link to="/visa" aria-label="Explore Visa services" className="absolute inset-0 z-10 block">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                </Link>
               ) : d.href ? (
                 <a
                   href={d.href}
@@ -887,6 +891,10 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
                     </Link>
                   ) : d.slug === "international-packages" ? (
                     <Link to="/international-packages" className="hover:text-brand transition duration-300">
+                      {d.region} · {d.country}
+                    </Link>
+                  ) : d.slug === "visa-tickets" ? (
+                    <Link to="/visa" className="hover:text-brand transition duration-300">
                       {d.region} · {d.country}
                     </Link>
                   ) : d.href ? (
@@ -929,6 +937,13 @@ const FeaturedDestinations = React.memo(function FeaturedDestinations() {
                   ) : d.slug === "international-packages" ? (
                     <Link
                       to="/international-packages"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
+                    >
+                      Explore <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  ) : d.slug === "visa-tickets" ? (
+                    <Link
+                      to="/visa"
                       className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
                     >
                       Explore <ArrowRight className="h-3 w-3" />
