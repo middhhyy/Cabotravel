@@ -192,10 +192,10 @@ export function SiteFooter() {
                       {p.number}
                     </a>
                   )) || (
-                    <a href={`tel:${BUSINESS_INFO.phone}`} className="hover:text-brand transition-colors">
-                      {BUSINESS_INFO.phoneDisplay}
-                    </a>
-                  )}
+                      <a href={`tel:${BUSINESS_INFO.phone}`} className="hover:text-brand transition-colors">
+                        {BUSINESS_INFO.phoneDisplay}
+                      </a>
+                    )}
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -269,7 +269,7 @@ export function SiteFooter() {
             <span>•</span>
             <span>A DIGITAL EXPERIENCE BY</span>
             <a
-              href="https://verdestudios.co"
+              href="https://verdelabs.in"
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-1 text-white/80 hover:text-white transition-colors font-medium tracking-[0.22em]"

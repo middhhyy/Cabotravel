@@ -18,6 +18,7 @@ export interface GuestStory {
   comments: string;
   destination: string;
   height: string;
+  slug?: string;
 }
 
 export const DESTINATION_PRESETS: Record<string, string> = {

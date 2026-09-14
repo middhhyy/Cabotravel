@@ -12,6 +12,7 @@ import { getOptimizedImageUrl } from "@/lib/utils";
 import { storyKeys, fetchApprovedGuestStories } from "@/utils/stories";
 import { useGuestStoriesRealtime } from "@/hooks/useGuestStoriesRealtime";
 import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/guest-stories")({
   head: () => ({

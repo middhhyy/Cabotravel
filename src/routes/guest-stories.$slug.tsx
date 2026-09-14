@@ -55,9 +55,9 @@ function GuestStoryDetail() {
   // Find related travel packages based on destination keyword matching
   const relatedPackages = packages
     .filter((p) => {
-      const storyDest = story.destination.toLowerCase();
+      const storyDest = (story?.destination || "").toLowerCase();
       const pkgTitle = p.title.toLowerCase();
-      const pkgDest = p.destination?.toLowerCase() || "";
+      const pkgDest = p.destinationSlug?.toLowerCase() || "";
       return pkgTitle.includes(storyDest) || pkgDest.includes(storyDest) || storyDest.includes(pkgDest);
     })
     .slice(0, 3);
@@ -268,7 +268,7 @@ function GuestStoryDetail() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {displayPackages.map((pkg, i) => (
             <motion.div
-              key={pkg.id}
+              key={pkg.slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -283,7 +283,7 @@ function GuestStoryDetail() {
                   loading="lazy"
                 />
                 <div className="absolute top-3 left-3 bg-brand text-black text-[9px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full">
-                  {pkg.duration}
+                  {pkg.nights}N / {pkg.days}D
                 </div>
               </div>
 
@@ -293,13 +293,13 @@ function GuestStoryDetail() {
                     {pkg.title}
                   </h3>
                   <p className="text-[11px] text-white/50 line-clamp-2 leading-relaxed mb-4">
-                    {pkg.description}
+                    {pkg.category} • {pkg.inclusions.slice(0, 3).join(", ")}
                   </p>
                 </div>
 
                 <div className="flex items-center justify-between mt-2 pt-3 border-t border-white/5">
                   <span className="text-xs font-semibold text-brand">
-                    {pkg.price ? `₹${pkg.price.toLocaleString("en-IN")}` : "Request Quote"}
+                    {pkg.price || "Request Quote"}
                   </span>
                   <Link
                     to="/packages"

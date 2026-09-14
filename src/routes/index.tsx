@@ -1201,7 +1201,8 @@ const Experiences = React.memo(function Experiences() {
       likes: String(item.likes || 0),
       comments: "0",
       destination: item.destination,
-      height: "h-[350px]"
+      height: "h-[350px]",
+      slug: item.slug,
     }));
   }, [storiesData]);
 

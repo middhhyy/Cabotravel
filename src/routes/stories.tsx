@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { storyKeys, getStories, getStoryImage, GuestStory } from "@/utils/stories";
 import { getLikesStateServerFn, toggleLikeServerFn } from "@/services/testimonials/functions";
 import { useQuery } from "@tanstack/react-query";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 async function fetchCombinedStories(): Promise<GuestStory[]> {
   const loadedStories = getStories();
